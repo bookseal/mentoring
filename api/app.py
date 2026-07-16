@@ -28,6 +28,10 @@ DB_PATH = os.environ.get("MENTORING_DB", "/data/mentoring.db")
 STATIC_DIR = os.environ.get("MENTORING_STATIC", "/srv")
 MAX_QUESTIONS = 100
 MAX_LEN = 500
+MAX_TOPICS = 60
+# A whole topic card (title + context html + evidence + ask + images) is far
+# bigger than a one-line question, so it gets its own generous field cap.
+MAX_TOPIC_BYTES = 40_000
 
 app = FastAPI(title="mentoring-api")
 
@@ -64,6 +68,14 @@ class QuestionsReq(BaseModel):
     questions: list[str]
 
 
+class TopicsReq(BaseModel):
+    # Each topic is an opaque object owned by the frontend (id, title, context
+    # html, evidence, ask, images…). The backend doesn't interpret its shape —
+    # it just stores the ordered list — so the card schema can evolve without a
+    # backend change. We only enforce count + per-topic size caps.
+    topics: list[dict]
+
+
 @app.get("/api/health")
 def health():
     return {"ok": True}
@@ -91,6 +103,40 @@ def put_questions(req: QuestionsReq):
     con = db()
     con.execute(
         "INSERT INTO kv(k, v, updated_at) VALUES('myQuestions', ?, ?) "
+        "ON CONFLICT(k) DO UPDATE SET v=excluded.v, updated_at=excluded.updated_at",
+        (json.dumps(cleaned, ensure_ascii=False), now()),
+    )
+    con.commit()
+    con.close()
+    return {"ok": True, "count": len(cleaned)}
+
+
+@app.get("/api/topics")
+def get_topics():
+    con = db()
+    row = con.execute("SELECT v FROM kv WHERE k='topics'").fetchone()
+    con.close()
+    return {"topics": json.loads(row[0]) if row else []}
+
+
+@app.put("/api/topics")
+def put_topics(req: TopicsReq):
+    # Full-replace save (the board sends the whole ordered array on every change).
+    # Cap the count and reject any single topic that's implausibly large, so a
+    # runaway client or pasted blob can't bloat the row.
+    cleaned = []
+    for t in req.topics:
+        if not isinstance(t, dict):
+            continue
+        blob = json.dumps(t, ensure_ascii=False)
+        if len(blob.encode("utf-8")) > MAX_TOPIC_BYTES:
+            continue
+        cleaned.append(t)
+        if len(cleaned) >= MAX_TOPICS:
+            break
+    con = db()
+    con.execute(
+        "INSERT INTO kv(k, v, updated_at) VALUES('topics', ?, ?) "
         "ON CONFLICT(k) DO UPDATE SET v=excluded.v, updated_at=excluded.updated_at",
         (json.dumps(cleaned, ensure_ascii=False), now()),
     )

@@ -5,17 +5,24 @@ topic, big type, the question you'll actually say front-and-center. Built to be
 read *during* a live conversation ("glance and speak"), plus a ★ **My questions**
 board you can edit, reorder, and that **syncs across your devices**.
 
+The **topic cards themselves are editable too**: hit **✎ Edit topics** to drag
+them into any order, rewrite the title / context / questions inline, add or
+delete whole cards, and attach reference screenshots. Like the ★ board, topic
+edits are stored server-side (`/api/topics`) with a `localStorage` cache, so
+they sync across devices and survive offline. The built-in cards are just the
+*seed* (the "Reset" target); your edits live in the DB, not in git.
+
 **Live:** https://mentoring.bit-habit.com (password-gated)
 
 ## Shape
 
 ```
 site/                 # the static page — the ONLY thing served to the web
-  index.html          #   engine + all topic cards + the editable board
-  assets/             #   images
+  index.html          #   engine + topic-card SEED + both editable boards
+  assets/             #   reference screenshots shown inside the topic cards
   private-data.js     #   PERSONAL — git-ignored, never committed (see below)
 api/                  # mentoring-api: FastAPI + SQLite (same shape as pr-auth)
-  app.py              #   serves site/ + GET/PUT /api/questions
+  app.py              #   serves site/ + GET/PUT /api/questions + /api/topics
   Dockerfile, requirements.txt
 k8s/                  # Deployment+Service, Ingress, basic-auth Middleware
 ops/deploy.sh         # server-side deploy logic (SSH forced-command GitOps)
@@ -29,9 +36,12 @@ ops/deploy.sh         # server-side deploy logic (SSH forced-command GitOps)
   - `site/private-data.js` (git-ignored) injects personal *framing* into cards
     locally. On the deployed server it simply doesn't exist (a `git reset --hard`
     can't recreate an ignored file), so the page shows the public-safe version.
-  - Your **★ questions** are stored by the backend in SQLite on the server
-    (`/api/questions`), with a `localStorage` cache so the board still works
-    offline or when opened as a local file. They're yours; they aren't in git.
+  - Your **★ questions** and your **edited topic cards** are stored by the
+    backend in SQLite on the server (`/api/questions`, `/api/topics`), each with
+    a `localStorage` cache so the boards still work offline or when opened as a
+    local file. They're yours; they aren't in git. The topic cards *shipped* in
+    `index.html` are a public-safe seed; your live edits replace them per-device
+    and sync through the DB.
 
 ## Auth
 

@@ -10,7 +10,10 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: default-mentoring-auth@kubernetescrd
+    # TEMPORARY: basic-auth turned OFF so the prep link can be shared without a
+    # password. The Middleware object still exists (k8s/middleware.yaml) — to
+    # re-lock the subdomain, just uncomment the line below and redeploy.
+    # traefik.ingress.kubernetes.io/router.middlewares: default-mentoring-auth@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
