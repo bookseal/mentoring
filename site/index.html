@@ -204,6 +204,18 @@
     .ask li{font-size:1.12rem}
   }
 
+  /* ---------- vertical, todo-style topic reorder list ---------- */
+  .reorder{ margin:0 0 1rem }
+  .reorder-head{
+    font-family:ui-monospace,Menlo,monospace; font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.14em; font-weight:800; color:var(--red);
+  }
+  .reorder-head .hint{ color:var(--muted); font-weight:600; letter-spacing:.02em; text-transform:none }
+  /* #topicOrder reuses .q-list styling; its title is a jump link, not editable */
+  #topicOrder .ord-title{ cursor:pointer }
+  #topicOrder .ord-title:hover{ color:var(--red); text-decoration:underline }
+  @media print{ .reorder{ display:none } }
+
   /* ---------- topic toolbar (edit-mode toggle + add) ---------- */
   .topic-tools{
     max-width:1000px; margin:1.2rem auto 0; padding:0 1.2rem;
@@ -330,45 +342,23 @@
 
 <div class="howto">
   <div class="box">
-    <b>How to read this live:</b> the <b>★ My questions</b> card at the top is your own board — add, edit, and drag to reorder;
-    it saves automatically and syncs across your devices. Tap a chip in the bar below to jump to a topic when Jay changes subject.
-    The big lines under <b>“Ask Jay”</b> are the questions to actually say out loud. ★ lines are personal to me.
-    Don’t read the small grey text unless we need a source.
+    <b>How to use this:</b> the list below is the running order of the 11 topics — <b>drag a row (or use ↑ ↓) to reorder</b> them,
+    and the cards further down rearrange to match. Click a title to jump to its card. The big lines under <b>“Ask Jay”</b> are the
+    questions to actually say out loud. Hit <b>✎ Edit topics</b> to rewrite any topic’s questions, add or delete them.
   </div>
 </div>
 
-<nav class="jump" aria-label="Jump to topic">
-  <!-- Chips are generated from the topic data by renderTopics(); the ★ My Qs
-       link is always first. -->
-  <div class="row" id="navRow"></div>
-</nav>
-
 <main>
 
-  <!-- ★ My questions — editable, reorderable, saved in this browser -->
-  <section class="card human" id="my-questions" data-card="my-questions" style="--accent:var(--teal)">
-    <div class="head">
-      <div class="icon">✍️</div><div class="num">★</div>
-      <div>
-        <h2>My questions — top of the list</h2>
-        <p class="why">Click a question to edit · drag (or ↑ ↓) to reorder · add or delete. Saves automatically & syncs across your devices.</p>
-      </div>
-    </div>
-    <ol class="q-list" id="qList"></ol>
-    <div class="q-add">
-      <input id="qInput" type="text" placeholder="Type a new question, then press Enter or Add…" aria-label="New question">
-      <button id="qAdd" type="button">Add</button>
-    </div>
-    <div class="q-tools">
-      <span id="qStatus">Loading…</span>
-      <span class="grow"></span>
-      <button id="qExport" type="button" title="Download your questions as a backup file">Export</button>
-      <button id="qReset" type="button" title="Clear this browser's list back to the starting seed">Reset</button>
-    </div>
+  <!-- Vertical, todo-style reorder list for the 11 topics. Drag / ↑ ↓ to
+       reorder (updates the cards below); click a title to jump to its card. -->
+  <section class="reorder" aria-label="Topic order">
+    <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span></div>
+    <ol class="q-list" id="topicOrder"></ol>
   </section>
 
-  <!-- Topics: rendered from data by renderTopics(). Toolbar toggles edit mode;
-       the add-topic button and per-card controls only show while editing. -->
+  <!-- Topics: rendered from data by renderTopics(). The ✎ toolbar toggles
+       editing of each card's title / questions / links / images. -->
   <div class="topic-tools">
     <button id="editToggle" type="button" title="Turn editing on/off">✎ Edit topics</button>
     <span id="topicStatus"></span>
@@ -391,11 +381,11 @@
 
 <script>
   /* ============================================================
-     Two independent systems share this page:
-       (1) the editable TOPIC CARDS (data-driven, syncs via /api/topics)
-       (2) the ★ My-questions board (unchanged, syncs via /api/questions)
-     Plus the optional PERSONAL LAYER (window.MENTORING_PRIVATE) that only
-     exists locally and injects per-card "my situation" + personal questions.
+     The 11 editable TOPIC CARDS are the whole page now: data-driven, reordered
+     from a vertical todo-style list, edited in place, and synced via
+     /api/topics (localStorage cache for offline/static use). The optional
+     PERSONAL LAYER (window.MENTORING_PRIVATE) exists only locally and injects
+     per-card "my situation" + personal questions.
      ============================================================ */
   var P = window.MENTORING_PRIVATE || null;
 
@@ -487,7 +477,7 @@
 
     var KEY_T = "mentoring.topics.v1";
     var listEl   = document.getElementById("topicList");
-    var navEl    = document.getElementById("navRow");
+    var orderEl  = document.getElementById("topicOrder");
     var statusEl = document.getElementById("topicStatus");
     if(!listEl) return;
 
@@ -696,16 +686,54 @@
       });
     }
 
-    /* ---- nav chips ---- */
-    function buildNav(){
-      navEl.innerHTML = '<a href="#my-questions"><span class="n">★</span>My&nbsp;Qs</a>';
+    /* ---- vertical, todo-style reorder list ----
+       One row per topic. Drag (or ↑ ↓) to reorder — that reorders the cards
+       below via the same move(). Click the title to jump to the card. Always
+       interactive, so ordering works without entering edit mode. */
+    function buildOrder(){
+      orderEl.innerHTML = "";
       topics.forEach(function(t, i){
-        var a = document.createElement("a");
-        a.href = "#" + t.id;
-        a.innerHTML = '<span class="n">' + String(i + 1).padStart(2, "0") + '</span>';
-        a.appendChild(document.createTextNode(t.short || t.title || t.id));
-        navEl.appendChild(a);
+        var li = document.createElement("li");
+        li.draggable = true;
+
+        var title = document.createElement("span");
+        title.className = "q-text ord-title";
+        title.textContent = t.title || t.id;
+        title.title = "Jump to this topic";
+        title.addEventListener("click", function(){
+          var card = document.getElementById(t.id);
+          if(card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        var actions = document.createElement("span");
+        actions.className = "q-actions";
+        actions.appendChild(mkBtn("↑", "Move up",   "", function(){ move(i, i - 1); }));
+        actions.appendChild(mkBtn("↓", "Move down", "", function(){ move(i, i + 1); }));
+
+        li.appendChild(title);
+        li.appendChild(actions);
+
+        li.addEventListener("dragstart", function(ev){ li.classList.add("dragging"); ev.dataTransfer.setData("text/plain", String(i)); });
+        li.addEventListener("dragend",   function(){ li.classList.remove("dragging"); });
+        li.addEventListener("dragover",  function(ev){ ev.preventDefault(); li.classList.add("over"); });
+        li.addEventListener("dragleave", function(){ li.classList.remove("over"); });
+        li.addEventListener("drop", function(ev){
+          ev.preventDefault(); li.classList.remove("over");
+          var from = parseInt(ev.dataTransfer.getData("text/plain"), 10);
+          if(!isNaN(from)) move(from, i);
+        });
+
+        orderEl.appendChild(li);
       });
+    }
+
+    // small button helper (shared by the order list + card controls)
+    function mkBtn(label, title, cls, fn){
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = label; b.title = title;
+      if(cls) b.className = cls;
+      b.addEventListener("click", fn);
+      return b;
     }
 
     /* ---- personal layer: per-card "my situation" + personal questions ---- */
@@ -732,7 +760,7 @@
     }
 
     function render(){
-      buildNav();
+      buildOrder();
       listEl.innerHTML = "";
       topics.forEach(function(t, i){ listEl.appendChild(buildCard(t, i)); });
       applyPersonalLayer();     // re-inject after every rebuild
@@ -794,135 +822,6 @@
     }
   })();
 
-  /* ---------- (2) ★ My-questions board (unchanged) --------------------- */
-  (function(){
-    var KEY = "mentoring.myQuestions.v1";
-    var listEl   = document.getElementById("qList");
-    var inputEl  = document.getElementById("qInput");
-    var statusEl = document.getElementById("qStatus");
-    if(!listEl) return;
-
-    function seed(){ return (P && Array.isArray(P.myQuestions)) ? P.myQuestions.slice() : []; }
-    function loadLocal(){
-      try{ var raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
-      return seed();
-    }
-    function cacheLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(questions)); }catch(e){} }
-    function flash(msg){ if(statusEl) statusEl.textContent = msg; }
-
-    var remoteMode = false, saveTimer = null;
-
-    function save(){
-      cacheLocal();
-      if(!remoteMode){ flash("Saved in this browser"); return; }
-      flash("Saving…");
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(pushRemote, 250);
-    }
-    function pushRemote(){
-      fetch("api/questions", {
-        method:"PUT", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ questions: questions })
-      }).then(function(r){ if(!r.ok) throw 0; flash("Saved · synced across your devices"); })
-        .catch(function(){ flash("Saved in this browser (server offline)"); });
-    }
-
-    var questions = loadLocal();
-
-    function mkBtn(label, title, cls, fn){
-      var b = document.createElement("button");
-      b.type = "button"; b.textContent = label; b.title = title;
-      if(cls) b.className = cls;
-      b.addEventListener("click", fn);
-      return b;
-    }
-    function move(from, to){
-      if(to < 0 || to >= questions.length || from === to) return;
-      var it = questions.splice(from, 1)[0];
-      questions.splice(to, 0, it);
-      save(); render();
-    }
-    function render(){
-      listEl.innerHTML = "";
-      if(!questions.length){
-        var e = document.createElement("li");
-        e.className = "empty";
-        e.textContent = "No questions yet — add your most important ones below.";
-        listEl.appendChild(e);
-        return;
-      }
-      questions.forEach(function(q, i){
-        var li = document.createElement("li");
-        li.draggable = true;
-
-        var text = document.createElement("span");
-        text.className = "q-text";
-        text.contentEditable = "true";
-        text.textContent = q;
-        text.addEventListener("input", function(){ questions[i] = text.textContent; save(); });
-        text.addEventListener("keydown", function(ev){ if(ev.key === "Enter"){ ev.preventDefault(); text.blur(); } });
-        text.addEventListener("blur", function(){ if(!text.textContent.trim()){ questions.splice(i,1); save(); render(); } });
-
-        var actions = document.createElement("span");
-        actions.className = "q-actions";
-        actions.appendChild(mkBtn("↑", "Move up",   "", function(){ move(i, i-1); }));
-        actions.appendChild(mkBtn("↓", "Move down", "", function(){ move(i, i+1); }));
-        actions.appendChild(mkBtn("✕", "Delete", "del", function(){ questions.splice(i,1); save(); render(); }));
-
-        li.appendChild(text);
-        li.appendChild(actions);
-
-        li.addEventListener("dragstart", function(ev){ li.classList.add("dragging"); ev.dataTransfer.setData("text/plain", String(i)); });
-        li.addEventListener("dragend",   function(){ li.classList.remove("dragging"); });
-        li.addEventListener("dragover",  function(ev){ ev.preventDefault(); li.classList.add("over"); });
-        li.addEventListener("dragleave", function(){ li.classList.remove("over"); });
-        li.addEventListener("drop", function(ev){
-          ev.preventDefault(); li.classList.remove("over");
-          var from = parseInt(ev.dataTransfer.getData("text/plain"), 10);
-          if(!isNaN(from)) move(from, i);
-        });
-
-        listEl.appendChild(li);
-      });
-    }
-
-    function addQ(){
-      var v = (inputEl.value || "").trim();
-      if(!v) return;
-      questions.push(v); inputEl.value = "";
-      save(); render(); inputEl.focus();
-    }
-    document.getElementById("qAdd").addEventListener("click", addQ);
-    inputEl.addEventListener("keydown", function(ev){ if(ev.key === "Enter"){ ev.preventDefault(); addQ(); } });
-
-    document.getElementById("qExport").addEventListener("click", function(){
-      var blob = new Blob([JSON.stringify(questions, null, 2)], {type:"application/json"});
-      var a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "my-questions.json";
-      a.click();
-      URL.revokeObjectURL(a.href);
-      flash("Exported my-questions.json");
-    });
-    document.getElementById("qReset").addEventListener("click", function(){
-      if(confirm("Reset this list back to the starting seed? Your saved edits will be erased.")){
-        questions = seed(); save(); render();
-      }
-    });
-
-    render();
-
-    fetch("api/questions", {headers:{"Accept":"application/json"}})
-      .then(function(r){ if(!r.ok) throw 0; return r.json(); })
-      .then(function(d){
-        remoteMode = true;
-        var remote = (d && Array.isArray(d.questions)) ? d.questions : [];
-        if(remote.length){ questions = remote; cacheLocal(); render(); flash("Synced across your devices"); }
-        else if(questions.length){ pushRemote(); }
-        else { flash("Ready — add your questions"); }
-      })
-      .catch(function(){ remoteMode = false; flash("Saved in this browser"); });
-  })();
 </script>
 
 </body>
