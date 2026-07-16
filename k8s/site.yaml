@@ -1,0 +1,47 @@
+# mentoring-api: serves the static page from a hostPath mount of site/ AND the
+# /api/questions store. One SQLite writer, so Recreate (never two pods at once).
+# Same pattern as pr-auth. Static content is live on `git pull` (served from the
+# mount); only api/ changes need an image rebuild (ops/deploy.sh handles that).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mentoring
+  namespace: default
+  labels: { app: mentoring }
+spec:
+  replicas: 1
+  strategy: { type: Recreate }          # single SQLite writer on a hostPath
+  selector: { matchLabels: { app: mentoring } }
+  template:
+    metadata: { labels: { app: mentoring } }
+    spec:
+      containers:
+      - name: mentoring
+        image: localhost:5000/mentoring-api:latest
+        imagePullPolicy: Always
+        ports: [{ containerPort: 8080 }]
+        env:
+        - { name: MENTORING_DB, value: "/data/mentoring.db" }
+        - { name: MENTORING_STATIC, value: "/srv" }
+        volumeMounts:
+        - { name: site, mountPath: /srv, readOnly: true }   # scoped to site/ ONLY (no .git, no source)
+        - { name: data, mountPath: /data }
+        readinessProbe:
+          httpGet: { path: /api/health, port: 8080 }
+          initialDelaySeconds: 3
+          periodSeconds: 10
+      volumes:
+      - name: site
+        hostPath: { path: /home/ubuntu/workspace/mentoring/site, type: Directory }
+      - name: data
+        hostPath: { path: /home/ubuntu/workspace/mentoring-data, type: DirectoryOrCreate }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mentoring-svc
+  namespace: default
+spec:
+  selector: { app: mentoring }
+  ports:
+  - { port: 80, targetPort: 8080 }

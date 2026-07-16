@@ -1,0 +1,26 @@
+name: Deploy to mentoring.bit-habit.com
+
+# CD: on every push to main, tell the bit-habit server to deploy. The deploy key
+# is FORCED server-side to run ~/workspace/mentoring-deploy.sh, so the "true" we
+# send is ignored and the script's output streams back into this job's log.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-mentoring
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load deploy key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Trigger server deploy
+        run: |
+          ssh -o StrictHostKeyChecking=accept-new ubuntu@158.180.71.122 true

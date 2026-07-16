@@ -1,0 +1,27 @@
+# --- Personal / tenant data — NEVER commit to this public repo ---
+# These live only locally and on the server (later: a DB behind auth).
+private-data.js
+private/
+*.local.js
+
+# --- Secrets / deploy material (kept on the server, not in git) ---
+.htpasswd
+*secret*.yaml
+*.key
+*.pem
+deploy_key*
+.env
+.env.*
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# python
+__pycache__/
+*.pyc
+dev.db
+*.db

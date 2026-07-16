@@ -1,0 +1,28 @@
+# Routes mentoring.bit-habit.com -> mentoring-svc, behind the basic-auth
+# middleware. No DNS or cert work: *.bit-habit.com is a wildcard and tls-secret
+# already covers it. The middleware ref uses Traefik's namespaced form:
+#   <namespace>-<middleware name>@kubernetescrd
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mentoring
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: default-mentoring-auth@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: mentoring.bit-habit.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mentoring-svc
+            port: { number: 80 }
+  tls:
+  - hosts: [ mentoring.bit-habit.com ]
+    secretName: tls-secret        # existing wildcard *.bit-habit.com cert

@@ -1,0 +1,19 @@
+# Traefik basic-auth gate for the whole subdomain. Safe to commit: it only
+# NAMES the secret that holds the password hash — the hash itself is NOT here
+# (it lives in the `mentoring-basic-auth` Secret, created once on the server;
+# see k8s/basic-auth.secret.example.yaml).
+#
+# NOTE ON apiVersion: recent k3s/Traefik uses `traefik.io/v1alpha1` (below).
+# Older Traefik used `traefik.containo.us/v1alpha1`. If `kubectl apply` errors
+# with "no matches for kind Middleware in version traefik.io/...", switch the
+# apiVersion to traefik.containo.us/v1alpha1. Check with:
+#   kubectl get crd | grep middleware
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: mentoring-auth
+  namespace: default
+spec:
+  basicAuth:
+    secret: mentoring-basic-auth
+    removeHeader: true            # don't forward the Authorization header upstream

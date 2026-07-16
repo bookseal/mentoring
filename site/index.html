@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentoring with Jay — talking points</title>
+<meta name="description" content="A glance-and-speak sheet for an offline mentoring session: robots, software, visas, and building a life across the US and Korea.">
+<style>
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --card:#fffdf9;
+    --fg:#2b211a; --muted:#8a7b66; --line:#e8dcc4;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --purple:#7a5cc0;
+    --shadow:rgba(120,80,20,.18);
+  }
+  *{box-sizing:border-box}
+  html{font-size:20px; scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  a{color:var(--blue); text-underline-offset:3px}
+
+  /* ---------- header ---------- */
+  header.top{
+    max-width:1000px; margin:0 auto; padding:2.2rem 1.2rem 0.6rem;
+  }
+  .kicker{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    text-transform:uppercase; letter-spacing:.2em; font-size:.72rem;
+    color:var(--red); font-weight:700;
+  }
+  header.top h1{
+    font-size:2.4rem; font-weight:900; letter-spacing:-.02em; margin:.35rem 0 .3rem;
+    text-transform:uppercase; line-height:1.05;
+  }
+  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:52ch }
+  .whoami{
+    display:none; margin-top:.7rem; padding:.5rem .8rem; border-radius:.6rem;
+    background:#fff7e6; border:1px solid var(--line); font-size:.95rem;
+  }
+  .whoami b{color:var(--red)}
+
+  /* ---------- how to use ---------- */
+  .howto{
+    max-width:1000px; margin:1rem auto 0; padding:0 1.2rem;
+  }
+  .howto .box{
+    background:var(--bg2); border:1px solid var(--line); border-radius:.8rem;
+    padding:.9rem 1.1rem; font-size:.95rem; color:#5c4f3d;
+  }
+  .howto .box b{color:var(--fg)}
+
+  /* ---------- sticky nav ---------- */
+  nav.jump{
+    position:sticky; top:0; z-index:20; margin-top:1.2rem;
+    background:rgba(251,245,233,.92); backdrop-filter:blur(8px);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  nav.jump .row{
+    max-width:1000px; margin:0 auto; padding:.55rem 1.2rem;
+    display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:thin;
+  }
+  nav.jump a{
+    flex:0 0 auto; text-decoration:none; color:var(--fg);
+    font-size:.82rem; font-weight:700; white-space:nowrap;
+    padding:.35rem .7rem; border-radius:2rem; border:1px solid var(--line);
+    background:var(--card);
+  }
+  nav.jump a .n{ color:var(--muted); font-family:ui-monospace,Menlo,monospace; margin-right:.35rem }
+  nav.jump a:hover{ border-color:var(--red); color:var(--red) }
+
+  /* ---------- cards ---------- */
+  main{ max-width:1000px; margin:0 auto; padding:1.4rem 1.2rem 4rem }
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:1rem;
+    padding:1.4rem 1.5rem 1.5rem; margin:1.1rem 0;
+    box-shadow:0 8px 0 -4px var(--shadow); scroll-margin-top:4.2rem;
+    border-left:8px solid var(--accent, var(--red));
+  }
+  .card .head{ display:flex; align-items:flex-start; gap:.9rem }
+  .card .icon{ font-size:2.2rem; line-height:1; flex:0 0 auto }
+  .card .num{
+    font-family:ui-monospace,Menlo,monospace; font-size:.8rem; font-weight:700;
+    color:#fff; background:var(--accent,var(--red)); border-radius:.4rem;
+    padding:.12rem .45rem; flex:0 0 auto; margin-top:.15rem;
+  }
+  .card h2{ font-size:1.5rem; font-weight:900; letter-spacing:-.01em; margin:.05rem 0 .15rem }
+  .card .why{ color:var(--muted); font-size:1rem; font-style:italic; margin:0 0 .2rem }
+
+  .card .context{ margin:.9rem 0 .2rem; font-size:1.05rem }
+  .card .context p{ margin:.5rem 0 }
+  .card .context .fact{ font-weight:700 }
+  .hl{ background:linear-gradient(transparent 60%, #ffe08a 60%); padding:0 .1em }
+
+  .situation{
+    display:none; margin:.9rem 0; padding:.7rem .95rem; border-radius:.6rem;
+    background:#fff2f0; border:1px solid #f3c9c1; font-size:1.02rem;
+  }
+  .situation .tag{
+    display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem;
+    text-transform:uppercase; letter-spacing:.12em; color:var(--red); font-weight:700; margin-right:.4rem;
+  }
+
+  .evidence{ margin:.8rem 0 .2rem; font-size:.92rem; color:var(--muted) }
+  .evidence .tag{
+    font-family:ui-monospace,Menlo,monospace; font-size:.7rem; text-transform:uppercase;
+    letter-spacing:.12em; font-weight:700; color:#a08a63; margin-right:.5rem;
+  }
+  .evidence a{ margin-right:.9rem; white-space:nowrap }
+
+  .ask{
+    margin-top:1rem; padding:1rem 1.1rem; background:var(--bg2);
+    border-radius:.8rem; border:1px dashed #d9c9a6;
+  }
+  .ask .tag{
+    display:block; font-family:ui-monospace,Menlo,monospace; font-size:.75rem;
+    text-transform:uppercase; letter-spacing:.16em; color:var(--red); font-weight:800; margin-bottom:.5rem;
+  }
+  .ask ul{ margin:0; padding-left:0; list-style:none }
+  .ask li{
+    font-size:1.22rem; font-weight:600; line-height:1.4; margin:.55rem 0;
+    padding-left:1.6rem; position:relative;
+  }
+  .ask li::before{
+    content:"›"; position:absolute; left:.3rem; top:-.05rem;
+    color:var(--accent,var(--red)); font-weight:900; font-size:1.4rem;
+  }
+  .ask li.personal::before{ content:"★"; font-size:1rem; top:.15rem }
+  .ask li.personal{ color:#8a3b2f }
+
+  /* "my own questions" card */
+  .card.human{ border-left-color:var(--teal); background:#f4fbf9 }
+  .card.human .todo{
+    margin-top:.8rem; padding:1rem 1.1rem; border:2px dashed var(--teal);
+    border-radius:.8rem; background:#eafaf6; font-size:1.05rem;
+  }
+  .card.human .todo .mono{ color:var(--teal); font-weight:700 }
+
+  /* editable, reorderable question board */
+  .q-list{ list-style:none; margin:.7rem 0 0; padding:0; counter-reset:q }
+  .q-list li{
+    counter-increment:q; display:flex; align-items:flex-start; gap:.6rem;
+    background:#fff; border:1px solid var(--line); border-radius:.7rem;
+    padding:.7rem .8rem; margin:.55rem 0; cursor:grab;
+  }
+  .q-list li.dragging{ opacity:.45 }
+  .q-list li.over{ border-color:var(--teal); box-shadow:0 0 0 2px #bfe9e0 }
+  .q-list li.empty{ justify-content:center; color:var(--muted); font-weight:500; cursor:auto }
+  .q-list li::before{
+    content:counter(q); flex:0 0 auto; font-family:ui-monospace,Menlo,monospace;
+    font-weight:800; color:#fff; background:var(--teal); border-radius:.4rem;
+    padding:.05rem .5rem; font-size:.8rem; margin-top:.28rem;
+  }
+  .q-list li.empty::before{ content:"" }
+  .q-text{ flex:1; font-size:1.2rem; font-weight:600; line-height:1.4; outline:none; min-height:1.4em }
+  .q-text:focus{ background:#fffbe8; border-radius:.35rem; box-shadow:0 0 0 3px #ffe08a }
+  .q-text:empty::before{ content:"(type here…)"; color:var(--muted); font-weight:400 }
+  .q-actions{ flex:0 0 auto; display:flex; gap:.2rem }
+  .q-actions button{
+    border:1px solid var(--line); background:var(--card); border-radius:.4rem;
+    width:2rem; height:2rem; font-size:1rem; cursor:pointer; color:var(--fg); line-height:1;
+  }
+  .q-actions button:hover{ border-color:var(--teal); color:var(--teal) }
+  .q-actions .del:hover{ border-color:var(--red); color:var(--red) }
+  .q-add{ display:flex; gap:.5rem; margin-top:.8rem }
+  .q-add input{
+    flex:1; font-size:1.1rem; padding:.65rem .85rem; border:1px solid var(--line);
+    border-radius:.6rem; font-family:inherit; background:#fff;
+  }
+  .q-add input:focus{ outline:none; border-color:var(--teal); box-shadow:0 0 0 3px #bfe9e0 }
+  .q-add button{
+    font-size:1rem; font-weight:800; padding:.65rem 1.2rem; border-radius:.6rem;
+    border:none; background:var(--teal); color:#fff; cursor:pointer;
+  }
+  .q-tools{ display:flex; align-items:center; gap:.6rem; margin-top:.8rem; font-size:.85rem; color:var(--muted) }
+  .q-tools .grow{ flex:1 }
+  .q-tools button{
+    background:transparent; color:var(--muted); border:1px solid var(--line);
+    font-weight:600; padding:.35rem .8rem; border-radius:.6rem; cursor:pointer; font-size:.85rem;
+  }
+  .q-tools button:hover{ border-color:var(--teal); color:var(--teal) }
+  @media print{ .q-add, .q-tools, .q-actions{ display:none } .q-list li{ cursor:auto } }
+
+  footer{
+    max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem;
+    color:var(--muted); font-size:.85rem; border-top:1px solid var(--line);
+  }
+
+  /* ---------- print ---------- */
+  @media print{
+    nav.jump, .howto{ display:none }
+    body{ background:#fff }
+    .card{ box-shadow:none; break-inside:avoid; border:1px solid #ccc }
+    a{ color:#000 }
+    .ask{ background:#f4f4f4 }
+  }
+  @media (max-width:640px){
+    html{font-size:18px}
+    header.top h1{font-size:2rem}
+    .card{padding:1.1rem 1.1rem 1.2rem}
+    .ask li{font-size:1.12rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="kicker">Offline mentoring · Fri 2026-07-17</div>
+  <h1>Talking points with Jay</h1>
+  <p class="sub">One card per topic. Glance, look up, and talk — the conversation is what matters. Facts are short; links are only for cross-checking if we disagree.</p>
+  <div class="whoami" id="whoami"></div>
+</header>
+
+<div class="howto">
+  <div class="box">
+    <b>How to read this live:</b> the <b>★ My questions</b> card at the top is your own board — add, edit, and drag to reorder;
+    it saves automatically and syncs across your devices. Tap a chip in the bar below to jump to a topic when Jay changes subject.
+    The big lines under <b>“Ask Jay”</b> are the questions to actually say out loud. ★ lines are personal to me.
+    Don’t read the small grey text unless we need a source.
+  </div>
+</div>
+
+<nav class="jump" aria-label="Jump to topic">
+  <div class="row">
+    <a href="#my-questions"><span class="n">★</span>My&nbsp;Qs</a>
+    <a href="#networking"><span class="n">01</span>Networking</a>
+    <a href="#saas"><span class="n">02</span>SaaS dead?</a>
+    <a href="#neo"><span class="n">03</span>1X Neo</a>
+    <a href="#drones"><span class="n">04</span>Drone lasers</a>
+    <a href="#software-eaten"><span class="n">05</span>GPT eats apps</a>
+    <a href="#lidar"><span class="n">06</span>LiDAR vs camera</a>
+    <a href="#worldview"><span class="n">07</span>Worldview</a>
+    <a href="#india"><span class="n">08</span>Indians at MS</a>
+    <a href="#visa"><span class="n">09</span>J-1 visa</a>
+    <a href="#american-dream"><span class="n">10</span>Am. Dream 2.0</a>
+    <a href="#ai-literacy"><span class="n">11</span>AI teaching</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ★ My questions — editable, reorderable, saved in this browser -->
+  <section class="card human" id="my-questions" data-card="my-questions" style="--accent:var(--teal)">
+    <div class="head">
+      <div class="icon">✍️</div><div class="num">★</div>
+      <div>
+        <h2>My questions — top of the list</h2>
+        <p class="why">Click a question to edit · drag (or ↑ ↓) to reorder · add or delete. Saves automatically & syncs across your devices.</p>
+      </div>
+    </div>
+    <ol class="q-list" id="qList"></ol>
+    <div class="q-add">
+      <input id="qInput" type="text" placeholder="Type a new question, then press Enter or Add…" aria-label="New question">
+      <button id="qAdd" type="button">Add</button>
+    </div>
+    <div class="q-tools">
+      <span id="qStatus">Loading…</span>
+      <span class="grow"></span>
+      <button id="qExport" type="button" title="Download your questions as a backup file">Export</button>
+      <button id="qReset" type="button" title="Clear this browser's list back to the starting seed">Reset</button>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="card" id="networking" data-card="networking" style="--accent:var(--blue)">
+    <div class="head">
+      <div class="icon">🤝</div><div class="num">01</div>
+      <div>
+        <h2>US networking culture</h2>
+        <p class="why">창발 is one Korean group — but why do Americans network so much?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p><span class="fact">창발 (Changbal)</span> is a Seattle non-profit (since 2014), <span class="hl">700+ members</span> from Amazon, Microsoft, Google, with engineering / startup / design / women-in-tech subgroups.</p>
+      <p>The bigger truth: in the US, <span class="hl">70–80% of jobs come through referrals and networks</span>, not job boards. And it’s the <b>weak ties</b> — people you barely know — that bring the best chances, not close friends (Granovetter).</p>
+    </div>
+    <div class="situation" data-note="networking"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.changbal.org/en/about-us">changbal.org</a>
+      <a href="https://www.bu.edu/questrom/blog/the-power-of-alumni-networks-in-todays-changing-economic-landscape/">weak ties / alumni (BU)</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Beyond Korean groups like 창발, which networks actually matter for AI and robotics here?</li>
+        <li>Why do people meet like this — is it really about referral hiring, or something else?</li>
+        <li>As a newcomer, how do I get a “weak tie” to help me without looking like I only want a job?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="card" id="saas" data-card="saas" style="--accent:var(--gold)">
+    <div class="head">
+      <div class="icon">📉</div><div class="num">02</div>
+      <div>
+        <h2>“Is SaaS dead?”</h2>
+        <p class="why">You say SaaS is over — but Korean YouTube still sells “build a SaaS.”</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>Nadella said <span class="hl">“SaaS is dead”</span> (Dec 2024). By May 2026 he made it exact: <i>every per-user business becomes “per-user + usage.”</i></p>
+      <p>It’s not death, it’s <b>repricing</b>. When one AI agent does the work of 10 people, <span class="hl">per-seat pricing breaks</span> — money moves to usage / outcomes. But the <i>building</i> of software isn’t dead. That’s why Korea still teaches it.</p>
+    </div>
+    <div class="situation" data-note="saas"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.idc.com/resource-center/blog/is-saas-dead-rethinking-the-future-of-software-in-the-age-of-ai/">IDC: Is SaaS dead?</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>When you say SaaS is dead — do you mean the money (no VC), or the building itself?</li>
+        <li>If agents eat the seats, is “vertical AI-native software” the safe place to build?</li>
+        <li>Why does the message look so different in Korea — are they just behind?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="card" id="neo" data-card="neo" style="--accent:var(--red)">
+    <div class="head">
+      <div class="icon">🤖</div><div class="num">03</div>
+      <div>
+        <h2>1X Neo — looks ready, isn’t</h2>
+        <p class="why">The 5 fingers look so natural. Is Physical AI already mature?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>Neo (Samsung-backed 1X) opened pre-orders Oct 2025 at <span class="hl">$20,000 / $499·mo</span> and <span class="hl">sold out 10,000 units in 5 days</span>.</p>
+      <p>But at launch Neo is <b>teleoperated</b> — a real human in a VR headset drives it. Testers found it could not do <i>one</i> task fully on its own. <span class="hl">The natural hand is real; the “brain” is a person hiding inside.</span></p>
+    </div>
+    <div class="situation" data-note="neo"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.therobotreport.com/teleop-not-autonomy-the-path-for-1x-neo-humanoid/">Robot Report: teleop, not autonomy</a>
+      <a href="https://www.engadget.com/ai/1x-neo-is-a-20000-home-robot-that-will-learn-chores-via-teleoperation-040252200.html">Engadget</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>In humanoid demos, how much is real autonomy vs a human driving it?</li>
+        <li>A natural-looking hand — does that mean dexterity is solved, or is the hand the easy part now?</li>
+        <li>What is the real wall right now — the hardware, or the eye and brain?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="card" id="drones" data-card="drones" style="--accent:var(--teal)">
+    <div class="head">
+      <div class="icon">🛰️</div><div class="num">04</div>
+      <div>
+        <h2>Counter-drone lasers</h2>
+        <p class="why">This is your world — I want to understand the industry.</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>Israel’s <span class="hl">Iron Beam (100 kW) is now operational</span> and made its first live intercept (Mar 2026). The UK’s DragonFire won a £316M contract.</p>
+      <p>The whole idea is <b>cost asymmetry</b>: a laser shot costs <span class="hl">a few dollars</span> vs a $4M missile — against a $30k drone. Defense-tech money (Anduril, Epirus, Palantir) is pouring in.</p>
+    </div>
+    <div class="situation" data-note="drones"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.aljazeera.com/economy/2026/2/14/are-lasers-the-future-of-anti-drone-warfare">Al Jazeera: lasers vs drones</a>
+      <a href="https://nationalsecurityjournal.org/israel-now-has-fully-operational-100-kilowatt-iron-beam-lasers/">Iron Beam operational</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>What in defense (perception, autonomy) transfers to commercial robots that grab things?</li>
+        <li>Is the moat the laser itself, or the software that fuses sensors and decides?</li>
+        <li>For a beginner, is defense a good place to learn robotics — or a walled garden?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="card" id="software-eaten" data-card="software-eaten" style="--accent:var(--purple)">
+    <div class="head">
+      <div class="icon">🌊</div><div class="num">05</div>
+      <div>
+        <h2>The big model eats the app</h2>
+        <p class="why">My old “fake-news monitor” idea — GPT just does it now.</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>On <span class="hl">July 8, 2026 OpenAI shipped GPT-Live</span> — voice that listens and talks at the same time, interrupts naturally, and translates in real time. That’s exactly what a translation app or a monitoring tool used to be.</p>
+      <p>Thin “wrappers” get absorbed. What survives has <b>its own data, deep workflow, distribution, or a physical/hardware moat</b> — which is a big reason to move toward Physical AI.</p>
+    </div>
+    <div class="situation" data-note="software-eaten"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/">TechCrunch: GPT-Live</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Which software niches are safe from the model maker, and which are doomed?</li>
+        <li>Is “build on top of GPT” always a trap?</li>
+        <li>Is <i>physical</i> the real moat now — is that the deeper reason you pushed me to robotics?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="card" id="lidar" data-card="lidar" style="--accent:var(--blue)">
+    <div class="head">
+      <div class="icon">👁️</div><div class="num">06</div>
+      <div>
+        <h2>LiDAR vs camera — let’s go deep</h2>
+        <p class="why">You say cameras won’t work. The data says: it depends on the job.</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>For <b>grasping</b>, the 2026 top models — π0.5, GR00T, Figure Helix, Tesla Optimus — are <span class="hl">RGB-camera only, zero LiDAR</span>.</p>
+      <p>LiDAR (5–45 m, no color) is for <b>driving / legs</b>. Grabbing happens at 0.2–1 m, where you need dense color — a <span class="hl">$344 RealSense gives that; a $1,200 LiDAR physically can’t</span>. Your LiDAR view is right for mobile / defense robots — just not for hands.</p>
+    </div>
+    <div class="situation" data-note="lidar"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.orbbec.com/blog/how-lidar-and-rgbd-cameras-compare-and-work-together/">Orbbec: LiDAR vs RGB-D</a>
+      <a href="https://physical-spark.bit-habit.com">our own writeup (knowledge/04)</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>When you say cameras won’t work — is that from the self-driving / mobile side?</li>
+        <li>For a curriculum about <i>hands</i>, do you agree camera-first is right?</li>
+        <li>Where would LiDAR actually earn its place in what we teach?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="card" id="worldview" data-card="worldview" style="--accent:var(--gold)">
+    <div class="head">
+      <div class="icon">🧭</div><div class="num">07</div>
+      <div>
+        <h2>A robotics worldview</h2>
+        <p class="why">How should I <i>see</i> the world in vision and robotics?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>You keep giving answers that are more real than what I read online (the LiDAR talk, the hand-is-the-IP talk). I want the <b>lens</b>, not just the facts.</p>
+    </div>
+    <div class="situation" data-note="worldview"></div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>What mental models does a robotics person have that a web developer does not?</li>
+        <li>How do you tell a <i>real</i> capability from a staged demo (like Neo)?</li>
+        <li>What should I read or watch to start seeing the world this way?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="card" id="india" data-card="india" style="--accent:var(--red)">
+    <div class="head">
+      <div class="icon">🇮🇳</div><div class="num">08</div>
+      <div>
+        <h2>Indians at Microsoft (~40%)</h2>
+        <p class="why">I saw it at MS yesterday. What can we learn from them?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p><span class="hl">70%+ of US H-1B visas go to Indians.</span> They’re ~1% of the US population but ~6% of Silicon Valley — and run Microsoft, Google, Adobe, IBM.</p>
+      <p>It looks less like “born better” and more like <b>structure</b>: brutal IIT selection (0.5–2% get in), the US grad-school pipeline, English fluency, and <span class="hl">tight referral / mentor networks</span> that pull in the next wave.</p>
+    </div>
+    <div class="situation" data-note="india"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.newsweek.com/2025/08/08/indian-ceos-america-are-more-common-everwhat-sets-them-apart-2101964.html">Newsweek: Indian CEOs</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Is the Indian edge really skill — or English, or the network and pipeline?</li>
+        <li>What can Koreans copy — is it the referral culture?</li>
+        <li>How does H-1B shape who gets hired here?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="card" id="visa" data-card="visa" style="--accent:var(--teal)">
+    <div class="head">
+      <div class="icon">🛂</div><div class="num">09</div>
+      <div>
+        <h2>J-1 visa — how to use it</h2>
+        <p class="why">I can get one. How do I make it work for me?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>J-1 (exchange / trainee) can carry the <span class="hl">2-year home-country rule (INA 212(e))</span>. If it applies, <b>no H-1B and no green card</b> until you serve 2 years back home — or get a waiver (no-objection letter, US agency interest, hardship).</p>
+      <p>People use J-1 as a <b>bridge</b>, but 212(e) is the catch to check first.</p>
+    </div>
+    <div class="situation" data-note="visa"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://travel.state.gov/content/travel/en/us-visas/study/exchange/waiver-of-the-exchange-visitor.html">state.gov: J-1 waiver</a>
+      <a href="https://www.uscis.gov/i-612">USCIS I-612</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Given my plan (Korea first, then foreign firms), does J-1 help me or trap me?</li>
+        <li>Is the 2-year rule a real wall, or waivable in a case like mine?</li>
+        <li>Have you seen good J-1 → longer-term paths?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="card" id="american-dream" data-card="american-dream" style="--accent:var(--gold)">
+    <div class="head">
+      <div class="icon">🗽</div><div class="num">10</div>
+      <div>
+        <h2>“American Dream 2.0”</h2>
+        <p class="why">The idea from that video — is it real?</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>The 2026 framing: <span class="hl">earn US-level pay while living somewhere cheaper</span> (geographic arbitrage), or build for the US market remotely. US software pay ~$115k vs ~$75k for the same job in Europe.</p>
+      <p>Real — but with tax / “permanent establishment” catches. <span style="color:var(--muted)">(This is the theme of the video I sent; I couldn’t pull its exact title — let’s confirm live.)</span></p>
+    </div>
+    <div class="situation" data-note="american-dream"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.forbes.com/sites/meggenharris/2026/05/12/the-new-american-dream-may-be-overseas/">Forbes: new American Dream overseas</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Is American Dream 2.0 mainly remote-US-income, or building US products from Korea?</li>
+        <li>How do I position myself to earn US-level pay from Korea?</li>
+        <li>What’s the catch most people miss?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="card" id="ai-literacy" data-card="ai-literacy" style="--accent:var(--purple)">
+    <div class="head">
+      <div class="icon">📚</div><div class="num">11</div>
+      <div>
+        <h2>Teaching AI literacy as a business</h2>
+        <p class="why">Accessibility, not deep expertise, as my value.</p>
+      </div>
+    </div>
+    <div class="context">
+      <p>AI corporate-training is <span class="hl">~$7.5B in 2026, growing ~19%/yr</span>. The wanted person is the <b>“AI Generalist”</b> — a domain expert with high AI literacy, <i>not</i> a computer scientist.</p>
+      <p>That’s the “accessibility over expertise” wedge — and it connects straight to Physical Spark: teach the easy on-ramp, add <i>physical</i> later.</p>
+    </div>
+    <div class="situation" data-note="ai-literacy"></div>
+    <div class="evidence">
+      <span class="tag">check</span>
+      <a href="https://www.mordorintelligence.com/industry-reports/ai-powered-corporate-training-market">AI training market</a>
+      <a href="https://www.datacamp.com/blog/the-state-of-data-and-ai-literacy-in-2026-definitions-statistics-and-the-ai-skills-gap">AI literacy 2026</a>
+    </div>
+    <div class="ask">
+      <span class="tag">Ask Jay</span>
+      <ul>
+        <li>Does the US do this too — teaching AI literacy to regular people?</li>
+        <li>Is “accessibility” a lasting edge, or does it get commoditized fast?</li>
+        <li>How would you grow it from one instructor into a platform?</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Private prep sheet · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
+</footer>
+
+<script>
+  // ---- Personal layer + editable question board ----
+  (function(){
+    var P = window.MENTORING_PRIVATE || null;
+
+    // (a) Personal framing — only when the private file is present.
+    //     Never required: on the public/deployed site P is simply absent.
+    if(P){
+      if(P.me){
+        var w = document.getElementById('whoami');
+        if(w){
+          w.style.display = 'block';
+          w.innerHTML = 'Personal layer loaded — <b>' + (P.me.name||'') + '</b>. ' +
+                        (P.me.session||'') + ' <span style="color:var(--muted)">(not in the public repo)</span>';
+        }
+      }
+      var notes = P.notes || {};
+      Object.keys(notes).forEach(function(key){
+        var n = notes[key];
+        var box = document.querySelector('.situation[data-note="'+key+'"]');
+        if(box && n.situation){
+          box.style.display = 'block';
+          box.innerHTML = '<span class="tag">My situation</span>' + n.situation;
+        }
+        if(n.questions && n.questions.length){
+          var ul = document.querySelector('.card[data-card="'+key+'"] .ask ul');
+          if(ul){
+            n.questions.forEach(function(q){
+              var li = document.createElement('li');
+              li.className = 'personal';
+              li.textContent = q;
+              ul.appendChild(li);
+            });
+          }
+        }
+      });
+    }
+
+    // (b) Editable "My questions" board.
+    //     Source of truth is the backend (GET/PUT /api/questions) so it syncs
+    //     across devices. localStorage is a cache/backup, and the sole store when
+    //     there's no server (static host / offline / opened as a local file).
+    var KEY = 'mentoring.myQuestions.v1';
+    var listEl   = document.getElementById('qList');
+    var inputEl  = document.getElementById('qInput');
+    var statusEl = document.getElementById('qStatus');
+    if(!listEl) return;
+
+    function seed(){ return (P && Array.isArray(P.myQuestions)) ? P.myQuestions.slice() : []; }
+    function loadLocal(){
+      try{ var raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
+      return seed();
+    }
+    function cacheLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(questions)); }catch(e){} }
+    function flash(msg){ if(statusEl) statusEl.textContent = msg; }
+
+    // remoteMode flips true once the backend answers. Until then (or with no
+    // server) we persist to localStorage only — the board still works fully.
+    var remoteMode = false, saveTimer = null;
+
+    function save(){
+      cacheLocal();                          // always keep a local backup
+      if(!remoteMode){ flash('Saved in this browser'); return; }
+      flash('Saving…');
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(pushRemote, 250);   // debounce quick edits into one PUT
+    }
+    function pushRemote(){
+      fetch('api/questions', {
+        method:'PUT', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ questions: questions })
+      }).then(function(r){ if(!r.ok) throw 0; flash('Saved · synced across your devices'); })
+        .catch(function(){ flash('Saved in this browser (server offline)'); });
+    }
+
+    var questions = loadLocal();
+
+    function mkBtn(label, title, cls, fn){
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = label; b.title = title;
+      if(cls) b.className = cls;
+      b.addEventListener('click', fn);
+      return b;
+    }
+    function move(from, to){
+      if(to < 0 || to >= questions.length || from === to) return;
+      var it = questions.splice(from, 1)[0];
+      questions.splice(to, 0, it);
+      save(); render();
+    }
+    function render(){
+      listEl.innerHTML = '';
+      if(!questions.length){
+        var e = document.createElement('li');
+        e.className = 'empty';
+        e.textContent = 'No questions yet — add your most important ones below.';
+        listEl.appendChild(e);
+        return;
+      }
+      questions.forEach(function(q, i){
+        var li = document.createElement('li');
+        li.draggable = true;
+
+        var text = document.createElement('span');
+        text.className = 'q-text';
+        text.contentEditable = 'true';
+        text.textContent = q;
+        text.addEventListener('input', function(){ questions[i] = text.textContent; save(); });
+        text.addEventListener('keydown', function(ev){ if(ev.key === 'Enter'){ ev.preventDefault(); text.blur(); } });
+        text.addEventListener('blur', function(){ if(!text.textContent.trim()){ questions.splice(i,1); save(); render(); } });
+
+        var actions = document.createElement('span');
+        actions.className = 'q-actions';
+        actions.appendChild(mkBtn('↑', 'Move up',   '', function(){ move(i, i-1); }));
+        actions.appendChild(mkBtn('↓', 'Move down', '', function(){ move(i, i+1); }));
+        actions.appendChild(mkBtn('✕', 'Delete', 'del', function(){ questions.splice(i,1); save(); render(); }));
+
+        li.appendChild(text);
+        li.appendChild(actions);
+
+        li.addEventListener('dragstart', function(ev){ li.classList.add('dragging'); ev.dataTransfer.setData('text/plain', String(i)); });
+        li.addEventListener('dragend',   function(){ li.classList.remove('dragging'); });
+        li.addEventListener('dragover',  function(ev){ ev.preventDefault(); li.classList.add('over'); });
+        li.addEventListener('dragleave', function(){ li.classList.remove('over'); });
+        li.addEventListener('drop', function(ev){
+          ev.preventDefault(); li.classList.remove('over');
+          var from = parseInt(ev.dataTransfer.getData('text/plain'), 10);
+          if(!isNaN(from)) move(from, i);
+        });
+
+        listEl.appendChild(li);
+      });
+    }
+
+    function addQ(){
+      var v = (inputEl.value || '').trim();
+      if(!v) return;
+      questions.push(v); inputEl.value = '';
+      save(); render(); inputEl.focus();
+    }
+    document.getElementById('qAdd').addEventListener('click', addQ);
+    inputEl.addEventListener('keydown', function(ev){ if(ev.key === 'Enter'){ ev.preventDefault(); addQ(); } });
+
+    document.getElementById('qExport').addEventListener('click', function(){
+      var blob = new Blob([JSON.stringify(questions, null, 2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'my-questions.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      flash('Exported my-questions.json');
+    });
+    document.getElementById('qReset').addEventListener('click', function(){
+      if(confirm('Reset this list back to the starting seed? Your saved edits will be erased.')){
+        questions = seed(); save(); render();
+      }
+    });
+
+    render();                                // instant paint from local cache / seed
+
+    // Reconcile with the backend: if it answers, it's the source of truth and syncs.
+    fetch('api/questions', {headers:{'Accept':'application/json'}})
+      .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(d){
+        remoteMode = true;
+        var remote = (d && Array.isArray(d.questions)) ? d.questions : [];
+        if(remote.length){ questions = remote; cacheLocal(); render(); flash('Synced across your devices'); }
+        else if(questions.length){ pushRemote(); }   // push local/seed up to the empty server
+        else { flash('Ready — add your questions'); }
+      })
+      .catch(function(){ remoteMode = false; flash('Saved in this browser'); });
+  })();
+</script>
+
+</body>
+</html>
