@@ -23,13 +23,17 @@ changed() {
 # Nothing to do here.
 
 # --- api service -------------------------------------------------------------
-# A real image, so it needs a build + rollout to pick up new code.
-if changed api/; then
-  echo "api/ changed -> rebuild image + restart"
+# A real image, so it needs a build + rollout to pick up new code. Build when
+# api/ changed OR the image is simply missing — the latter covers the first
+# deploy (where "before"==HEAD makes nothing look changed) and any registry loss,
+# so a fresh box always self-heals instead of landing in ImagePullBackOff.
+if changed api/ || ! docker image inspect localhost:5000/mentoring-api:latest >/dev/null 2>&1; then
+  echo "api/ changed or image missing -> build image + restart"
   docker build -q -t localhost:5000/mentoring-api:latest api/ >/dev/null
   docker push -q localhost:5000/mentoring-api:latest >/dev/null 2>&1 \
     || docker push localhost:5000/mentoring-api:latest
-  sudo -n k3s kubectl rollout restart deploy/mentoring
+  # deploy/mentoring may not exist yet on a very first apply; don't abort if so.
+  sudo -n k3s kubectl rollout restart deploy/mentoring 2>/dev/null || true
 fi
 
 # --- k8s manifests -----------------------------------------------------------
