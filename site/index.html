@@ -104,6 +104,42 @@
     text-transform:uppercase; letter-spacing:.12em; color:var(--red); font-weight:700; margin-right:.4rem;
   }
 
+  /* ---------- study section (Grok × Claude session notes) ----------
+     Injected only when the git-ignored personal layer (private-data.js)
+     carries notes[id].study — so the public page never shows it. */
+  .study{
+    display:none; margin:1rem 0 .3rem; border-radius:.8rem; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .study .pane{ padding:.85rem 1rem .95rem; font-size:1.02rem; line-height:1.55 }
+  .study .pane + .pane{ border-top:1px solid var(--line) }
+  .study .grok{ background:#f3f0fb }        /* Grok — cool violet */
+  .study .claude{ background:#fff4ec }      /* Claude — warm apricot */
+  .study .who{
+    display:inline-flex; align-items:center; gap:.4rem; margin-bottom:.4rem;
+    font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:800;
+    text-transform:uppercase; letter-spacing:.12em;
+  }
+  .study .grok .who{ color:#5a3fb0 }
+  .study .claude .who{ color:#c85a1b }
+  .study .who .dot{ width:.55rem; height:.55rem; border-radius:50%; flex:0 0 auto }
+  .study .grok .who .dot{ background:#7a5cc0 }
+  .study .claude .who .dot{ background:#e0662e }
+  .study .body p{ margin:.45rem 0 }
+  .study .body ul{ margin:.4rem 0; padding-left:1.15rem }
+  .study .body li{ margin:.28rem 0 }
+  .study .body b{ color:var(--fg) }
+  .study .srcs{ margin-top:.6rem; font-size:.85rem; color:var(--muted) }
+  .study .srcs .tag{
+    font-family:ui-monospace,Menlo,monospace; font-size:.68rem; text-transform:uppercase;
+    letter-spacing:.12em; font-weight:800; color:#c85a1b; margin-right:.5rem;
+  }
+  .study .srcs a{ margin-right:.85rem; white-space:nowrap }
+  @media print{
+    .study{ break-inside:avoid; border:1px solid #ccc }
+    .study .grok{ background:#f6f4fb } .study .claude{ background:#fff7f1 }
+  }
+
   .evidence{ margin:.8rem 0 .2rem; font-size:.92rem; color:var(--muted) }
   .evidence .tag{
     font-family:ui-monospace,Menlo,monospace; font-size:.7rem; text-transform:uppercase;
@@ -342,7 +378,7 @@
 
 <div class="howto">
   <div class="box">
-    <b>How to use this:</b> the list below is the running order of the 11 topics — <b>drag a row (or use ↑ ↓) to reorder</b> them,
+    <b>How to use this:</b> the list below is the running order of the 16 topics — <b>drag a row (or use ↑ ↓) to reorder</b> them,
     and the cards further down rearrange to match. Click a title to jump to its card. The big lines under <b>“Questions to ask”</b> are the
     questions to actually say out loud. Hit <b>✎ Edit topics</b> to rewrite any topic’s questions, add or delete them.
   </div>
@@ -350,7 +386,7 @@
 
 <main>
 
-  <!-- Vertical, todo-style reorder list for the 11 topics. Drag / ↑ ↓ to
+  <!-- Vertical, todo-style reorder list for the 16 topics. Drag / ↑ ↓ to
        reorder (updates the cards below); click a title to jump to its card. -->
   <section class="reorder" aria-label="Topic order">
     <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span></div>
@@ -379,9 +415,14 @@
   <p>Private prep sheet · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
 </footer>
 
+<!-- Optional PERSONAL LAYER. Git-ignored and absent on the public server, so
+     this 404s harmlessly there (window.MENTORING_PRIVATE stays undefined and the
+     page shows the public-safe view). Present only on your local/authed copy. -->
+<script src="private-data.js"></script>
+
 <script>
   /* ============================================================
-     The 11 editable TOPIC CARDS are the whole page now: data-driven, reordered
+     The editable TOPIC CARDS are the whole page now: data-driven, reordered
      from a vertical todo-style list, edited in place, and synced via
      /api/topics (localStorage cache for offline/static use). The optional
      PERSONAL LAYER (window.MENTORING_PRIVATE) exists only locally and injects
@@ -471,7 +512,44 @@
         context:'<p>AI corporate-training is <span class="hl">~$7.5B in 2026, growing ~19%/yr</span>. The wanted person is the <b>“AI Generalist”</b> — a domain expert with high AI literacy, <i>not</i> a computer scientist.</p><p>That’s the “accessibility over expertise” wedge — and it connects straight to Physical Spark: teach the easy on-ramp, add <i>physical</i> later.</p>',
         evidence:[{label:"AI training market",url:"https://www.mordorintelligence.com/industry-reports/ai-powered-corporate-training-market"},{label:"AI literacy 2026",url:"https://www.datacamp.com/blog/the-state-of-data-and-ai-literacy-in-2026-definitions-statistics-and-the-ai-skills-gap"}],
         ask:["Does the US do this too — teaching AI literacy to regular people?","Is “accessibility” a lasting edge, or does it get commoditized fast?","How would you grow it from one instructor into a platform?"],
-        images:[{"src": "assets/ai-literacy-1-mordor.jpg", "cap": "Mordor Intelligence: AI-powered corporate training market — USD 7.49B (2026) → 18.19B (2031), 19.43% CAGR", "host": "mordorintelligence.com"}] }
+        images:[{"src": "assets/ai-literacy-1-mordor.jpg", "cap": "Mordor Intelligence: AI-powered corporate training market — USD 7.49B (2026) → 18.19B (2031), 19.43% CAGR", "host": "mordorintelligence.com"}] },
+      // ---- Cards added from the 2026-07-17 session (public-safe stubs; the
+      //      Korean Grok×Claude study layer lives in private-data.js) ----
+      { id:"sell-the-tech", icon:"💰", accent:"blue", short:"Sell the tech",
+        title:"Sell the tech, not the product",
+        why:"In the US the money isn’t in selling products — it’s in selling the company.",
+        context:'<p>The biggest US fortunes come from <b>selling the company, not the product</b>. VCs back <span class="hl">defensible technology they can exit</span> (an acquisition or acqui-hire) far more readily than a pure sales / services play.</p><p>Salaries are taxed hard; a founder’s <b>equity in a sold company</b> is the real wealth event. The most respected figure isn’t the professor — it’s the <span class="hl">founder who built something and exited</span>.</p>',
+        evidence:[{label:"Acqui-hiring (concept)",url:"https://en.wikipedia.org/wiki/Acqui-hiring"}],
+        ask:["Is build-to-sell really the default US playbook — or survivorship bias?","For a technical solo founder, what makes a company acquirable vs merely profitable?","Does this hold for an AI / robotics tools company, or mostly consumer apps?"],
+        images:[] },
+      { id:"korea-grant-game", icon:"🏆", accent:"gold", short:"Grant + CES",
+        title:"Korea’s grant + CES game",
+        why:"How Korean startups actually get funded — awards, not revenue.",
+        context:'<p>Korean startups run heavily on <b>government money</b>: programs like <span class="hl">K-Startup and TIPS</span> fund early teams, and more funding follows <b>visible validation</b>.</p><p>The clearest signal is an <span class="hl">award — a CES Innovation Award</span> above all — because public funders reward proof of recognition (상장) more than revenue (매출).</p>',
+        evidence:[{label:"K-Startup (gov portal)",url:"https://www.k-startup.go.kr"},{label:"CES Innovation Awards",url:"https://www.ces.tech/innovation-awards/"}],
+        ask:["Is the CES-award → more-grant loop real and repeatable for a small team?","Grants over revenue — does that build a real company or a grant-dependent one?","What’s the fastest legitimate path through K-Startup for a Physical AI school?"],
+        images:[] },
+      { id:"physical-labor", icon:"🦾", accent:"red", short:"Robots = labor",
+        title:"Physical AI = replacing labor",
+        why:"The real product of Physical AI: replacing scarce, expensive labor.",
+        context:'<p>The real product of Physical AI isn’t a clever hand — it’s <b>replacing scarce, expensive labor</b>. Aging populations and shrinking factory workforces make each <span class="hl">deployed robot a labor line-item</span>.</p><p>Korea’s edge: many <b>small, varied factories</b> that can’t buy foreign turnkey systems and need robots <span class="hl">customized per site</span> — a coding / deployment job as much as a mechanical one. Tools like SO-101 + LeRobot lower the bar.</p>',
+        evidence:[{label:"LeRobot (Hugging Face)",url:"https://github.com/huggingface/lerobot"},{label:"WEF Future of Jobs 2025",url:"https://www.weforum.org/publications/the-future-of-jobs-report-2025/"}],
+        ask:["Is “replace one worker” the right unit to sell to Korean SMEs and the government?","Can a non-ME engineer win on customization / deployment rather than hardware?","What’s a realistic first task to automate — pick-and-place, inspection, machine-tending?"],
+        images:[] },
+      { id:"startup-rules", icon:"🛟", accent:"teal", short:"Survival rules",
+        title:"Startup survival rules",
+        why:"Rules that keep a founder alive — never risk your living.",
+        context:'<p>Founder survival rules: <span class="hl">never bet your own money</span> when grant / other money exists, and <b>don’t quit the day job until funding is proven</b>.</p><p><b>생활 (daily living) comes first</b> — an unstable household can’t take risk. Ride a grant, build traction before it ends, then jump to the next. <span class="hl">Debt-for-a-startup is usually foolish, not brave.</span></p>',
+        evidence:[{label:"CB Insights: why startups fail",url:"https://www.cbinsights.com/research/report/startup-failure-reasons-top/"}],
+        ask:["Where’s the line between “bootstrap” and “risking your living”?","When is it actually right to quit the job — what signal?","Is grant-first funding a strength, or does it cap ambition?"],
+        images:[] },
+      { id:"china-ip", icon:"🔒", accent:"purple", short:"IP moat",
+        title:"China, IP & the software moat",
+        why:"Once hardware is copyable, the algorithm is the only moat.",
+        context:'<p>Once <b>hardware can be copied</b> — and China copies fast and cheap — the <span class="hl">algorithm is the only durable moat</span>. That’s why the US guards source code and rarely offshores it.</p><p>See the <span class="hl">TikTok forced-divestiture</span> fight (US market access tied to who controls the code). Cheap offshore dev also carries <b>leak risk</b> — the value now is whoever <i>verifies</i> AI-written code, not who types it.</p>',
+        evidence:[{label:"TikTok divestiture law (PAFACA)",url:"https://en.wikipedia.org/wiki/Protecting_Americans_from_Foreign_Adversary_Controlled_Applications_Act"}],
+        ask:["If the algorithm is the moat, how does a tiny team actually protect it?","Is “verify AI code” a durable role, or a temporary gap?","For robotics, is the moat the model weights, the data, or the deployment?"],
+        images:[] }
     ];
     var ACCENTS = ["blue","gold","red","teal","purple"];
 
@@ -565,6 +643,7 @@
           '<button type="button">Add image</button>' +
         '</div>' +
         '<div class="situation" data-note="' + t.id + '"></div>' +
+        '<div class="study" data-study="' + t.id + '"></div>' +
         '<div class="evidence"><span class="tag">check</span> <span class="links"></span>' +
           '<div class="gallery-add ev-add"><input class="cap" placeholder="link label"><input class="host" placeholder="https://…"><button type="button">Add link</button></div>' +
         '</div>' +
@@ -748,6 +827,30 @@
           var ul = document.querySelector('.card[data-card="' + key + '"] .ask ul');
           if(ul){ n.questions.forEach(function(q){ var li = document.createElement("li"); li.className = "personal"; li.textContent = q; ul.appendChild(li); }); }
         }
+        // Study section: two labeled panes (Grok = what was said; Claude =
+        // follow-up mentoring + sources). Content is authored in this
+        // git-ignored personal file, so innerHTML is fine (like .situation).
+        var study = document.querySelector('.study[data-study="' + key + '"]');
+        if(study && n.study && (n.study.grok || n.study.claude)){
+          var html = "";
+          if(n.study.grok){
+            html += '<div class="pane grok"><span class="who"><span class="dot"></span>Grok</span>' +
+                    '<div class="body">' + n.study.grok + '</div></div>';
+          }
+          if(n.study.claude){
+            var srcs = "";
+            if(n.study.sources && n.study.sources.length){
+              srcs = '<div class="srcs"><span class="tag">sources</span>' +
+                n.study.sources.map(function(s){
+                  return '<a href="' + s.url + '" target="_blank" rel="noopener">' + (s.label || s.url) + '</a>';
+                }).join("") + '</div>';
+            }
+            html += '<div class="pane claude"><span class="who"><span class="dot"></span>Claude</span>' +
+                    '<div class="body">' + n.study.claude + srcs + '</div></div>';
+          }
+          study.innerHTML = html;
+          study.style.display = "block";
+        }
       });
     }
 
@@ -778,7 +881,7 @@
     document.getElementById("addTopic").addEventListener("click", function(){
       var existing = topics.map(function(t){ return t.id; });
       var id = makeTopicId("", existing);
-      if(!id){ alert("makeTopicId() isn’t implemented yet — finish the TODO(human) in index.html first."); return; }
+      if(!id){ return; }   // makeTopicId always returns a non-empty id; guard is belt-and-suspenders
       topics.push({ id:id, icon:"🔖", accent:ACCENTS[topics.length % ACCENTS.length],
         short:"New topic", title:"New topic", why:"", context:"", evidence:[], ask:[""], images:[] });
       save(); render();
