@@ -104,9 +104,9 @@
     text-transform:uppercase; letter-spacing:.12em; color:var(--red); font-weight:700; margin-right:.4rem;
   }
 
-  /* ---------- study section (Grok × Claude session notes) ----------
-     Injected only when the git-ignored personal layer (private-data.js)
-     carries notes[id].study — so the public page never shows it. */
+  /* ---------- study section (Grok × Claude notes) ----------
+     Rendered per card from the committed study-data.js (window.MENTORING_STUDY),
+     looked up by card id. Public content. */
   .study{
     display:none; margin:1rem 0 .3rem; border-radius:.8rem; overflow:hidden;
     border:1px solid var(--line);
@@ -415,20 +415,19 @@
   <p>Private prep sheet · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
 </footer>
 
-<!-- Optional PERSONAL LAYER. Git-ignored and absent on the public server, so
-     this 404s harmlessly there (window.MENTORING_PRIVATE stays undefined and the
-     page shows the public-safe view). Present only on your local/authed copy. -->
-<script src="private-data.js"></script>
+<!-- PUBLIC study layer (committed): per-card Grok×Claude notes. Loads on the
+     live site and locally alike. Anything personal/sensitive is NOT here — it
+     lives only in the git-ignored private/ folder as markdown. -->
+<script src="study-data.js"></script>
 
 <script>
   /* ============================================================
      The editable TOPIC CARDS are the whole page now: data-driven, reordered
      from a vertical todo-style list, edited in place, and synced via
-     /api/topics (localStorage cache for offline/static use). The optional
-     PERSONAL LAYER (window.MENTORING_PRIVATE) exists only locally and injects
-     per-card "my situation" + personal questions.
+     /api/topics (localStorage cache for offline/static use). Each card also
+     shows a public Grok×Claude "study" block from the committed study-data.js
+     (window.MENTORING_STUDY), looked up by card id.
      ============================================================ */
-  var P = window.MENTORING_PRIVATE || null;
 
   /* ---------- (1) Topic cards ------------------------------------------- */
   (function(){
@@ -513,8 +512,8 @@
         evidence:[{label:"AI training market",url:"https://www.mordorintelligence.com/industry-reports/ai-powered-corporate-training-market"},{label:"AI literacy 2026",url:"https://www.datacamp.com/blog/the-state-of-data-and-ai-literacy-in-2026-definitions-statistics-and-the-ai-skills-gap"}],
         ask:["Does the US do this too — teaching AI literacy to regular people?","Is “accessibility” a lasting edge, or does it get commoditized fast?","How would you grow it from one instructor into a platform?"],
         images:[{"src": "assets/ai-literacy-1-mordor.jpg", "cap": "Mordor Intelligence: AI-powered corporate training market — USD 7.49B (2026) → 18.19B (2031), 19.43% CAGR", "host": "mordorintelligence.com"}] },
-      // ---- Cards added from the 2026-07-17 session (public-safe stubs; the
-      //      Korean Grok×Claude study layer lives in private-data.js) ----
+      // ---- Cards added from the 2026-07-17 session. The Korean Grok×Claude
+      //      study layer for every card lives in the committed study-data.js ----
       { id:"sell-the-tech", icon:"💰", accent:"blue", short:"Sell the tech",
         title:"Sell the tech, not the product",
         why:"In the US the money isn’t in selling products — it’s in selling the company.",
@@ -680,17 +679,11 @@
         if(!isNaN(from)) move(from, i);
       });
 
-      // "My situation" + the Grok×Claude study panes are DATA-DRIVEN: they live
-      // on the topic object (t.situation / t.study), so they ride /api/topics and
-      // sync to every device + the authed live site. Locally they're seeded from
-      // the git-ignored private-data.js via overlayPrivate(); once pushed to the
-      // server, other devices get them without any private file.
-      if(t.situation){
-        var sitEl = sec.querySelector(".situation");
-        sitEl.style.display = "block";
-        sitEl.innerHTML = '<span class="tag">My situation</span>' + t.situation;
-      }
-      var sh = studyHTML(t.study);
+      // Grok×Claude study panes: public content from the committed study-data.js
+      // (window.MENTORING_STUDY), looked up by card id. A topic may also carry its
+      // own t.study (e.g. from the server) which takes precedence.
+      var study = t.study || (window.MENTORING_STUDY && window.MENTORING_STUDY[t.id]);
+      var sh = studyHTML(study);
       if(sh){
         var studyEl = sec.querySelector(".study");
         studyEl.innerHTML = sh;
@@ -741,11 +734,6 @@
         del.className = "q-del"; del.type = "button"; del.textContent = "✕"; del.title = "Delete question";
         del.addEventListener("click", function(){ t.ask.splice(j, 1); save(); render(); });
         li.appendChild(span); li.appendChild(del);
-        ul.appendChild(li);
-      });
-      // personal questions (from the private overlay / server) — read-only, styled
-      (t.personalQuestions || []).forEach(function(q){
-        var li = document.createElement("li"); li.className = "personal"; li.textContent = q;
         ul.appendChild(li);
       });
       sec.querySelector(".add-ask").addEventListener("click", function(){
@@ -861,24 +849,6 @@
       return b;
     }
 
-    /* ---- private overlay: fold the local, git-ignored personal notes
-       (private-data.js) INTO the topic objects, keyed by id. This makes
-       study / My-situation / personal questions part of the same data that
-       save()/pushRemote() sync to /api/topics — so they reach every device and
-       the authed live site. On a device WITHOUT private-data.js, the server
-       already carries them, so nothing is lost. Idempotent: it sets (never
-       appends) fields, so it's safe to call on every render. */
-    function overlayPrivate(){
-      if(!P || !P.notes) return;
-      topics.forEach(function(t){
-        var n = P.notes[t.id];
-        if(!n) return;
-        if(n.study)     t.study = n.study;
-        if(n.situation) t.situation = n.situation;
-        if(n.questions && n.questions.length) t.personalQuestions = n.questions;
-      });
-    }
-
     function applyEditing(){
       document.body.classList.toggle("editing", editing);
       // contentEditable + draggable are only on while editing, so the live
@@ -888,7 +858,6 @@
     }
 
     function render(){
-      overlayPrivate();         // fold private notes onto topics before building
       buildOrder();
       listEl.innerHTML = "";
       topics.forEach(function(t, i){ listEl.appendChild(buildCard(t, i)); });
@@ -920,7 +889,7 @@
     });
     document.getElementById("topicReset").addEventListener("click", function(){
       if(confirm("Reset all topic cards back to the built-in originals? Your edits will be erased.")){
-        topics = clone(TOPIC_SEED); overlayPrivate(); save(); render();
+        topics = clone(TOPIC_SEED); save(); render();
       }
     });
 
@@ -932,28 +901,10 @@
       .then(function(d){
         remoteMode = true;
         var remote = (d && Array.isArray(d.topics)) ? d.topics : [];
-        if(remote.length){ topics = remote; }
-        render();          // render() runs overlayPrivate(), so topics now carry study
-        cacheLocal();
-        // Persist the enriched topics so other devices / the authed live site get
-        // the study + personal notes without needing private-data.js locally.
-        if(P && P.notes){ pushRemote(); }
-        else if(!remote.length){ pushRemote(); }   // seed an empty server from local
-        flash(remote.length ? "Synced across your devices" : "Saved · synced");
+        if(remote.length){ topics = remote; cacheLocal(); render(); flash("Synced across your devices"); }
+        else if(topics.length){ pushRemote(); }   // seed the empty server from local
       })
       .catch(function(){ remoteMode = false; });
-  })();
-
-  /* ---------- personal header (whoami) ---------- */
-  (function(){
-    if(P && P.me){
-      var w = document.getElementById("whoami");
-      if(w){
-        w.style.display = "block";
-        w.innerHTML = "Personal layer loaded — <b>" + (P.me.name || "") + "</b>. " +
-                      (P.me.session || "") + ' <span style="color:var(--muted)">(not in the public repo)</span>';
-      }
-    }
   })();
 
 </script>
