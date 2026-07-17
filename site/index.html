@@ -680,10 +680,51 @@
         if(!isNaN(from)) move(from, i);
       });
 
+      // "My situation" + the Grok×Claude study panes are DATA-DRIVEN: they live
+      // on the topic object (t.situation / t.study), so they ride /api/topics and
+      // sync to every device + the authed live site. Locally they're seeded from
+      // the git-ignored private-data.js via overlayPrivate(); once pushed to the
+      // server, other devices get them without any private file.
+      if(t.situation){
+        var sitEl = sec.querySelector(".situation");
+        sitEl.style.display = "block";
+        sitEl.innerHTML = '<span class="tag">My situation</span>' + t.situation;
+      }
+      var sh = studyHTML(t.study);
+      if(sh){
+        var studyEl = sec.querySelector(".study");
+        studyEl.innerHTML = sh;
+        studyEl.style.display = "block";
+      }
+
       buildAsk(sec, t);
       buildEvidence(sec, t);
       buildGallery(sec, t);
       return sec;
+    }
+
+    /* ---- build the two-pane study block HTML (Grok / Claude + sources) ----
+       Pure function of t.study; used by buildCard. Content is authored by me
+       (the seed or the private overlay), so innerHTML is acceptable here. */
+    function studyHTML(study){
+      if(!study || !(study.grok || study.claude)) return "";
+      var html = "";
+      if(study.grok){
+        html += '<div class="pane grok"><span class="who"><span class="dot"></span>Grok</span>' +
+                '<div class="body">' + study.grok + '</div></div>';
+      }
+      if(study.claude){
+        var srcs = "";
+        if(study.sources && study.sources.length){
+          srcs = '<div class="srcs"><span class="tag">sources</span>' +
+            study.sources.map(function(s){
+              return '<a href="' + s.url + '" target="_blank" rel="noopener">' + (s.label || s.url) + '</a>';
+            }).join("") + '</div>';
+        }
+        html += '<div class="pane claude"><span class="who"><span class="dot"></span>Claude</span>' +
+                '<div class="body">' + study.claude + srcs + '</div></div>';
+      }
+      return html;
     }
 
     /* ---- questions to ask (edit / add / delete) ---- */
@@ -700,6 +741,11 @@
         del.className = "q-del"; del.type = "button"; del.textContent = "✕"; del.title = "Delete question";
         del.addEventListener("click", function(){ t.ask.splice(j, 1); save(); render(); });
         li.appendChild(span); li.appendChild(del);
+        ul.appendChild(li);
+      });
+      // personal questions (from the private overlay / server) — read-only, styled
+      (t.personalQuestions || []).forEach(function(q){
+        var li = document.createElement("li"); li.className = "personal"; li.textContent = q;
         ul.appendChild(li);
       });
       sec.querySelector(".add-ask").addEventListener("click", function(){
@@ -815,42 +861,21 @@
       return b;
     }
 
-    /* ---- personal layer: per-card "my situation" + personal questions ---- */
-    function applyPersonalLayer(){
-      if(!P) return;
-      var notes = P.notes || {};
-      Object.keys(notes).forEach(function(key){
-        var n = notes[key];
-        var box = document.querySelector('.situation[data-note="' + key + '"]');
-        if(box && n.situation){ box.style.display = "block"; box.innerHTML = '<span class="tag">My situation</span>' + n.situation; }
-        if(n.questions && n.questions.length){
-          var ul = document.querySelector('.card[data-card="' + key + '"] .ask ul');
-          if(ul){ n.questions.forEach(function(q){ var li = document.createElement("li"); li.className = "personal"; li.textContent = q; ul.appendChild(li); }); }
-        }
-        // Study section: two labeled panes (Grok = what was said; Claude =
-        // follow-up mentoring + sources). Content is authored in this
-        // git-ignored personal file, so innerHTML is fine (like .situation).
-        var study = document.querySelector('.study[data-study="' + key + '"]');
-        if(study && n.study && (n.study.grok || n.study.claude)){
-          var html = "";
-          if(n.study.grok){
-            html += '<div class="pane grok"><span class="who"><span class="dot"></span>Grok</span>' +
-                    '<div class="body">' + n.study.grok + '</div></div>';
-          }
-          if(n.study.claude){
-            var srcs = "";
-            if(n.study.sources && n.study.sources.length){
-              srcs = '<div class="srcs"><span class="tag">sources</span>' +
-                n.study.sources.map(function(s){
-                  return '<a href="' + s.url + '" target="_blank" rel="noopener">' + (s.label || s.url) + '</a>';
-                }).join("") + '</div>';
-            }
-            html += '<div class="pane claude"><span class="who"><span class="dot"></span>Claude</span>' +
-                    '<div class="body">' + n.study.claude + srcs + '</div></div>';
-          }
-          study.innerHTML = html;
-          study.style.display = "block";
-        }
+    /* ---- private overlay: fold the local, git-ignored personal notes
+       (private-data.js) INTO the topic objects, keyed by id. This makes
+       study / My-situation / personal questions part of the same data that
+       save()/pushRemote() sync to /api/topics — so they reach every device and
+       the authed live site. On a device WITHOUT private-data.js, the server
+       already carries them, so nothing is lost. Idempotent: it sets (never
+       appends) fields, so it's safe to call on every render. */
+    function overlayPrivate(){
+      if(!P || !P.notes) return;
+      topics.forEach(function(t){
+        var n = P.notes[t.id];
+        if(!n) return;
+        if(n.study)     t.study = n.study;
+        if(n.situation) t.situation = n.situation;
+        if(n.questions && n.questions.length) t.personalQuestions = n.questions;
       });
     }
 
@@ -863,10 +888,10 @@
     }
 
     function render(){
+      overlayPrivate();         // fold private notes onto topics before building
       buildOrder();
       listEl.innerHTML = "";
       topics.forEach(function(t, i){ listEl.appendChild(buildCard(t, i)); });
-      applyPersonalLayer();     // re-inject after every rebuild
       applyEditing();           // re-apply contentEditable/draggable state
     }
 
@@ -895,7 +920,7 @@
     });
     document.getElementById("topicReset").addEventListener("click", function(){
       if(confirm("Reset all topic cards back to the built-in originals? Your edits will be erased.")){
-        topics = clone(TOPIC_SEED); save(); render();
+        topics = clone(TOPIC_SEED); overlayPrivate(); save(); render();
       }
     });
 
@@ -907,8 +932,14 @@
       .then(function(d){
         remoteMode = true;
         var remote = (d && Array.isArray(d.topics)) ? d.topics : [];
-        if(remote.length){ topics = remote; cacheLocal(); render(); flash("Synced across your devices"); }
-        else if(topics.length){ pushRemote(); }   // seed the empty server from local
+        if(remote.length){ topics = remote; }
+        render();          // render() runs overlayPrivate(), so topics now carry study
+        cacheLocal();
+        // Persist the enriched topics so other devices / the authed live site get
+        // the study + personal notes without needing private-data.js locally.
+        if(P && P.notes){ pushRemote(); }
+        else if(!remote.length){ pushRemote(); }   // seed an empty server from local
+        flash(remote.length ? "Synced across your devices" : "Saved · synced");
       })
       .catch(function(){ remoteMode = false; });
   })();
