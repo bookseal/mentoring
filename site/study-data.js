@@ -287,4 +287,34 @@ window.MENTORING_STUDY = {
     ],
   },
 
+  "income-pipeline": {
+    grok:
+      "<ul>" +
+      "<li>미국은 전공을 미리 안 준다 — <b>경쟁시켜 성적순</b>으로 배정. 제일 똑똑한 애들이 <b>취업 많은 엔지니어</b>로, 밀린 애들이 비즈니스 → 인문 → 철학으로 내려간다.</li>" +
+      "<li>미국을 굴리는 건 <b>엔지니어 · 금융 · 메디컬</b>. 나머지 전공은 잡이 애초에 적다.</li>" +
+      "<li>그래서 인문계 졸업생은 일자리가 없어 <b>다시 CS·코딩 부트캠프</b>로 온다 — 그게 바로 <b>이 스쿨의 고객</b>이다(문과→코딩 전환자).</li>" +
+      "</ul>",
+    claude:
+      "<p>패턴은 맞지만 숫자로 보면 뉘앙스가 있다: 미국 <b>코딩 부트캠프 취업률·임금은 편차가 크고</b>(우수 프로그램은 높지만 평균은 들쭉날쭉), 2023~24 테크 채용 둔화 + AI코딩으로 <b>주니어 개발자 문턱이 올라갔다</b>. 그러니 네 진짜 ICP는 '코딩 입문자 일반'이 아니라 — <b>이미 소프트웨어를 아는데 Physical AI로 전환하려는 사람</b>(네 포지셔닝 그대로)이 더 방어적이다. '문과→코딩'은 마케팅 서사로, 실제 타깃은 <b>전환 개발자</b>로 좁혀라.</p>",
+    sources: [
+      { label: "코딩 부트캠프 (개요)", url: "https://en.wikipedia.org/wiki/Coding_bootcamp" },
+      { label: "BLS: 학력별 실업률·임금", url: "https://www.bls.gov/emp/chart-unemployment-earnings-education.htm" },
+    ],
+  },
+
+  "integrity": {
+    grok:
+      "<ul>" +
+      "<li>미국 VC는 <b>순수 카피엔 투자 안 한다</b>. 카피 기업은 실행력으로 한 판은 이겨도 <b>오래 못 간다</b>.</li>" +
+      "<li>미국은 <b>레퍼런스·인맥 경제</b>라 평판이 따라다닌다 — <b>정직(integrity)이 복리로 쌓인다</b>. 거짓말하는 CEO·회사는 결국 무너진다.</li>" +
+      "<li>한국은 이 부분을 과소평가한다(예: 아마존을 그대로 베낀 커머스 모델).</li>" +
+      "</ul>",
+    claude:
+      "<p>'정직이 이긴다'는 도덕이 아니라 <b>반복 게임의 수학</b>이다 — 같은 사람들과 계속 마주치는 시장(리퍼럴)에선 신뢰가 곧 재계약·재투자다. 단 '카피=필패'는 과하다: <b>패스트팔로우</b>로 크게 성공한 예도 많다. 정확한 교훈은 <b>'카피 위에 진짜 차별화(데이터·커뮤니티·유통)를 얹었는가'</b>. 네 스쿨에서 카피 불가한 부분 = <b>피어리뷰 기록 + 축적 데이터</b>이지 커리큘럼이 아니다.</p>",
+    sources: [
+      { label: "First-mover vs fast-follower", url: "https://en.wikipedia.org/wiki/First-mover_advantage" },
+      { label: "CB Insights: why startups fail", url: "https://www.cbinsights.com/research/report/startup-failure-reasons-top/" },
+    ],
+  },
+
 };

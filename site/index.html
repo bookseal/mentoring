@@ -378,7 +378,7 @@
 
 <div class="howto">
   <div class="box">
-    <b>How to use this:</b> the list below is the running order of the 16 topics — <b>drag a row (or use ↑ ↓) to reorder</b> them,
+    <b>How to use this:</b> the list below is the running order of the 18 topics — <b>drag a row (or use ↑ ↓) to reorder</b> them,
     and the cards further down rearrange to match. Click a title to jump to its card. The big lines under <b>“Questions to ask”</b> are the
     questions to actually say out loud. Hit <b>✎ Edit topics</b> to rewrite any topic’s questions, add or delete them.
   </div>
@@ -386,7 +386,7 @@
 
 <main>
 
-  <!-- Vertical, todo-style reorder list for the 16 topics. Drag / ↑ ↓ to
+  <!-- Vertical, todo-style reorder list for the 18 topics. Drag / ↑ ↓ to
        reorder (updates the cards below); click a title to jump to its card. -->
   <section class="reorder" aria-label="Topic order">
     <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span></div>
@@ -548,6 +548,20 @@
         context:'<p>Once <b>hardware can be copied</b> — and China copies fast and cheap — the <span class="hl">algorithm is the only durable moat</span>. That’s why the US guards source code and rarely offshores it.</p><p>See the <span class="hl">TikTok forced-divestiture</span> fight (US market access tied to who controls the code). Cheap offshore dev also carries <b>leak risk</b> — the value now is whoever <i>verifies</i> AI-written code, not who types it.</p>',
         evidence:[{label:"TikTok divestiture law (PAFACA)",url:"https://en.wikipedia.org/wiki/Protecting_Americans_from_Foreign_Adversary_Controlled_Applications_Act"}],
         ask:["If the algorithm is the moat, how does a tiny team actually protect it?","Is “verify AI code” a durable role, or a temporary gap?","For robotics, is the moat the model weights, the data, or the deployment?"],
+        images:[] },
+      { id:"income-pipeline", icon:"🎓", accent:"blue", short:"My customers",
+        title:"How the US sorts talent — and who my customers are",
+        why:"US majors are won by rank; the ones who lose come back for bootcamps.",
+        context:'<p>US colleges don’t assign majors up front — students <b>compete</b>, and the top scorers take the <span class="hl">most-employable majors (engineering)</span>. Those who miss cascade down: business → liberal arts → philosophy. America runs on <b>engineering · finance · medical</b>.</p><p>So liberal-arts grads who can’t find work <span class="hl">come back for CS / coding bootcamps</span> — which is exactly the learner a school like this serves.</p>',
+        evidence:[{label:"Coding bootcamp (overview)",url:"https://en.wikipedia.org/wiki/Coding_bootcamp"}],
+        ask:["Is engineering / finance / medical really where all the US jobs are?","Are career-switchers a big enough market to build on?","What makes them pick a paid school over free / government options?"],
+        images:[] },
+      { id:"integrity", icon:"⚖️", accent:"gold", short:"Integrity",
+        title:"Why copies don’t last in the US",
+        why:"A copycat wins a round; integrity compounds over a career.",
+        context:'<p>US VCs <span class="hl">won’t fund a pure copy</span> — “we’re the Amazon of X” gets a pass. A copycat can win a round on execution, but in a <b>referral economy</b> where reputation follows you, <span class="hl">integrity compounds</span> and a lying operator eventually fails.</p><p>Korea underweights this; the US treats a track record of straight dealing as an asset that keeps re-hiring and re-funding you.</p>',
+        evidence:[{label:"First-mover vs fast-follower",url:"https://en.wikipedia.org/wiki/First-mover_advantage"}],
+        ask:["Where’s the line between a smart “fast-follow” and a doomed copy?","Does integrity actually pay, or just sound nice?","For my school, what is the genuinely uncopyable part?"],
         images:[] }
     ];
     var ACCENTS = ["blue","gold","red","teal","purple"];
