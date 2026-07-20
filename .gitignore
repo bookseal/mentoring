@@ -3,8 +3,6 @@
 private-data.js
 private/
 *.local.js
-# local-only meeting notes / personal HTML (double-covered with private/)
-*.private.html
 
 # --- Secrets / deploy material (kept on the server, not in git) ---
 .htpasswd
