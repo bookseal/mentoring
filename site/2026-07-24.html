@@ -410,6 +410,38 @@
     </div>
   </section>
 
+  <!-- ============ onprem ============ -->
+  <section class="card" data-topic="onprem" style="--accent:var(--teal)">
+    <div class="head">
+      <div class="icon">🔒</div><div class="num">08</div>
+      <div><h2>Selling on-prem / private LLMs to US partners</h2>
+      <p class="why">My AI Solution Engineer JD = enablement for on-prem "AI pack" partners. Who buys this here?</p></div>
+    </div>
+    <img class="banner" src="assets/2026-07-24/onprem.svg" alt="On-prem / private LLMs for US partners">
+    <div class="context">
+      <p><span class="verdict v-ok">Why on-prem at all</span> The core pitch is <b>"data never leaves your enclave"</b> (NVIDIA sells NIM on exactly that). For <b>PHI, ITAR, or controlled data</b> it isn't a preference — routing through shared public endpoints is <b>disallowed</b>, so private / air-gapped is the <i>only</i> compliant path. Most run hybrid: sensitive → private, prototyping → public API. At high volume, on-prem also wins on marginal cost.</p>
+      <p><span class="verdict v-ok">Who actually buys</span> Regulated, security-sensitive verticals lead: <b>financial services, healthcare, government/defense, legal, insurance</b>. The certifications a US buyer will name are <b>HIPAA</b> (PHI), <b>FedRAMP</b> + Impact Levels / air-gap (federal/DoD), and <b>SOC 2</b> (commercial baseline) — <i>not</i> GDPR (that's the EU version of the same pressure).</p>
+      <p><span class="verdict v-ok">The stack they expect</span> Runtime: <b>NVIDIA AI Enterprise + NIM</b>. Hardware: <b>Dell / HPE / Supermicro</b> ("AI Factory" bundles). Control plane: <b>Red Hat OpenShift AI</b> (has air-gapped mode), VMware Private AI, Nutanix. Models: <b>open-weight (Llama, Mistral, Qwen)</b> — and for regulated buyers, <b>license</b> matters more than benchmarks (bias to Apache-2.0 / MIT).</p>
+      <p><span class="verdict v-warn">The selling motion is different</span> Big committees (<b>~6–11 stakeholders</b>), and <b>61% of B2B buyers now prefer a rep-free, self-serve journey</b> (Gartner). A <b>SOC 2 report + security questionnaire</b> is a formal gate that adds weeks and stalls slow vendors. US trust is <b>front-loaded onto artifacts</b> — a validated <b>reference architecture</b>, SOC 2, named references, ROI numbers — not rapport. The reference architecture is the anchor artifact partners resell.</p>
+    </div>
+    <div class="srcs">
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/" target="_blank" rel="noopener">NVIDIA NIM microservices</a> <span class="sum">— self-hosted, "data stays in your boundary"</span></div>
+      <div class="row"><a href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html" target="_blank" rel="noopener">HHS — HIPAA Security Rule</a> · <a href="https://www.fedramp.gov/" target="_blank" rel="noopener">FedRAMP</a> <span class="sum">— the compliance gates that force private infra</span></div>
+      <div class="row"><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-ai" target="_blank" rel="noopener">Red Hat OpenShift AI</a> · <a href="https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/ecosystem-architecture.html" target="_blank" rel="noopener">NVIDIA Enterprise AI Factory</a> <span class="sum">— air-gapped stack + validated ref-arch</span></div>
+      <div class="row"><a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-sales-survey-finds-61-percent-of-b2b-buyers-prefer-a-rep-free-buying-experience" target="_blank" rel="noopener">Gartner — 61% prefer rep-free buying</a> <span class="sum">— self-serve, committee-driven motion</span></div>
+      <div class="row"><a href="https://www.nvidia.com/object/nvidia-partner-network.html" target="_blank" rel="noopener">NVIDIA Partner Network</a> <span class="sum">— how the US SI / VAR channel is structured</span></div>
+    </div>
+    <div class="ask">
+      <span class="block-tag">Ask the mentor</span>
+      <ul>
+        <li><b>Your experience first:</b> you've delivered into US enterprises — tell me about an on-prem or security-sensitive deal. Who <i>actually</i> killed or saved it: the security reviewer, the infra architect, or the budget owner? What did you learn to do differently?</li>
+        <li>Of everything we could build partners — reference architecture, TCO calculator, demo environment, POV playbook, certifications — which one or two have you seen actually move a US partner from "registered but inactive" to closing? What's just shelfware?</li>
+        <li>What does a foreign-origin vendor most often get wrong in a US security review (SOC 2, questionnaires, data-residency)? And how do you frame "on-prem" so a US buyer hears "control &amp; compliance," not "legacy"?</li>
+      </ul>
+    </div>
+  </section>
+
   <!-- ============ samcho ============ -->
   <section class="card" data-topic="samcho" style="--accent:var(--red)">
     <div class="head">
@@ -620,6 +652,7 @@
       pragmatism: "Your instinct is right, but the sharper 2026 version: in the US, utility executed with taste is the premium (Apple, Stripe, Notion). 'Ugly but works' loses now — aim for engineering elegance, not just durability.",
       upstage: "Timing is good — Upstage just hit unicorn and is IPO-tracking, with a US wedge in insurance / document-AI on AWS. As an AI Product Engineer, attaching early to that US push is where a Korea-based engineer becomes genuinely hard to replace.",
       usux: "The trap for a strong engineer is treating localization as a translation pass bolted on at the end. In the US it's the reverse — format, tone and trust cues are the first impression, decided before anyone reads your copy. Nail the boring stuff (dates, the state dropdown, human error messages, contrast) and match the Stripe/Linear restraint; that's what earns you the right to be judged on the AI underneath.",
+      onprem: "This is a genuinely strong wedge for you: on-prem/private AI is where regulation makes buyers pay, and where good documentation is the product. American enterprises front-load trust onto artifacts — a validated reference architecture, a SOC 2 report, named references — not relationships, which suits a remote Korean engineer who writes well. One honest flag: ignore the viral '71% of AI runs outside public cloud'-type stats; they have no traceable source. Sell control and compliance, not 'legacy'.",
       samcho: "The real lesson isn't 'do politics' — it's the federal-to-local pipeline and using your own story as an asset. The network is a multiplier on real work, never a substitute for it. Build the work first; the ties compound on top.",
       wallet: "The honest read: Americans open their wallet when the downside of buying is removed, not when the pitch is loudest. Risk reversal (guarantee, free trial), obvious social proof, and 'it just works' beat features and cleverness. For a technical founder the trap is selling the spec sheet before you've sold the outcome — say the point plainly, then let the buyer verify it cheaply.",
       founders: "The honest read: 'you've got nothing to lose, just start' is survivorship advice — from someone who first stacked a big-company résumé (Yonsei EE, Samsung, an MBA, Microsoft) so a failed startup still lands a job, and whose exit leaned on that pedigree and network. Not hypocrisy — but take the advice with the résumé attached.",
