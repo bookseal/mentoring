@@ -8,8 +8,8 @@
  */
 (function () {
   window.MENTORING_SESSIONS = [
-    { id: "2026-07-17", date: "2026-07-17", title: "WTIA 멘토링", href: "index.html", status: "done" },
-    { id: "2026-07-24", date: "2026-07-24", title: "멘토링", href: "2026-07-24.html", status: "empty" },
+    { id: "2026-07-17", date: "2026-07-17", title: "WTIA mentoring", href: "index.html", status: "done" },
+    { id: "2026-07-24", date: "2026-07-24", title: "Mentoring", href: "2026-07-24.html", status: "done" },
   ];
 
   function render() {
@@ -23,7 +23,7 @@
         (active ? ' aria-current="page"' : "") + ">" +
         '<span class="s-date">' + s.date + "</span>" +
         '<span class="s-title">' + s.title + "</span>" +
-        (s.status === "empty" ? '<span class="s-badge">비어있음</span>' : "") +
+        (s.status === "empty" ? '<span class="s-badge">empty</span>' : "") +
         "</a>"
       );
     }).join("");

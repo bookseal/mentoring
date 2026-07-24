@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mentoring — 2026-07-24 (prep)</title>
-<meta name="description" content="Prep for the 2026-07-24 mentoring session: five topics with cross-verified sources and questions to ask.">
+<meta name="description" content="Prep for the 2026-07-24 mentoring session: six topics with cross-verified sources and questions for the mentor.">
 <style>
   :root{
     --bg:#fbf5e9; --bg2:#f5ecd8; --card:#fffdf9;
@@ -67,14 +67,43 @@
     font-size:2.4rem; font-weight:900; letter-spacing:-.02em; margin:.35rem 0 .3rem;
     text-transform:uppercase; line-height:1.05;
   }
-  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:56ch }
+  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:60ch }
+
+  /* ---------- reorder list (drag / ↑ ↓ · like the 2026-07-17 page) ---------- */
+  main{ max-width:1000px; margin:0 auto; padding:1.2rem 1.2rem 4rem }
+  .reorder{ margin:0 0 1rem }
+  .reorder-head{
+    font-family:ui-monospace,Menlo,monospace; font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.14em; font-weight:800; color:var(--red);
+  }
+  .reorder-head .hint{ color:var(--muted); font-weight:600; letter-spacing:.02em; text-transform:none }
+  .q-list{ list-style:none; margin:.7rem 0 0; padding:0; counter-reset:q }
+  .q-list li{
+    counter-increment:q; display:flex; align-items:flex-start; gap:.6rem;
+    background:#fff; border:1px solid var(--line); border-radius:.7rem; padding:.7rem .8rem; margin:.55rem 0; cursor:grab;
+  }
+  .q-list li.dragging{ opacity:.45 }
+  .q-list li.over{ border-color:var(--teal); box-shadow:0 0 0 2px #bfe9e0 }
+  .q-list li::before{
+    content:counter(q); flex:0 0 auto; font-family:ui-monospace,Menlo,monospace;
+    font-weight:800; color:#fff; background:var(--teal); border-radius:.4rem; padding:.05rem .5rem; font-size:.8rem; margin-top:.24rem;
+  }
+  .q-text{ flex:1; font-size:1.08rem; font-weight:600; line-height:1.4 }
+  .ord-title{ cursor:pointer }
+  .ord-title:hover{ color:var(--red); text-decoration:underline }
+  .q-actions{ flex:0 0 auto; display:flex; gap:.2rem }
+  .q-actions button{
+    border:1px solid var(--line); background:var(--card); border-radius:.4rem;
+    width:2rem; height:2rem; font-size:1rem; cursor:pointer; color:var(--fg); line-height:1;
+  }
+  .q-actions button:hover{ border-color:var(--teal); color:var(--teal) }
+  @media print{ .reorder{ display:none } .q-actions{ display:none } }
 
   /* ---------- cards ---------- */
-  main{ max-width:1000px; margin:0 auto; padding:1.2rem 1.2rem 4rem }
   .card{
     background:var(--card); border:1px solid var(--line); border-radius:1rem;
     padding:1.3rem 1.4rem 1.4rem; margin:1.1rem 0;
-    box-shadow:0 8px 0 -4px rgba(120,80,20,.15); border-left:8px solid var(--accent,var(--red));
+    box-shadow:0 8px 0 -4px rgba(120,80,20,.15); border-left:8px solid var(--accent,var(--red)); scroll-margin-top:1rem;
   }
   .card .head{ display:flex; align-items:flex-start; gap:.9rem }
   .card .icon{ font-size:2rem; line-height:1; flex:0 0 auto }
@@ -112,7 +141,6 @@
   .ask li{ font-size:1.12rem; font-weight:600; line-height:1.4; margin:.5rem 0; padding-left:1.5rem; position:relative }
   .ask li::before{ content:"›"; position:absolute; left:.3rem; top:-.05rem; color:var(--accent,var(--red)); font-weight:900; font-size:1.3rem }
 
-  .stub{ color:var(--muted); font-style:italic }
   footer{ max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line) }
   @media (max-width:640px){ html{font-size:18px} header.top h1{font-size:2rem} }
 </style>
@@ -123,166 +151,202 @@
 <aside class="sidebar">
   <div class="s-head">Sessions</div>
   <nav id="sessionNav"></nav>
-  <div class="s-foot">멘토링마다 새 페이지가 하나씩 쌓입니다.</div>
+  <div class="s-foot">A new page stacks up per mentoring session.</div>
 </aside>
 <div class="content">
 
 <header class="top">
   <div class="kicker">Mentoring prep · 2026-07-24</div>
   <h1>Mentoring talking points</h1>
-  <p class="sub">내일 물어볼 주제 5개. 각 카드는 <b>교차검증된 요약 + 출처(URL) + 물어볼 질문</b>. 출처 옆 배지는 검증 결과 — <span class="verdict v-ok">확인됨</span> <span class="verdict v-mix">일부·논쟁적</span> <span class="verdict v-warn">주의</span>.</p>
+  <p class="sub">Six topics to raise. Each card has a <b>cross-verified summary + sources (URL) + questions for the mentor</b>. Badges show what checked out — <span class="verdict v-ok">Verified</span> <span class="verdict v-mix">Contested</span> <span class="verdict v-warn">Caution</span>. <b>Drag the list to reorder by priority.</b></p>
 </header>
 
 <main>
 
-  <!-- ============ 1 ============ -->
-  <section class="card" style="--accent:var(--red)">
+  <section class="reorder" aria-label="Topic order">
+    <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span></div>
+    <ol class="q-list" id="topicOrder"></ol>
+  </section>
+
+  <!-- ============ power ============ -->
+  <section class="card" data-topic="power" style="--accent:var(--red)">
     <div class="head">
       <div class="icon">🕵️</div><div class="num">01</div>
-      <div><h2>비밀모임과 권력 — 'Dialog' 유출</h2>
-      <p class="why">권력은 정치권에 있나, 아니면 글로벌 빅테크에 있나?</p></div>
+      <div><h2>Secret circles &amp; power — the 'Dialog' leak</h2>
+      <p class="why">Where does real power sit now — Washington, or Silicon Valley?</p></div>
     </div>
     <div class="context">
-      <p><span class="verdict v-ok">사건은 실제</span> 2026년 6월, 스위스 해커(maia arson crimew)가 <b>보안이 허술한 웹사이트</b>에서 Peter Thiel + Auren Hoffman이 <b>2006년 공동창립</b>한 비공개 모임 <span class="hl">'Dialog'</span>의 등록자 <b>222명</b> 명단을 노출 → Wired가 보도, 주요 언론 확인.</p>
-      <p>등록자에 <b>스콧 베센트(美 재무장관), 테드 크루즈·코리 부커 상원의원, 일론 머스크, 에릭 슈미트, 구글/딥마인드 임원, NATO 사령관, 이스라엘 재무부 수석이코노미스트</b>. 회원을 <b>A/B/C 등급</b>으로 분류('C'가 최상위일 수 있음). 8월 아일랜드 세션 제목에 <span class="hl">"Navigating WWIII", "Technology for the Battlefield"</span> 등.</p>
-      <p><span class="verdict v-mix">주의</span> '해킹'이라기보다 <b>노출된 취약 사이트</b>. <b>등록 ≠ 참석</b>. "권력이 DC→실리콘밸리로 넘어갔다"는 <b>논쟁적 해석</b> — 정부는 여전히 법·공권력·계약을 쥐고, Palantir 성장 자체가 정부계약 <b>의존</b>이기도.</p>
+      <p><span class="verdict v-ok">Real event</span> In June 2026 a Swiss hacker (maia arson crimew) pulled <b>222 registrants</b> from the insecurely-exposed website of <span class="hl">'Dialog'</span>, a private, invite-only group <b>co-founded in 2006 by Peter Thiel and Auren Hoffman</b>. Wired broke it; major outlets confirmed.</p>
+      <p>Registrants included <b>US Treasury Sec. Scott Bessent, Senators Ted Cruz &amp; Cory Booker, Elon Musk, Eric Schmidt, Google/DeepMind execs, a NATO commander, and Israel's Finance Ministry chief economist</b>. Members were tiered <b>A/B/C</b> (the 'C' tier may be the top). Session titles for the Aug 2026 Ireland retreat included <span class="hl">"Navigating WWIII" and "Technology for the Battlefield."</span></p>
+      <p><span class="verdict v-warn">Caution</span> It was an <b>exposed website, not a dramatic hack</b>, and <b>registration ≠ attendance</b>. "Power is moving from DC to Silicon Valley" is a <b>contested reading</b> — the state still holds law, force, and the contracts (Palantir's growth is itself government-dependent).</p>
     </div>
     <div class="srcs">
-      <span class="block-tag">출처 (검증)</span>
-      <div class="row"><a href="https://www.forbes.com/sites/maryroeloffs/2026/06/18/what-we-know-about-billionaire-peter-thiels-secret-dialog-society-including-whos-involved/" target="_blank" rel="noopener">Forbes (2026-06-18)</a> <span class="sum">— Dialog 개요·참석자 명단 정리</span></div>
-      <div class="row"><a href="https://san.com/cc/peter-thiels-dialog-network-was-super-secret-a-data-leak-changed-that/" target="_blank" rel="noopener">Wired 보도 요약(SAN)</a> <span class="sum">— 유출 경위·세션 제목·222명</span></div>
-      <div class="row"><a href="https://cybernews.com/news/peter-thiels-secret-society-leak-ai-disruption-cult-world-war-iii/" target="_blank" rel="noopener">Cybernews</a> <span class="sum">— A/B/C 등급제·WWIII 세션</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/Balaji_Srinivasan" target="_blank" rel="noopener">'Network State' (Balaji)</a> <span class="sum">— 빅테크 주권론의 밑그림(개념)</span></div>
-      <div class="row"><a href="https://www.nybooks.com/online/2025/10/04/the-war-over-defense-tech/" target="_blank" rel="noopener">NY Review (2025-10)</a> <span class="sum">— 방산테크 권력투쟁 심층(균형 시각)</span></div>
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://www.forbes.com/sites/maryroeloffs/2026/06/18/what-we-know-about-billionaire-peter-thiels-secret-dialog-society-including-whos-involved/" target="_blank" rel="noopener">Forbes (2026-06-18)</a> <span class="sum">— overview &amp; who's on the list</span></div>
+      <div class="row"><a href="https://san.com/cc/peter-thiels-dialog-network-was-super-secret-a-data-leak-changed-that/" target="_blank" rel="noopener">Wired summary (SAN)</a> <span class="sum">— how it leaked, session titles, 222 names</span></div>
+      <div class="row"><a href="https://cybernews.com/news/peter-thiels-secret-society-leak-ai-disruption-cult-world-war-iii/" target="_blank" rel="noopener">Cybernews</a> <span class="sum">— the A/B/C tiers &amp; the WWIII sessions</span></div>
+      <div class="row"><a href="https://en.wikipedia.org/wiki/Balaji_Srinivasan" target="_blank" rel="noopener">'Network State' (Balaji)</a> <span class="sum">— the tech-sovereignty blueprint (concept)</span></div>
+      <div class="row"><a href="https://www.nybooks.com/online/2025/10/04/the-war-over-defense-tech/" target="_blank" rel="noopener">NY Review (2025-10)</a> <span class="sum">— the fight over defense-tech (balanced)</span></div>
     </div>
     <div class="ask">
-      <span class="block-tag">물어볼 것</span>
+      <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>미국에 오래 사시면서 보니 — 진짜 권력은 아직 워싱턴(정치)인가요, 이제 실리콘밸리(빅테크)로 넘어갔나요?</li>
-        <li>이런 비공개 파워 네트워크에 이민자·한국인이 낄 수 있는 길이 있어요, 아니면 처음부터 벽인가요?</li>
-        <li>권력의 바깥에 있는 사람이 그걸 뚫는 가장 현실적인 방법은 뭐라고 보세요?</li>
+        <li>After all your years here — does real power still sit in Washington, or has it moved to Silicon Valley?</li>
+        <li>Can an immigrant / a Korean ever get inside a network like this, or is it a wall from the start?</li>
+        <li>For someone outside that kind of power, what's the most realistic way in?</li>
       </ul>
     </div>
   </section>
 
-  <!-- ============ 2 ============ -->
-  <section class="card" style="--accent:var(--blue)">
+  <!-- ============ robotics ============ -->
+  <section class="card" data-topic="robotics" style="--accent:var(--blue)">
     <div class="head">
       <div class="icon">🤖</div><div class="num">02</div>
-      <div><h2>로보틱스의 미래 — '데이터가 제품'인가</h2>
-      <p class="why">승부처가 하드웨어인가, 그걸 학습시키는 데이터 생태계인가?</p></div>
+      <div><h2>The future of robotics — "the data is the product"</h2>
+      <p class="why">Is the moat the hardware, or the data ecosystem that trains it?</p></div>
     </div>
     <div class="context">
-      <p><span class="verdict v-mix">수치는 샤오미 자체 발표</span> 샤오미가 EV 공장 휴머노이드로 너트체결 성공률 <span class="hl">90.2% → 98%</span>(약 4개월), 콘솔패널 분류·부품박스 접기 각 ~90%, <b>유연(변형) 부품 장시간 연속 처리</b> 첫 사례라고 <b>발표</b> — 전부 자체 수치, 독립검증 없음. "샤오미 발표에 따르면"으로 인용할 것.</p>
-      <p>핵심 통찰: 로봇 자체가 아니라 <span class="hl">데이터 플라이휠</span>(자기 공장을 강화학습 테스트베드로)이 해자. 단 <b>"데이터가 해자"와 "데이터가 병목"은 동전 양면</b> — 현실 데이터는 스크랩 못 하고 태스크마다 직접 생성해야. 중국 가격파괴(Unitree R1 ~$4,900) → 승부처가 <b>소프트웨어·파운데이션 모델</b>로.</p>
-      <p><span class="verdict v-mix">반론: '물리의 벽'</span> 액추에이터 비선형·접촉/슬립·하드웨어 한계비용·롱테일 엣지케이스는 소프트웨어 스케일만으론 안 됨. <b>모라벡의 역설</b>: 지능검사는 쉬워도 한 살 아기의 지각·이동이 제일 어렵다.</p>
+      <p><span class="verdict v-mix">Self-reported</span> Xiaomi says its factory humanoid raised nut-fastening success <span class="hl">90.2% → 98%</span> (~4 months), hit ~90% on console-panel sorting and parts-bin folding, and handled <b>flexible / deformable parts</b> continuously for hours — all <b>Xiaomi's own numbers, no independent audit</b>. Cite as "Xiaomi reports."</p>
+      <p>The thesis: the robot isn't the product; the <span class="hl">data flywheel</span> (using your own factory as an RL testbed) is the moat. But "data = moat" and "data = bottleneck" are two sides of one coin — real-world data can't be scraped, it's generated task-by-task. China's price collapse (Unitree R1 ~$4,900) pushes the contest to <b>software / foundation models</b>.</p>
+      <p><span class="verdict v-mix">Counter-view: "the wall of physics"</span> Actuator non-linearity, contact/slip, hardware marginal cost, and long-tail edge cases aren't solved by data-scaling alone. <b>Moravec's paradox</b>: intelligence tests are easy; a one-year-old's perception &amp; movement are the hard part.</p>
     </div>
     <div class="srcs">
-      <span class="block-tag">출처 (검증)</span>
-      <div class="row"><a href="https://technode.com/2026/07/15/xiaomi-updates-progress-on-humanoid-robots-in-auto-factory-achieves-98-success-rate-in-some-tasks/" target="_blank" rel="noopener">TechNode (2026-07-15)</a> <span class="sum">— 샤오미 98%·유연부품(자체발표)</span></div>
-      <div class="row"><a href="https://www.bvp.com/atlas/bessemer-predicts-robotics-and-physical-ai" target="_blank" rel="noopener">Bessemer VP</a> <span class="sum">— "데이터 플라이휠=해자" 논지</span></div>
-      <div class="row"><a href="https://www.forbes.com/sites/josipamajic/2026/06/29/physical-ai-hits-a-data-labeling-wall-that-only-cash-can-fix/" target="_blank" rel="noopener">Forbes (2026-06-29)</a> <span class="sum">— 데이터 라벨링 '벽'(반론)</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/Moravec%27s_paradox" target="_blank" rel="noopener">Moravec's paradox</a> <span class="sum">— 지각·이동이 제일 어렵다</span></div>
-      <div class="row"><a href="https://people.csail.mit.edu/brooks/papers/representation.pdf" target="_blank" rel="noopener">Rodney Brooks (PDF)</a> <span class="sum">— "세상 자체가 최고의 모델"</span></div>
-      <div class="row"><a href="http://en.people.cn/n3/2026/0707/c90000-20475138.html" target="_blank" rel="noopener">People's Daily</a> <span class="sum">— WRC 2026 베이징(8/19–23)</span></div>
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://technode.com/2026/07/15/xiaomi-updates-progress-on-humanoid-robots-in-auto-factory-achieves-98-success-rate-in-some-tasks/" target="_blank" rel="noopener">TechNode (2026-07-15)</a> <span class="sum">— Xiaomi's 98% &amp; flexible parts (self-reported)</span></div>
+      <div class="row"><a href="https://www.bvp.com/atlas/bessemer-predicts-robotics-and-physical-ai" target="_blank" rel="noopener">Bessemer VP</a> <span class="sum">— the "data flywheel = moat" thesis</span></div>
+      <div class="row"><a href="https://www.forbes.com/sites/josipamajic/2026/06/29/physical-ai-hits-a-data-labeling-wall-that-only-cash-can-fix/" target="_blank" rel="noopener">Forbes (2026-06-29)</a> <span class="sum">— the data-labeling "wall" (counterpoint)</span></div>
+      <div class="row"><a href="https://en.wikipedia.org/wiki/Moravec%27s_paradox" target="_blank" rel="noopener">Moravec's paradox</a> <span class="sum">— perception &amp; movement is the hard part</span></div>
+      <div class="row"><a href="https://people.csail.mit.edu/brooks/papers/representation.pdf" target="_blank" rel="noopener">Rodney Brooks (PDF)</a> <span class="sum">— "the world is its own best model"</span></div>
+      <div class="row"><a href="http://en.people.cn/n3/2026/0707/c90000-20475138.html" target="_blank" rel="noopener">People's Daily</a> <span class="sum">— WRC 2026 Beijing (Aug 19–23)</span></div>
     </div>
     <div class="ask">
-      <span class="block-tag">물어볼 것</span>
+      <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>직접 기술을 만들고 팔아보신 눈으로 — 로봇의 진짜 돈줄(해자)은 데이터예요, 하드웨어예요?</li>
-        <li>공장도 자본도 없는 저 같은 사람이 이 판에 들어갈 자리가 있을까요, 있다면 어디예요?</li>
-        <li>소프트웨어 출신이 '물리의 벽'에 안 무너지고 오래 갈 레이어는 어디라고 보세요?</li>
+        <li>From actually building and selling tech — is the real moat in robotics the data, or the hardware?</li>
+        <li>Is there room for someone with no factory and no capital to get into this — and where?</li>
+        <li>As a software person, which layer can I stand on without hitting the "wall of physics"?</li>
       </ul>
     </div>
   </section>
 
-  <!-- ============ 3 ============ -->
-  <section class="card" style="--accent:var(--teal)">
+  <!-- ============ agi ============ -->
+  <section class="card" data-topic="agi" style="--accent:var(--teal)">
     <div class="head">
       <div class="icon">🧬</div><div class="num">03</div>
-      <div><h2>AGI로 질병을 푸는 시대가 오나</h2>
-      <p class="why">커즈와일의 2029 AGI·2032 수명탈출속도 — 진짜인가 과장인가?</p></div>
+      <div><h2>AGI &amp; curing disease — real, or hype?</h2>
+      <p class="why">Kurzweil's 2029 AGI / 2032 longevity escape — is any of it real?</p></div>
     </div>
     <div class="context">
-      <p><span class="verdict v-mix">예측이지 사실 아님</span> 커즈와일의 실제 예측: <b>2029 AGI · 2032 LEV(수명탈출속도) · 2045 특이점</b>(그의 2024년 책). <b>전부 전망</b>이지 확정된 과학이 아님.</p>
-      <p><span class="verdict v-ok">실제 진전</span> <b>AlphaFold 3</b>(DeepMind/Isomorphic, Nature 2024)로 단백질·DNA·리간드 상호작용 예측, AlphaFold는 <b>2024 노벨화학상</b> — 단 이건 '치료'가 아니라 <b>연구 가속기</b>.</p>
-      <p><span class="verdict v-warn">속도 제동 요인</span> <b>데이터 월</b>(양질 인간데이터 2026~2032 소진, Epoch AI), <b>모델 붕괴</b>(AI생성 데이터 재귀학습 시 열화, Nature 2024), <b>에너지 병목</b>(IEA: 데이터센터 전력 2030 ~950TWh), <b>르쿤</b>: 자기회귀 LLM은 AGI 길 아님(의견·논쟁적).</p>
+      <p><span class="verdict v-mix">Predictions, not facts</span> Kurzweil's actual forecasts: <b>2029 AGI · 2032 Longevity Escape Velocity · 2045 Singularity</b> (his 2024 book). These are <b>predictions</b>, not settled science.</p>
+      <p><span class="verdict v-ok">Real progress</span> <b>AlphaFold 3</b> (DeepMind/Isomorphic, Nature 2024) predicts protein–DNA–ligand interactions; AlphaFold won the <b>2024 Nobel Prize in Chemistry</b> — but it's a <b>research accelerator, not a "cure."</b></p>
+      <p><span class="verdict v-warn">Brakes on the curve</span> The <b>data wall</b> (quality human data exhausting ~2026–2032, Epoch AI), <b>model collapse</b> (recursive training on AI-generated data degrades models, Nature 2024), the <b>energy bottleneck</b> (IEA: data-center power ~950 TWh by 2030), and <b>LeCun</b>'s view that autoregressive LLMs aren't the path to AGI (opinion, contested).</p>
     </div>
     <div class="srcs">
-      <span class="block-tag">출처 (검증)</span>
-      <div class="row"><a href="https://www.penguinrandomhouse.com/books/670270/the-singularity-is-nearer-by-ray-kurzweil/" target="_blank" rel="noopener">Kurzweil, <i>The Singularity Is Nearer</i> (2024)</a> <span class="sum">— 2029/2032/2045 예측 원전</span></div>
-      <div class="row"><a href="https://www.nature.com/articles/d41586-024-03214-7" target="_blank" rel="noopener">Nature</a> <span class="sum">— AlphaFold·2024 노벨화학상</span></div>
-      <div class="row"><a href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank" rel="noopener">Epoch AI</a> <span class="sum">— '데이터 월' 2026~2032 추정</span></div>
-      <div class="row"><a href="https://www.nature.com/articles/s41586-024-07566-y" target="_blank" rel="noopener">Nature (2024)</a> <span class="sum">— 모델 붕괴(재귀 합성학습)</span></div>
-      <div class="row"><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary" target="_blank" rel="noopener">IEA</a> <span class="sum">— AI·에너지 병목(전력)</span></div>
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://www.penguinrandomhouse.com/books/670270/the-singularity-is-nearer-by-ray-kurzweil/" target="_blank" rel="noopener">Kurzweil, <i>The Singularity Is Nearer</i> (2024)</a> <span class="sum">— the 2029/2032/2045 forecasts</span></div>
+      <div class="row"><a href="https://www.nature.com/articles/d41586-024-03214-7" target="_blank" rel="noopener">Nature</a> <span class="sum">— AlphaFold &amp; the 2024 Nobel</span></div>
+      <div class="row"><a href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank" rel="noopener">Epoch AI</a> <span class="sum">— the "data wall," ~2026–2032</span></div>
+      <div class="row"><a href="https://www.nature.com/articles/s41586-024-07566-y" target="_blank" rel="noopener">Nature (2024)</a> <span class="sum">— model collapse (recursive synthetic training)</span></div>
+      <div class="row"><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary" target="_blank" rel="noopener">IEA</a> <span class="sum">— AI &amp; the energy bottleneck</span></div>
     </div>
     <div class="ask">
-      <span class="block-tag">물어볼 것</span>
+      <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>이런 'AI가 다 해결한다'는 얘기 — 현장에서 보시기엔 진짜인가요, 또 한 번의 거품인가요?</li>
-        <li>거품이 꺼지거나 겨울이 와도 끝까지 수요가 남을 자리는 어디라고 보세요?</li>
-        <li>기술·수명이 이렇게 바뀌면, 제 5년 FIRE 계획은 다시 짜야 할까요? 어떻게 보세요?</li>
+        <li>This "AI will solve everything" talk — from the field, is it real this time, or another bubble?</li>
+        <li>If a bubble bursts or a winter comes, where does demand still survive?</li>
+        <li>If lifespans really stretch, should I rethink my 5-year FIRE plan? How do you see it?</li>
       </ul>
     </div>
   </section>
 
-  <!-- ============ 4 ============ -->
-  <section class="card" style="--accent:var(--gold)">
+  <!-- ============ pragmatism ============ -->
+  <section class="card" data-topic="pragmatism" style="--accent:var(--gold)">
     <div class="head">
       <div class="icon">🇺🇸</div><div class="num">04</div>
-      <div><h2>미국의 실용주의 문화 — 근거 있는 이야기인가</h2>
-      <p class="why">미국선 실용성·직관성·내구성으로 팔아야 하나? (심미성보다)</p></div>
+      <div><h2>America's pragmatism — is it a real thing?</h2>
+      <p class="why">In the US, do you sell on utility, durability &amp; intuitiveness over looks?</p></div>
     </div>
     <div class="context">
-      <p><span class="verdict v-ok">근거 있음</span> <b>저맥락(미국) vs 고맥락(한국)</b> — Edward Hall: 이민자 사회라 메시지가 <b>명시적</b>이어야 → 설명서 없이 직관적 UX가 필수. <b>기호가치</b>(보드리야르): 한국은 제품이 상징하는 지위·심미를 소비 → 심미성 필수. <b>미국 실용주의</b>(James/Dewey): '작동하고 유용한 것'이 진리 → <span class="hl">내구성·직관성 자체가 미학</span>.</p>
-      <p><span class="verdict v-warn">단, 반전(중요도 40%)</span> "실용성만 좋으면 못생겨도 된다"는 착각. 미국 최상위(Apple·Stripe·Notion)는 <b>"불필요한 걸 깎아낸 미니멀 심미"가 곧 프리미엄</b>. 실용성은 핵심 엔진, 껍데기가 투박해도 된다는 뜻은 아님.</p>
-      <p><span class="verdict v-ok">생활 관찰의 근거</span> 시애틀 <b>Sign Code</b>(구역별 간판 규제)로 간판 최소화; 간판 대신 <b>구글맵/옐프 로컬SEO·USPS EDDM·Nextdoor</b>로 오프라인 고객 확보; 주차장 경고장치가 적은 대신 <b>보행자 우선권·프리미스 책임(소송)</b> 문화가 운전자를 조심시킴.</p>
+      <p><span class="verdict v-ok">Well-grounded</span> <b>Low-context (US) vs high-context (Korea)</b> — Edward Hall: an immigrant society needs <b>explicit</b> messages, so intuitive, no-manual UX is essential. <b>Sign value</b> (Baudrillard): Koreans consume status/aesthetics, so looks matter more. <b>American pragmatism</b> (James/Dewey): what <i>works</i> is true → <span class="hl">durability &amp; intuitiveness are themselves the aesthetic</span>.</p>
+      <p><span class="verdict v-warn">But — the twist (weight ~40%)</span> "If it's useful, ugly is fine" is a trap. US premium leaders (Apple, Stripe, Notion) prove <b>"minimalism that hides complexity" is itself the premium</b>. Utility is the engine; a crude shell is not OK.</p>
+      <p><span class="verdict v-ok">Everyday evidence</span> Seattle's <b>Sign Code</b> (zoning) keeps signage minimal; instead of signs, businesses win customers via <b>Google Maps/Yelp local SEO, USPS EDDM, Nextdoor</b>; fewer parking-lot warning devices, but <b>pedestrian right-of-way + premises liability (lawsuits)</b> make drivers cautious.</p>
     </div>
     <div class="srcs">
-      <span class="block-tag">출처 (검증)</span>
-      <div class="row"><a href="https://www.ebsco.com/research-starters/communication-and-mass-media/high-context-and-low-context-cultures" target="_blank" rel="noopener">고맥락 vs 저맥락 (Edward Hall)</a> <span class="sum">— 명시성 차이의 이론적 근거</span></div>
-      <div class="row"><a href="https://plato.stanford.edu/entries/baudrillard/" target="_blank" rel="noopener">Baudrillard (SEP)</a> <span class="sum">— '기호가치' 소비 이론</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/The_Design_of_Everyday_Things" target="_blank" rel="noopener">Don Norman</a> <span class="sum">— 발견가능성·행동유도성</span></div>
-      <div class="row"><a href="https://www.seattle.gov/sdci/codes/codes-we-enforce-(a-z)/sign-code" target="_blank" rel="noopener">Seattle Sign Code</a> <span class="sum">— 간판이 최소인 규제적 이유</span></div>
-      <div class="row"><a href="https://www.usps.com/business/every-door-direct-mail.htm" target="_blank" rel="noopener">USPS EDDM</a> · <a href="https://business.nextdoor.com/en-us/" target="_blank" rel="noopener">Nextdoor</a> <span class="sum">— 간판 없는 오프라인 마케팅</span></div>
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://www.ebsco.com/research-starters/communication-and-mass-media/high-context-and-low-context-cultures" target="_blank" rel="noopener">High vs low context (Edward Hall)</a> <span class="sum">— the explicitness gap</span></div>
+      <div class="row"><a href="https://plato.stanford.edu/entries/baudrillard/" target="_blank" rel="noopener">Baudrillard (SEP)</a> <span class="sum">— "sign value" consumption</span></div>
+      <div class="row"><a href="https://en.wikipedia.org/wiki/The_Design_of_Everyday_Things" target="_blank" rel="noopener">Don Norman</a> <span class="sum">— discoverability &amp; affordances</span></div>
+      <div class="row"><a href="https://www.seattle.gov/sdci/codes/codes-we-enforce-(a-z)/sign-code" target="_blank" rel="noopener">Seattle Sign Code</a> <span class="sum">— the regulatory reason signage is minimal</span></div>
+      <div class="row"><a href="https://www.usps.com/business/every-door-direct-mail.htm" target="_blank" rel="noopener">USPS EDDM</a> · <a href="https://business.nextdoor.com/en-us/" target="_blank" rel="noopener">Nextdoor</a> <span class="sum">— marketing without signage</span></div>
     </div>
     <div class="ask">
-      <span class="block-tag">물어볼 것</span>
+      <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>미국에서 직접 팔아보니, 한국이랑 진짜 다른 '먹히는 포인트'는 뭐였어요?</li>
-        <li>한국 사람이 미국 시장에서 제일 자주 하는 착각·실수는 뭐라고 보세요?</li>
-        <li>한국 감각을 가진 제가 미국식 '실용·직관'을 몸에 익히려면 뭐부터 하면 좋을까요?</li>
+        <li>From actually selling here — what "clicks" in the US that's genuinely different from Korea?</li>
+        <li>What's the mistake Koreans make most often in the US market?</li>
+        <li>With my Korean instincts, how do I train the American "utility-first, intuitive" sense?</li>
       </ul>
     </div>
   </section>
 
-  <!-- ============ 5 (Upstage — filling in) ============ -->
-  <section class="card" style="--accent:var(--purple)">
+  <!-- ============ upstage ============ -->
+  <section class="card" data-topic="upstage" style="--accent:var(--purple)">
     <div class="head">
       <div class="icon">🚀</div><div class="num">05</div>
-      <div><h2>Upstage 커리어 — 투자·IPO·미국팀</h2>
-      <p class="why">내가 합류하는 Upstage, 미국팀과 일할 수도 — 회사·자금·실밸 전략은?</p></div>
+      <div><h2>Upstage career — funding, IPO, US team</h2>
+      <p class="why">I'm joining Upstage, maybe working with the US team — the company, its money, its Valley play?</p></div>
     </div>
     <div class="context">
-      <p><span class="verdict v-ok">회사</span> 2020년 <b>Sung Kim</b>(전 네이버 Clova 리드) 창업(용인). <b>Solar LLM</b> + <b>Document AI(Document Parse OCR)</b>. 고객: 삼성생명·삼성전자·정부기관, 클라우드 파트너 <b>AWS(Bedrock)·Snowflake</b>.</p>
-      <p><span class="verdict v-ok">투자·밸류</span> Series B $72M(2024-04, SK네트웍스·KT), B 브릿지 $45M(2025-08, 산업은행·<b>Amazon·AMD</b>), <b>Series C 1차 ~$126M(2026-04, Sazze 리드, 현대차·기아 참여) → 기업가치 $1B, 한국 첫 생성형 AI 유니콘</b>. 누적 ~$157M+.</p>
-      <p><span class="verdict v-mix">IPO(계획)</span> 주관사 <b>KB·미래에셋(+UBS)</b>. <b>2026 하반기 예심 → 2027 상반기 상장</b> 목표(코스피/코스닥 둘 다 검토). Daum(AXZ) 인수로 매출 키워 발판(카카오가 지분 일부). 밸류 2~5조는 <b>추정</b>.</p>
-      <p><span class="verdict v-ok">미국</span> US 대표 <b>Kasey Roh</b>(SF Bay Area), <b>보험 버티컬</b>이 wedge, AWS/Bedrock/Snowflake 유통. <span class="verdict v-warn">정부 실밸 지원</span> <b>KIC 실리콘밸리·KOTRA·Born2Global</b>이 아웃바운드 채널(런칭패드·소프트랜딩·JV·비자). ※ K-Startup Grand Challenge는 <b>인바운드</b>(외국→한국)라 실밸 진출용 아님. Upstage가 실제 이용했는지는 미확인.</p>
+      <p><span class="verdict v-ok">Company</span> Founded 2020 by <b>Sung Kim</b> (ex-Naver Clova). <b>Solar LLM</b> + <b>Document AI (Document Parse OCR)</b>. Customers: Samsung Life, Samsung Electronics, government; cloud partners <b>AWS (Bedrock), Snowflake</b>.</p>
+      <p><span class="verdict v-ok">Funding &amp; valuation</span> Series B $72M (2024-04, SK Networks·KT), B-bridge $45M (2025-08, KDB·<b>Amazon·AMD</b>), <b>Series C first close ~$126M (2026-04, Sazze lead, Hyundai·Kia joined) → $1B valuation, Korea's first generative-AI unicorn</b>. ~$157M+ raised.</p>
+      <p><span class="verdict v-mix">IPO (planned)</span> Underwriters <b>KB·Mirae (+UBS)</b>; target <b>2H2026 filing → listing by 1H2027</b> (KOSPI/KOSDAQ both open). Acquired Daum (AXZ) to boost revenue for the IPO (Kakao holds a stake). ₩2–5T valuation talk is speculative.</p>
+      <p><span class="verdict v-ok">US</span> <b>Kasey Roh</b> leads the US business (SF Bay Area), <b>insurance vertical</b> as the wedge, AWS/Bedrock/Snowflake distribution. <span class="verdict v-warn">Gov Valley support</span> <b>KIC Silicon Valley · KOTRA · Born2Global</b> are the outbound channels (landing pad, soft-landing, JV, visas). Note: K-Startup Grand Challenge is <b>inbound</b> (foreign→Korea), not a Valley-landing vehicle. Whether Upstage used any is unconfirmed.</p>
     </div>
     <div class="srcs">
-      <span class="block-tag">출처 (검증)</span>
-      <div class="row"><a href="https://en.sedaily.com/finance/2026/04/16/upstage-becomes-koreas-first-ai-startup-unicorn-eyes-daum" target="_blank" rel="noopener">Seoul Economic (2026-04-16)</a> <span class="sum">— Series C·유니콘·Daum</span></div>
-      <div class="row"><a href="https://siliconangle.com/2025/08/20/upstage-bags-45m-expand-ai-native-document-intelligence-suite-us/" target="_blank" rel="noopener">SiliconANGLE (2025-08-20)</a> <span class="sum">— $45M·미국·보험 전략</span></div>
-      <div class="row"><a href="https://www.bloomberg.com/news/articles/2025-12-02/ai-startup-upstage-hires-kb-securities-mirae-for-korea-ipo" target="_blank" rel="noopener">Bloomberg (2025-12-02)</a> <span class="sum">— IPO 주관사·타임라인</span></div>
-      <div class="row"><a href="https://www.computerworld.com/article/3963873/south-korean-ai-innovator-upstage-eyes-expansion-in-the-us-and-japan.html" target="_blank" rel="noopener">Computerworld (2025)</a> <span class="sum">— 미국·일본 확장·포지셔닝</span></div>
-      <div class="row"><a href="https://www.kicsv.org/" target="_blank" rel="noopener">KIC Silicon Valley</a> · <a href="https://www.kotrasvit.org/english/contact/" target="_blank" rel="noopener">KOTRA SV</a> <span class="sum">— 한국 정부 실밸 지원 채널</span></div>
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://en.sedaily.com/finance/2026/04/16/upstage-becomes-koreas-first-ai-startup-unicorn-eyes-daum" target="_blank" rel="noopener">Seoul Economic (2026-04-16)</a> <span class="sum">— Series C, unicorn, Daum</span></div>
+      <div class="row"><a href="https://siliconangle.com/2025/08/20/upstage-bags-45m-expand-ai-native-document-intelligence-suite-us/" target="_blank" rel="noopener">SiliconANGLE (2025-08-20)</a> <span class="sum">— $45M, US, insurance strategy</span></div>
+      <div class="row"><a href="https://www.bloomberg.com/news/articles/2025-12-02/ai-startup-upstage-hires-kb-securities-mirae-for-korea-ipo" target="_blank" rel="noopener">Bloomberg (2025-12-02)</a> <span class="sum">— IPO underwriters &amp; timeline</span></div>
+      <div class="row"><a href="https://www.computerworld.com/article/3963873/south-korean-ai-innovator-upstage-eyes-expansion-in-the-us-and-japan.html" target="_blank" rel="noopener">Computerworld (2025)</a> <span class="sum">— US/Japan expansion &amp; positioning</span></div>
+      <div class="row"><a href="https://www.kicsv.org/" target="_blank" rel="noopener">KIC Silicon Valley</a> · <a href="https://www.kotrasvit.org/english/contact/" target="_blank" rel="noopener">KOTRA SV</a> <span class="sum">— Korea's government Valley channels</span></div>
     </div>
     <div class="ask">
-      <span class="block-tag">물어볼 것</span>
+      <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>미국에서 일해보신 눈으로, 한국 AI 회사가 미국팀·미국시장에서 진짜 부딪히는 벽은 뭐예요?</li>
-        <li>미국팀과 일할 때, 한국인 엔지니어가 초반에 신뢰를 얻는 법 — 뭐가 제일 통했어요?</li>
-        <li>이 회사에서 미국 쪽으로 커리어를 여는 게, 제 '한국 base + 외국계' 플랜에 맞는 길일까요?</li>
+        <li>From your US experience — what's the real wall a Korean AI company hits with a US team / US market?</li>
+        <li>Working with a US team, how does a Korean engineer earn trust early — what actually worked?</li>
+        <li>Does opening a US track at this company fit my "Korea base + foreign-owned company" plan?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ samcho ============ -->
+  <section class="card" data-topic="samcho" style="--accent:var(--red)">
+    <div class="head">
+      <div class="icon">🏛️</div><div class="num">06</div>
+      <div><h2>Sam Cho — a Korean-American playbook</h2>
+      <p class="why">He rose fast on network + timing — a model worth studying?</p></div>
+    </div>
+    <div class="context">
+      <p><span class="verdict v-ok">Who</span> <b>Sam Cho</b> (b. 1990, Chicago; raised in Seattle; son of Korean immigrants who "came through the Port of Seattle"). <b>BA American University, MSc LSE.</b> Federal service under Obama (<b>GSA appointee</b>, State Dept, Congress staffer). Founded &amp; exited <b>Seven Seas Export</b> (US egg exports to Asia) before 30.</p>
+      <p><span class="verdict v-ok">Port of Seattle</span> Elected to the Commission in <b>2019</b> (won 60.8%), re-elected ~99% in 2023, term through 2027. In <b>2023 became the youngest &amp; first person of color to serve as Commission President</b> (since 1911).</p>
+      <p><span class="verdict v-ok">Korean network</span> Deep ties: member of the <b>Council of Korean Americans</b>, took his oath of office <b>in English and Korean</b>, bridges Korea–Seattle (Asia Society "Seoul Searching"), sits on AAPI bodies (APAICS, CAPAA). The playbook: a compressed timeline (company + exit + office by ~30), a <b>federal-to-local pipeline</b> (DC/Olympia staffer → principal), and <b>immigrant identity as a deliberate asset</b>.</p>
+      <p><span class="verdict v-warn">Caution</span> A few common claims don't hold: he was <b>US-born (2nd-gen, not 1.5)</b>; the Obama role was <b>GSA/State, not "the White House"</b>; "first Korean-American elected in WA state" is <b>unverified</b>; no confirmed tie to the Changbal network; and he is <b>not</b> running for higher office in 2025–26.</p>
+    </div>
+    <div class="srcs">
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://en.wikipedia.org/wiki/Sam_Cho" target="_blank" rel="noopener">Wikipedia</a> <span class="sum">— bio &amp; career</span></div>
+      <div class="row"><a href="https://ballotpedia.org/Sam_Cho" target="_blank" rel="noopener">Ballotpedia</a> <span class="sum">— election results &amp; terms</span></div>
+      <div class="row"><a href="https://www.portseattle.org/contacts/cho-sam" target="_blank" rel="noopener">Port of Seattle bio</a> <span class="sum">— official role &amp; portfolio</span></div>
+      <div class="row"><a href="https://seattlemag.com/sam-cho/" target="_blank" rel="noopener">Seattle magazine (2024-04)</a> <span class="sum">— "did in years what takes decades"</span></div>
+      <div class="row"><a href="https://councilka.org/cka_member/sam-h-cho/" target="_blank" rel="noopener">Council of Korean Americans</a> <span class="sum">— network &amp; mentorship</span></div>
+    </div>
+    <div class="ask">
+      <span class="block-tag">Ask the mentor</span>
+      <ul>
+        <li>You value the Korean network and it's clearly helped you — how much does it <i>really</i> move a career here?</li>
+        <li>Is a civic / public path like Sam Cho's something a Korean-American should aim for, or a narrow niche?</li>
+        <li>Where should I start building the "weak ties" that actually pay off years later?</li>
       </ul>
     </div>
   </section>
@@ -297,6 +361,66 @@
 </div><!-- /.app -->
 
 <script src="sessions.js"></script>
+<script>
+  /* Reorder the cards by priority (drag / ↑ ↓ · click a title to jump).
+     Order persists in localStorage per session. Works on any .card[data-topic]. */
+  (function(){
+    var KEY = "mentoring.order.2026-07-24";
+    var main = document.querySelector("main");
+    var listHost = document.getElementById("topicOrder");
+    if(!main || !listHost) return;
+
+    function cards(){ return Array.prototype.slice.call(main.querySelectorAll(".card[data-topic]")); }
+    function ids(){ return cards().map(function(c){ return c.getAttribute("data-topic"); }); }
+    function titleOf(c){ var h=c.querySelector("h2"); return h ? h.textContent : c.getAttribute("data-topic"); }
+    function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ids())); }catch(e){} }
+    function pad(n){ n=String(n); return n.length<2 ? "0"+n : n; }
+    function renumber(){ cards().forEach(function(c,i){ var n=c.querySelector(".num"); if(n) n.textContent=pad(i+1); }); }
+
+    // apply a saved order (ids still present keep their saved order; new ones go last)
+    try{
+      var saved = JSON.parse(localStorage.getItem(KEY)||"[]");
+      if(saved && saved.length){
+        var present = ids();
+        var ordered = saved.filter(function(id){ return present.indexOf(id)!==-1; });
+        present.forEach(function(id){ if(ordered.indexOf(id)===-1) ordered.push(id); });
+        ordered.forEach(function(id){ var c=main.querySelector('.card[data-topic="'+id+'"]'); if(c) main.appendChild(c); });
+      }
+    }catch(e){}
+
+    function move(from, to){
+      var cs = cards();
+      if(to<0 || to>=cs.length || from===to) return;
+      if(from<to) cs[to].after(cs[from]); else cs[to].before(cs[from]);
+      build(); renumber(); save();
+    }
+    function mk(label, title, fn){ var b=document.createElement("button"); b.type="button"; b.textContent=label; b.title=title; b.addEventListener("click",fn); return b; }
+
+    function build(){
+      var cs = cards();
+      listHost.innerHTML = "";
+      cs.forEach(function(c,i){
+        var li = document.createElement("li");
+        li.draggable = true;
+        var title = document.createElement("span");
+        title.className = "q-text ord-title"; title.textContent = titleOf(c); title.title = "Jump to this topic";
+        title.addEventListener("click", function(){ c.scrollIntoView({behavior:"smooth", block:"start"}); });
+        var actions = document.createElement("span"); actions.className = "q-actions";
+        actions.appendChild(mk("↑","Move up", function(){ move(i, i-1); }));
+        actions.appendChild(mk("↓","Move down", function(){ move(i, i+1); }));
+        li.appendChild(title); li.appendChild(actions);
+        li.addEventListener("dragstart", function(ev){ li.classList.add("dragging"); ev.dataTransfer.setData("text/plain", String(i)); });
+        li.addEventListener("dragend", function(){ li.classList.remove("dragging"); });
+        li.addEventListener("dragover", function(ev){ ev.preventDefault(); li.classList.add("over"); });
+        li.addEventListener("dragleave", function(){ li.classList.remove("over"); });
+        li.addEventListener("drop", function(ev){ ev.preventDefault(); li.classList.remove("over"); var f=parseInt(ev.dataTransfer.getData("text/plain"),10); if(!isNaN(f)) move(f,i); });
+        listHost.appendChild(li);
+      });
+    }
+
+    build(); renumber();
+  })();
+</script>
 
 </body>
 </html>
