@@ -122,6 +122,9 @@
   .card .portrait figcaption .li{ display:inline-flex; align-items:center; gap:.25rem; margin-top:.25rem; font-weight:700; color:#0a66c2; text-decoration:none }
   .card .portrait figcaption .li:hover{ text-decoration:underline }
   @media (max-width:520px){ .card .portrait{ float:none; width:180px; margin:.2rem 0 .6rem 0 } }
+  .card ul.tl{ list-style:none; margin:.5rem 0 0; padding:0 }
+  .card ul.tl li{ padding:.2rem 0; font-size:.96rem; line-height:1.45; border-left:2px solid var(--line); padding-left:.8rem; margin-left:.15rem }
+  .card ul.tl li b.yr{ color:var(--accent); font-variant-numeric:tabular-nums; margin-right:.15rem }
   .card .context{ margin:.9rem 0 .2rem; font-size:1.02rem }
   .card .context p{ margin:.5rem 0 }
   .hl{ background:linear-gradient(transparent 60%, #ffe08a 60%); padding:0 .1em }
@@ -484,8 +487,8 @@
   <section class="card" data-topic="founders" style="--accent:var(--blue)">
     <div class="head">
       <div class="icon">🤝</div><div class="num">07</div>
-      <div><h2>Ryan Lee (JIGO) — the cofounder question</h2>
-      <p class="why">He preaches starting up — but staffed his team from big tech. Contradiction, or the actual playbook?</p></div>
+      <div><h2>Ryan Lee (JIGO) — "just start," and the résumé behind it</h2>
+      <p class="why">He tells people to just start a company. Look at the career that advice comes from.</p></div>
     </div>
     <img class="banner" src="assets/2026-07-24/founders.svg" alt="The cofounder question">
     <div class="context">
@@ -493,17 +496,25 @@
         <img src="assets/2026-07-24/ryan-lee.jpg" alt="Ryan Lee, founder of JIGO">
         <figcaption>Ryan Lee, founder/CEO of JIGO<span class="src">Startups with Seoul (YouTube)</span><a class="li" href="https://www.linkedin.com/in/ryanshlee" target="_blank" rel="noopener">in · LinkedIn ↗</a></figcaption>
       </figure>
-      <p><span class="verdict v-ok">Who</span> <b>Ryan Lee</b> (Ryan Sang-Hoon Lee), founder/CEO of <b>JIGO</b> (jigo.ai), Bellevue WA. AI <b>contract analysis</b> — "chat with your contract," flag non-standard clauses vs market (now aimed at commercial-real-estate leasing). Founded <b>2023</b>, <b>~$700K seed</b> (TheVentures lead; NVIDIA Inception, Mashup Ventures, Microsoft for Startups, Rabbit Ventures).</p>
-      <p><span class="verdict v-ok">The arc</span> <b>Yonsei — Electrical Engineering → Samsung Electronics</b> (PM on early waterproof / HDD phones) <b>→ Kellogg MBA → Microsoft</b> (data-science PM, left 2019) <b>→ Kurvv</b> (AI predictive-maintenance, <b>acquired by Aizen</b> ~2021) <b>→ JIGO</b>. Plugged into the Korean-VC network (SEMA Translink, TheVentures).</p>
-      <p><span class="verdict v-ok">The VCs</span> <b>JIGO's ~$700K seed</b> was <b>led by TheVentures</b> (a Korean VC), with <b>NVIDIA Inception, Mashup Ventures</b> (Korean-American), <b>Microsoft for Startups</b>, and <b>Rabbit Ventures</b>. His prior startup <b>Kurvv</b> raised a <b>$1M seed led by SEMA Translink</b> (Korean-American VC) before exiting to <b>Aizen</b> (Singapore). The pattern: both his <b>cofounders (big tech)</b> and his <b>money (the Korean / Korean-American VC network)</b> came through his networks — the real fuel behind "just start a company."</p>
-      <p><span class="verdict v-warn">The real story — ask him</span> He's known for telling students <b>"you've got nothing to lose — skip the job, start now"</b> (that framing lives in a podcast; exact wording unconfirmed). Yet he himself stacked <b>Yonsei EE → Samsung → an MBA → Microsoft</b> first, so a failed startup still lands a great job. His Kurvv cofounders came largely from that <b>Microsoft circle</b> (Lee + CRO Jeff Croft, both ex-Microsoft; CTO Vince Roche came from Boost Media — so <b>2 of 3</b>, not "all"). Fair read: the "just start" advice, and the exit itself, likely rode that pedigree + network as much as the idea.</p>
+      <p><span class="verdict v-ok">Who</span> <b>Ryan Lee</b> (Ryan Sang-Hoon Lee), founder/CEO of <b>JIGO</b> (Bellevue WA), <b>Aug 2023 – present</b>. JIGO now <b>helps startups find office space faster &amp; cheaper</b> (commercial real estate) — a pivot from its earlier AI contract-analysis product. Raised a <b>~$700K seed</b> (TheVentures lead; NVIDIA Inception, Mashup Ventures, Microsoft for Startups, Rabbit Ventures).</p>
+      <p><span class="verdict v-ok">The arc (from his LinkedIn)</span> Not a first-timer, and <b>not a failed founder</b> — his last startup was <b>acquired</b>:</p>
+      <ul class="tl">
+        <li><b class="yr">2003–2010</b> · <b>Samsung Electronics (Mobile)</b>, Seoul — early member of the smartphone task force (an intrapreneurial team of ~10); planned the <b>world's-first HDD smartphone (SGH-i300)</b>; as Global PM built the <b>Rugged portfolio</b> — the first mass-market <b>waterproof phone (B2100)</b> and youth phone B3310.</li>
+        <li><b class="yr">2011 → 2012–2019</b> · <b>Microsoft</b> (Bing Ads) — PM intern, then Product Marketing Manager scouting ad-tech startups for pilots → <b>Senior Lead PM, Data Science</b>.</li>
+        <li><b class="yr">2019–2022</b> · <b>Kurvv</b> — <b>co-founder &amp; CEO</b>, ML for non-technical users (predictive maintenance on a proprietary AutoML platform). <b>Acquired by AIZEN Global (2022)</b>.</li>
+        <li><b class="yr">2022</b> · <b>AIZEN Global</b> — <b>Chief Product Officer &amp; Head of AIZEN America</b> (post-acquisition).</li>
+        <li><b class="yr">2023–present</b> · <b>Rabbit VC</b> — Venture Partner (first checks into Korean founders going global) <b>+ JIGO</b> — founder &amp; CEO.</li>
+      </ul>
+      <p><span class="verdict v-ok">The money</span> <b>JIGO's ~$700K seed</b> was <b>led by TheVentures</b> (a Korean VC), with <b>NVIDIA Inception, Mashup Ventures</b> (Korean-American), <b>Microsoft for Startups</b>, and <b>Rabbit Ventures</b> — where Lee is now himself a <b>Venture Partner</b>. His prior startup <b>Kurvv</b> raised a <b>$1M seed led by SEMA Translink</b> before its acquisition by <b>AIZEN</b>. The pattern worth noticing: his money kept coming through the <b>Korean / Korean-American VC network</b> he'd built — and he now sits on the other side of that table.</p>
+      <p><span class="verdict v-mix">The honest question — ask him</span> He's known for telling people <b>"you've got nothing to lose — just start"</b> (that framing lives in a podcast; exact wording unconfirmed). But look at the résumé behind it: a <b>Samsung smartphone pioneer</b>, 6+ years at <b>Microsoft</b>, a startup that <b>got acquired</b>, then <b>CPO of the acquirer</b> — now a VC and a founder again. So the real question isn't whether he's a hypocrite; it's whether "just start" is advice you can take <i>before</i> you've banked that kind of optionality — or only after.</p>
     </div>
     <div class="srcs">
       <span class="block-tag">Sources (checked)</span>
       <div class="row"><a href="https://jigo.ai/" target="_blank" rel="noopener">jigo.ai</a> <span class="sum">— the company &amp; product</span></div>
       <div class="row"><a href="https://tracxn.com/d/companies/jigo/__Z5XxnrWt6loJ9Dd0zLGPLsAb4_MAcoqC3i6yyygbKwc" target="_blank" rel="noopener">Tracxn</a> · <a href="https://www.crunchbase.com/organization/jigo-ai" target="_blank" rel="noopener">Crunchbase</a> <span class="sum">— founder, seed, team size</span></div>
       <div class="row"><a href="https://www.thesaasnews.com/news/jigo-ai-secures-funding-round/" target="_blank" rel="noopener">TheSaaSNews</a> <span class="sum">— the ~$700K raise &amp; investors</span></div>
-      <div class="row"><a href="https://www.geekwire.com/2019/kurvv-closes-1m-seed-funding-round-ai-service-designed-small-businesses/" target="_blank" rel="noopener">GeekWire (2019)</a> <span class="sum">— Kurvv seed &amp; the ex-Microsoft cofounder</span></div>
+      <div class="row"><a href="https://www.linkedin.com/in/ryanshlee" target="_blank" rel="noopener">Ryan Lee — LinkedIn</a> <span class="sum">— the authoritative career timeline (Samsung → MS → Kurvv → AIZEN → JIGO)</span></div>
+      <div class="row"><a href="https://www.geekwire.com/2019/kurvv-closes-1m-seed-funding-round-ai-service-designed-small-businesses/" target="_blank" rel="noopener">GeekWire (2019)</a> <span class="sum">— Kurvv's $1M seed</span></div>
       <div class="row"><a href="https://rabbitvc.com/2023/08/01/startups-with-seoul-episode-3/" target="_blank" rel="noopener">Startups with Seoul, Ep 3</a> <span class="sum">— his Korean-founder-in-the-US talk (podcast)</span></div>
     </div>
     <div class="ask">
@@ -655,7 +666,7 @@
       onprem: "This is a genuinely strong wedge for you: on-prem/private AI is where regulation makes buyers pay, and where good documentation is the product. American enterprises front-load trust onto artifacts — a validated reference architecture, a SOC 2 report, named references — not relationships, which suits a remote Korean engineer who writes well. One honest flag: ignore the viral '71% of AI runs outside public cloud'-type stats; they have no traceable source. Sell control and compliance, not 'legacy'.",
       samcho: "The real lesson isn't 'do politics' — it's the federal-to-local pipeline and using your own story as an asset. The network is a multiplier on real work, never a substitute for it. Build the work first; the ties compound on top.",
       wallet: "The honest read: Americans open their wallet when the downside of buying is removed, not when the pitch is loudest. Risk reversal (guarantee, free trial), obvious social proof, and 'it just works' beat features and cleverness. For a technical founder the trap is selling the spec sheet before you've sold the outcome — say the point plainly, then let the buyer verify it cheaply.",
-      founders: "The honest read: 'you've got nothing to lose, just start' is survivorship advice — from someone who first stacked a big-company résumé (Yonsei EE, Samsung, an MBA, Microsoft) so a failed startup still lands a job, and whose exit leaned on that pedigree and network. Not hypocrisy — but take the advice with the résumé attached.",
+      founders: "Look at the résumé behind the advice: Samsung smartphone pioneer → Microsoft → a startup (Kurvv) that got acquired → CPO of the acquirer → now a VC and a founder again. He's no failed founder, and 'just start' from him isn't reckless — it's someone who'd already earned real optionality and then actually succeeded. So the useful question isn't 'is he a hypocrite,' it's how much of your own hesitation is genuine risk versus just not having his reps yet.",
       screens: "Four screens clearing on the portfolio isn't luck — it's proof-over-pedigree working exactly as designed. The AI-product vs SRE fork is the real decision; they compound very differently. Don't distrust the signal — interrogate which 'you' you want to be in five years.",
       humanoids: "Trust the signal that's deployment + a data flywheel, not demo virality (which is why 'Musk praised it' turned out hollow). China's edge is manufacturing and speed; your opening is the software / policy layer — the robots are commoditizing faster than the brains that run them."
     };
