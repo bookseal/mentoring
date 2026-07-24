@@ -378,6 +378,38 @@
     </div>
   </section>
 
+  <!-- ============ usux ============ -->
+  <section class="card" data-topic="usux" style="--accent:var(--blue)">
+    <div class="head">
+      <div class="icon">🖥️</div><div class="num">07</div>
+      <div><h2>Making the UI feel native to Americans</h2>
+      <p class="why">If I touch studio.upstage.ai's UX — what makes a product read as "American"?</p></div>
+    </div>
+    <img class="banner" src="assets/2026-07-24/usux.svg" alt="UI that feels native to Americans">
+    <div class="context">
+      <p><span class="verdict v-ok">Trust is decided in ~5 seconds</span> Stanford's web-credibility study (4,500+ people): <b>~46% judged a site's credibility on visual design</b> — layout, type, color — <i>before</i> reading a word. NN/g's four trust levers: <b>professional polish, up-front disclosure</b> (clear pricing, contact, policies), <b>current content</b>, and <b>links out</b> (third-party proof beats self-praise). The "small stuff" <span class="hl">is</span> the credibility signal.</p>
+      <p><span class="verdict v-warn">The "built abroad" tells</span> Wrong formats undo polish fastest: US expects <b>MM/DD/YYYY</b>, <b>12-hour AM/PM</b>, <b>$1,234.56</b>, imperial units, a <b>State dropdown + 5-digit ZIP</b>, <b>(XXX) XXX-XXXX</b>, and <b>first-name → last-name</b> order. A European date or a "Province/Postcode" label is an instant foreign flag.</p>
+      <p><span class="verdict v-ok">Localization ≠ translation</span> US product copy is <b>less formal</b> than Korean — over-formal, deferential phrasing reads stiff. Make it <b>plain, scannable, benefit-led</b> (NN/g measured a <b>124%</b> usability lift from concise + scannable + objective copy; users scan in an <b>F-pattern</b>). Put security cues <i>next to</i> sensitive fields (Baymard); avoid aggressive popups (Google penalizes intrusive interstitials); and treat <b>WCAG 2.1 AA</b> as a US legal norm (ADA), not a nice-to-have.</p>
+      <p><span class="verdict v-mix">The reference taste (opinion)</span> The aesthetic Americans have been trained on for serious AI/SaaS is <b>Stripe / Linear / Notion / Vercel</b>: generous whitespace, one accent color, restrained type, "it just works" minimalism. This is taste, not proof — but it's the taste your users bring. Let the AI output be the visual hero.</p>
+    </div>
+    <div class="srcs">
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://credibility.stanford.edu/guidelines/index.html" target="_blank" rel="noopener">Stanford Web Credibility</a> <span class="sum">— ~46% judge credibility on visual design</span></div>
+      <div class="row"><a href="https://www.nngroup.com/articles/trustworthy-design/" target="_blank" rel="noopener">NN/g — Trustworthy design</a> · <a href="https://www.nngroup.com/articles/international-usability-details-differ/" target="_blank" rel="noopener">international details</a> <span class="sum">— trust levers + format conventions</span></div>
+      <div class="row"><a href="https://www.nngroup.com/articles/concise-scannable-and-objective-how-to-write-for-the-web/" target="_blank" rel="noopener">NN/g — concise/scannable copy (124%)</a> · <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/" target="_blank" rel="noopener">F-pattern</a> <span class="sum">— US copy tone, scannability</span></div>
+      <div class="row"><a href="https://baymard.com/blog/perceived-security-of-payment-form" target="_blank" rel="noopener">Baymard — perceived security</a> · <a href="https://developers.google.com/search/docs/appearance/avoid-intrusive-interstitials" target="_blank" rel="noopener">Google — interstitials</a> <span class="sum">— place trust cues; don't popup-spam</span></div>
+      <div class="row"><a href="https://www.ada.gov/resources/2024-03-08-web-rule/" target="_blank" rel="noopener">ADA — 2024 web rule (WCAG 2.1 AA)</a> <span class="sum">— accessibility as US legal norm</span></div>
+    </div>
+    <div class="ask">
+      <span class="block-tag">Ask the mentor</span>
+      <ul>
+        <li><b>Your experience first:</b> walk me through the last time you landed on a product and <i>instantly</i> didn't trust it — what specifically tipped you off in the first five seconds, before you'd read anything?</li>
+        <li>When you sign up for a new AI tool, at what exact moment do you decide it's legit enough to hand over your card or connect your data — and what would make you bail right there?</li>
+        <li>As an engineer <i>and</i> a user: what's a convention American products get right that you only notice when it's missing or done the foreign way?</li>
+      </ul>
+    </div>
+  </section>
+
   <!-- ============ samcho ============ -->
   <section class="card" data-topic="samcho" style="--accent:var(--red)">
     <div class="head">
@@ -587,6 +619,7 @@
       agi: "'AGI cures disease by 2029' is marketing; AlphaFold-style tools accelerating research is real and already shipping. The binding limits now are data and energy, not imagination — so bet on the boring, compounding layer (deployment, cost, verification) that survives any winter.",
       pragmatism: "Your instinct is right, but the sharper 2026 version: in the US, utility executed with taste is the premium (Apple, Stripe, Notion). 'Ugly but works' loses now — aim for engineering elegance, not just durability.",
       upstage: "Timing is good — Upstage just hit unicorn and is IPO-tracking, with a US wedge in insurance / document-AI on AWS. As an AI Product Engineer, attaching early to that US push is where a Korea-based engineer becomes genuinely hard to replace.",
+      usux: "The trap for a strong engineer is treating localization as a translation pass bolted on at the end. In the US it's the reverse — format, tone and trust cues are the first impression, decided before anyone reads your copy. Nail the boring stuff (dates, the state dropdown, human error messages, contrast) and match the Stripe/Linear restraint; that's what earns you the right to be judged on the AI underneath.",
       samcho: "The real lesson isn't 'do politics' — it's the federal-to-local pipeline and using your own story as an asset. The network is a multiplier on real work, never a substitute for it. Build the work first; the ties compound on top.",
       wallet: "The honest read: Americans open their wallet when the downside of buying is removed, not when the pitch is loudest. Risk reversal (guarantee, free trial), obvious social proof, and 'it just works' beat features and cleverness. For a technical founder the trap is selling the spec sheet before you've sold the outcome — say the point plainly, then let the buyer verify it cheaply.",
       founders: "The honest read: 'you've got nothing to lose, just start' is survivorship advice — from someone who first stacked a big-company résumé (Yonsei EE, Samsung, an MBA, Microsoft) so a failed startup still lands a job, and whose exit leaned on that pedigree and network. Not hypocrisy — but take the advice with the résumé attached.",
