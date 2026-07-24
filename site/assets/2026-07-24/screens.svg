@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 320" width="1000" height="320" role="img" aria-label="Doors are opening">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6a413"/><stop offset="1" stop-color="#b57f08"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="320" fill="url(#g)"/>
+  <g fill="#ffffff" opacity="0.07">
+    <circle cx="150" cy="70" r="150"/><circle cx="720" cy="330" r="190"/><circle cx="940" cy="50" r="80"/>
+  </g>
+  <text x="930" y="250" font-size="220" text-anchor="end" opacity="0.92">🪞</text>
+  <text x="56" y="132" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="7" fill="#ffffff" opacity="0.82">MENTORING · 2026-07-24</text>
+  <text x="54" y="205" font-family="Georgia,'Times New Roman',serif" font-size="54" font-weight="800" fill="#ffffff">Doors are opening</text>
+</svg>
