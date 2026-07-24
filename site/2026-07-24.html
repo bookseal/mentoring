@@ -149,6 +149,17 @@
 
   footer{ max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line) }
   @media (max-width:640px){ html{font-size:18px} header.top h1{font-size:2rem} }
+
+  /* Claude's take (injected per card by the script at the end of body) */
+  .take{ margin-top:.9rem; padding:.85rem 1rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.98rem; line-height:1.5 }
+  .take .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.3rem }
+
+  /* edit-questions toggle + affordance (like the 2026-07-17 page) */
+  #editQ{ margin-left:.7rem; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:700; padding:.25rem .7rem; border:1px solid var(--line); border-radius:.5rem; background:var(--card); color:var(--fg); cursor:pointer; vertical-align:middle }
+  #editQ.on{ background:var(--blue); color:#fff; border-color:var(--blue) }
+  body.qediting .ask li[contenteditable="true"]{ background:#fffbe8; border-radius:.35rem; outline:none; cursor:text }
+  body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px #ffe08a }
+  @media print{ #editQ{ display:none } }
 </style>
 </head>
 <body data-session="2026-07-24">
@@ -170,7 +181,7 @@
 <main>
 
   <section class="reorder" aria-label="Topic order">
-    <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span></div>
+    <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span><button id="editQ" type="button">✎ Edit questions</button></div>
     <ol class="q-list" id="topicOrder"></ol>
   </section>
 
@@ -198,9 +209,9 @@
     <div class="ask">
       <span class="block-tag">Ask the mentor</span>
       <ul>
-        <li>Honestly, reading about a closed room like 'Dialog' makes me feel the real game is somewhere I'll never be let in. You've been here a long time — is that just how it is, or am I being naive?</li>
-        <li>Be straight with me: can someone like me — an immigrant, no pedigree — ever get near that kind of power, or should I stop even wanting it?</li>
-        <li>If you were starting over as an outsider today, what would you actually do to get closer to where the decisions get made?</li>
+        <li>If power really is concentrating in a few tech-and-capital rooms, what can people like us actually <i>do</i> about it — build something, get near it, route around it, or just make peace with it?</li>
+        <li>Where's the leverage for an outsider — is it trying to get into those rooms, or building something they eventually can't ignore? I want to think this through with you.</li>
+        <li>When you look at where this is all heading, what would you tell someone at my stage to <i>do now</i> so we're not just spectators to it?</li>
       </ul>
     </div>
   </section>
@@ -264,6 +275,7 @@
         <li>Everyone around me talks like AGI changes everything, and I honestly can't tell if I'm behind or if it's hype. From where you sit — is it real this time, or another cycle?</li>
         <li>I'm quietly scared of betting my next ten years on something that stalls. If a winter comes, where would you make sure you're standing?</li>
         <li>This might sound odd, but if people really start living much longer, my whole FIRE plan feels naive. How would you think about it if you were me?</li>
+        <li>If AGI really lands around 2029 — I know I still need to focus on my career right now — but with your years behind you, how would you tell someone at my age and stage to actually <i>position</i> for it, not just brace for it?</li>
       </ul>
     </div>
   </section>
@@ -295,6 +307,37 @@
         <li>You've actually sold here and you get the Korean side too — what did you have to unlearn from Korea to make something land in the US?</li>
         <li>Give me the honest one: what's the mistake Koreans keep making here that they can't see in themselves? I'd rather know now than learn it the hard way.</li>
         <li>I still think with Korean instincts. If you were coaching me, how would you retrain my sense for what Americans actually value?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ wallet ============ -->
+  <section class="card" data-topic="wallet" style="--accent:var(--gold)">
+    <div class="head">
+      <div class="icon">💵</div><div class="num">05</div>
+      <div><h2>Pragmatism, part 2 — how you actually open a wallet</h2>
+      <p class="why">The under-appreciated US skill I don't have: getting people to pay.</p></div>
+    </div>
+    <img class="banner" src="assets/2026-07-24/wallet.svg" alt="How Americans decide to pay">
+    <div class="context">
+      <p><span class="verdict v-ok">The mechanic that matters most</span> Americans buy when the <b>downside of buying is removed</b>, not when the pitch is loudest. <b>Risk reversal</b> — money-back guarantee, free trial, easy returns, warranty — transfers the transaction risk from buyer to seller and reads as a <b>quality signal</b> (a bad seller couldn't afford it). Stack Cialdini's levers on top: <b>social proof, scarcity, authority, reciprocity</b>.</p>
+      <p><span class="verdict v-ok">Pricing is psychology, and it's tested</span> <b>Anchoring</b> (a high reference price makes the target look cheap), the <b>decoy effect</b> — Ariely's <i>Economist</i> test swung the combo from <b>32% → 84%</b> by adding a dominated option — and <b>charm pricing</b> ($29.99 reads as "twenty-something"). These are replicated experiments, not marketing folklore. And sell the <b>job</b> (JTBD), not the feature list.</p>
+      <p><span class="verdict v-warn">But — the engineer's trap</span> "Benefits, not features" has limits: once the outcome is clear, <b>technical buyers do want the spec sheet</b>. And US B2B is a committee sport that's mostly <b>self-directed</b> — Gartner: buyers spend only <b>~17%</b> of the journey with any one rep, and <b>77%</b> call the purchase "complex/difficult." Your docs, free tier and case studies sell before a human does.</p>
+    </div>
+    <div class="srcs">
+      <span class="block-tag">Sources (checked)</span>
+      <div class="row"><a href="https://www.influenceatwork.com/7-principles-of-persuasion/" target="_blank" rel="noopener">Cialdini's 7 principles</a> <span class="sum">— reciprocity, social proof, scarcity, authority…</span></div>
+      <div class="row"><a href="https://theconversation.com/the-economics-of-the-money-back-guarantee-80876" target="_blank" rel="noopener">Economics of the money-back guarantee</a> <span class="sum">— risk reversal as a quality signal</span></div>
+      <div class="row"><a href="https://danariely.com/books/predictably-irrational/" target="_blank" rel="noopener">Ariely, <i>Predictably Irrational</i></a> <span class="sum">— anchoring &amp; the decoy effect (32%→84%)</span></div>
+      <div class="row"><a href="https://hbr.org/2016/09/know-your-customers-jobs-to-be-done" target="_blank" rel="noopener">Jobs to Be Done (HBR, Christensen)</a> <span class="sum">— sell the progress, not the feature</span></div>
+      <div class="row"><a href="https://www.gartner.com/en/sales/insights/b2b-buying-journey" target="_blank" rel="noopener">Gartner B2B buying journey</a> · <a href="https://patents.google.com/patent/US5960411A/en" target="_blank" rel="noopener">Amazon 1-Click patent</a> <span class="sum">— self-directed buying · monetizing friction removal</span></div>
+    </div>
+    <div class="ask">
+      <span class="block-tag">Ask the mentor</span>
+      <ul>
+        <li>You've actually gotten Americans to pay. In the moment someone decides to open their wallet here — what's really tipping them? I want the lived version, not the textbook one.</li>
+        <li>I'm an engineer, so my reflex is to show the spec sheet. Where does that reflex help me close, and where is it quietly killing the sale?</li>
+        <li>If there's one thing about pricing or risk-reversal that Koreans keep getting wrong in the US, and can't see in themselves — I'd rather you just tell me now.</li>
       </ul>
     </div>
   </section>
@@ -348,7 +391,7 @@
       <p><span class="verdict v-mix">Entrepreneurship — no VC</span> His venture, <b>Seven Seas Export</b> (2017), was a <b>bootstrapped trading company</b> (US egg exports to Asia), <b>not a VC-backed startup</b>. The "exit" was selling a profitable export business before 30 — the capital was <b>revenue, not venture money</b>. He then parlayed that + his federal/Olympia experience into a civic career: a very different model from a funded tech startup.</p>
       <p><span class="verdict v-ok">Port of Seattle</span> Elected to the Commission in <b>2019</b> (won 60.8%), re-elected ~99% in 2023, term through 2027. In <b>2023 became the youngest &amp; first person of color to serve as Commission President</b> (since 1911).</p>
       <p><span class="verdict v-ok">Korean network</span> Deep ties: member of the <b>Council of Korean Americans</b>, took his oath of office <b>in English and Korean</b>, bridges Korea–Seattle (Asia Society "Seoul Searching"), sits on AAPI bodies (APAICS, CAPAA). The playbook: a compressed timeline (company + exit + office by ~30), a <b>federal-to-local pipeline</b> (DC/Olympia staffer → principal), and <b>immigrant identity as a deliberate asset</b>.</p>
-      <p><span class="verdict v-warn">Caution</span> A few common claims don't hold: he was <b>US-born (2nd-gen, not 1.5)</b>; the Obama role was <b>GSA/State, not "the White House"</b>; "first Korean-American elected in WA state" is <b>unverified</b>; no confirmed tie to the Changbal network; and he is <b>not</b> running for higher office in 2025–26.</p>
+      <p><span class="verdict v-warn">Caution</span> A couple of common claims don't hold: he was <b>US-born (2nd-gen, not 1.5)</b>, and his Obama-era role was <b>GSA/State, not "the White House."</b></p>
     </div>
     <div class="srcs">
       <span class="block-tag">Sources (checked)</span>
@@ -382,9 +425,9 @@
         <figcaption>Ryan Lee, founder/CEO of JIGO<span class="src">Startups with Seoul (YouTube)</span></figcaption>
       </figure>
       <p><span class="verdict v-ok">Who</span> <b>Ryan Lee</b> (Ryan Sang-Hoon Lee), founder/CEO of <b>JIGO</b> (jigo.ai), Bellevue WA. AI <b>contract analysis</b> — "chat with your contract," flag non-standard clauses vs market (now aimed at commercial-real-estate leasing). Founded <b>2023</b>, <b>~$700K seed</b> (TheVentures lead; NVIDIA Inception, Mashup Ventures, Microsoft for Startups, Rabbit Ventures).</p>
-      <p><span class="verdict v-ok">The arc</span> <b>Samsung → Microsoft</b> (data-science PM, left 2019) <b>→ Kurvv</b> (AI predictive-maintenance startup, <b>acquired by Aizen</b> ~2021) <b>→ JIGO</b>. Kellogg MBA. Plugged into the Korean-VC network (SEMA Translink, TheVentures).</p>
+      <p><span class="verdict v-ok">The arc</span> <b>Yonsei — Electrical Engineering → Samsung Electronics</b> (PM on early waterproof / HDD phones) <b>→ Kellogg MBA → Microsoft</b> (data-science PM, left 2019) <b>→ Kurvv</b> (AI predictive-maintenance, <b>acquired by Aizen</b> ~2021) <b>→ JIGO</b>. Plugged into the Korean-VC network (SEMA Translink, TheVentures).</p>
       <p><span class="verdict v-ok">The VCs</span> <b>JIGO's ~$700K seed</b> was <b>led by TheVentures</b> (a Korean VC), with <b>NVIDIA Inception, Mashup Ventures</b> (Korean-American), <b>Microsoft for Startups</b>, and <b>Rabbit Ventures</b>. His prior startup <b>Kurvv</b> raised a <b>$1M seed led by SEMA Translink</b> (Korean-American VC) before exiting to <b>Aizen</b> (Singapore). The pattern: both his <b>cofounders (big tech)</b> and his <b>money (the Korean / Korean-American VC network)</b> came through his networks — the real fuel behind "just start a company."</p>
-      <p><span class="verdict v-warn">The hook — ask him directly</span> He publishes <b>data-driven founder advice</b> (near-even cofounder splits, 4-yr vesting / 1-yr cliff). Yet the "recruit cofounders from big tech" pattern is <b>confirmed only for his prior startup Kurvv</b> (cofounder <b>Jeff Croft, ex-Microsoft BD</b>). For <b>JIGO, public records name only Ryan</b> — so "JIGO cofounders came from Microsoft" is <b>unverified</b>. The irony (preach entrepreneurship, hire from Microsoft) is real but nuanced.</p>
+      <p><span class="verdict v-warn">The real story — ask him</span> He's known for telling students <b>"you've got nothing to lose — skip the job, start now"</b> (that framing lives in a podcast; exact wording unconfirmed). Yet he himself stacked <b>Yonsei EE → Samsung → an MBA → Microsoft</b> first, so a failed startup still lands a great job. His Kurvv cofounders came largely from that <b>Microsoft circle</b> (Lee + CRO Jeff Croft, both ex-Microsoft; CTO Vince Roche came from Boost Media — so <b>2 of 3</b>, not "all"). Fair read: the "just start" advice, and the exit itself, likely rode that pedigree + network as much as the idea.</p>
     </div>
     <div class="srcs">
       <span class="block-tag">Sources (checked)</span>
@@ -527,6 +570,54 @@
     }
 
     build(); renumber();
+  })();
+</script>
+
+<script>
+  /* Claude's take (injected per card) + editable questions (toggle, saved locally). */
+  (function(){
+    var TAKES = {
+      power: "Power hasn't left DC — it's fusing with Big Tech. The state still owns law, force, and the contracts; it just runs on infrastructure a few private firms now control. That's leverage, not a coup. The move for someone like you isn't 'get in the room' — it's to own a slice of the infrastructure everyone else has to depend on.",
+      robotics: "The 2026 consensus is landing: hardware commoditizes, the moat is the data + the policy model. Good news for a software person — but the 'wall of physics' is real, so the durable seat is the deployment / data layer on commodity arms (SO-101, LeRobot), not building actuators.",
+      agi: "'AGI cures disease by 2029' is marketing; AlphaFold-style tools accelerating research is real and already shipping. The binding limits now are data and energy, not imagination — so bet on the boring, compounding layer (deployment, cost, verification) that survives any winter.",
+      pragmatism: "Your instinct is right, but the sharper 2026 version: in the US, utility executed with taste is the premium (Apple, Stripe, Notion). 'Ugly but works' loses now — aim for engineering elegance, not just durability.",
+      upstage: "Timing is good — Upstage just hit unicorn and is IPO-tracking, with a US wedge in insurance / document-AI on AWS. As an AI Product Engineer, attaching early to that US push is where a Korea-based engineer becomes genuinely hard to replace.",
+      samcho: "The real lesson isn't 'do politics' — it's the federal-to-local pipeline and using your own story as an asset. The network is a multiplier on real work, never a substitute for it. Build the work first; the ties compound on top.",
+      wallet: "The honest read: Americans open their wallet when the downside of buying is removed, not when the pitch is loudest. Risk reversal (guarantee, free trial), obvious social proof, and 'it just works' beat features and cleverness. For a technical founder the trap is selling the spec sheet before you've sold the outcome — say the point plainly, then let the buyer verify it cheaply.",
+      founders: "The honest read: 'you've got nothing to lose, just start' is survivorship advice — from someone who first stacked a big-company résumé (Yonsei EE, Samsung, an MBA, Microsoft) so a failed startup still lands a job, and whose exit leaned on that pedigree and network. Not hypocrisy — but take the advice with the résumé attached.",
+      screens: "Four screens clearing on the portfolio isn't luck — it's proof-over-pedigree working exactly as designed. The AI-product vs SRE fork is the real decision; they compound very differently. Don't distrust the signal — interrogate which 'you' you want to be in five years.",
+      humanoids: "Trust the signal that's deployment + a data flywheel, not demo virality (which is why 'Musk praised it' turned out hollow). China's edge is manufacturing and speed; your opening is the software / policy layer — the robots are commoditizing faster than the brains that run them."
+    };
+    document.querySelectorAll(".card[data-topic]").forEach(function(c){
+      var t = TAKES[c.getAttribute("data-topic")]; if(!t) return;
+      var div = document.createElement("div"); div.className = "take";
+      div.innerHTML = '<span class="who">🧠 Claude’s take</span>';
+      div.appendChild(document.createTextNode(t));
+      var ask = c.querySelector(".ask");
+      if(ask) c.insertBefore(div, ask); else c.appendChild(div);
+    });
+
+    /* editable questions — toggle, contentEditable, persisted per question */
+    var EKEY = "mentoring.edits.2026-07-24", edits = {};
+    try{ edits = JSON.parse(localStorage.getItem(EKEY) || "{}"); }catch(e){}
+    var qs = [];
+    document.querySelectorAll(".card[data-topic]").forEach(function(c){
+      var id = c.getAttribute("data-topic");
+      c.querySelectorAll(".ask li").forEach(function(li, i){
+        var key = id + "." + i; li.setAttribute("data-qkey", key);
+        if(edits[key] != null) li.innerHTML = edits[key];
+        li.addEventListener("input", function(){ edits[key] = li.innerHTML; try{ localStorage.setItem(EKEY, JSON.stringify(edits)); }catch(e){} });
+        qs.push(li);
+      });
+    });
+    var editing = false, btn = document.getElementById("editQ");
+    function apply(){
+      document.body.classList.toggle("qediting", editing);
+      qs.forEach(function(li){ li.setAttribute("contenteditable", editing ? "true" : "false"); });
+      if(btn){ btn.textContent = editing ? "✓ Done editing" : "✎ Edit questions"; btn.classList.toggle("on", editing); }
+    }
+    if(btn) btn.addEventListener("click", function(){ editing = !editing; apply(); });
+    apply();
   })();
 </script>
 
