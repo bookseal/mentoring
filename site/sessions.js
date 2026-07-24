@@ -1,15 +1,15 @@
 /*
  * sessions.js — the multi-session sidebar (public, committed).
  *
- * One mentoring session = one page. To add a session: append an entry below
+ * One session = one page. To add a session: append an entry below
  * and create its page (copy 2026-07-24.html as an empty skeleton). Every page
  * that has an <aside> with <nav id="sessionNav"> and a <body data-session="...">
  * gets the sidebar filled + its own entry marked active.
  */
 (function () {
   window.MENTORING_SESSIONS = [
-    { id: "2026-07-17", date: "2026-07-17", title: "WTIA mentoring", href: "index.html", status: "done" },
-    { id: "2026-07-24", date: "2026-07-24", title: "Mentoring", href: "2026-07-24.html", status: "done" },
+    { id: "2026-07-17", date: "2026-07-17", title: "WTIA notes", href: "index.html", status: "done" },
+    { id: "2026-07-24", date: "2026-07-24", title: "Open questions", href: "2026-07-24.html", status: "done" },
   ];
 
   function render() {
