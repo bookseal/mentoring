@@ -365,9 +365,54 @@
     .topic-tools, .card-ctl, .gallery-add, .add-topic, .ask li .q-del, .ask .add-ask, .ev-del{ display:none !important }
     figure.shot{ break-inside:avoid }
   }
+
+  /* ---------- multi-session sidebar (see sessions.js) ---------- */
+  .app{ display:flex; align-items:flex-start; }
+  .sidebar{
+    flex:0 0 232px; position:sticky; top:0; align-self:stretch; min-height:100vh;
+    background:var(--bg2); border-right:1px solid var(--line); padding:1.4rem 1rem;
+  }
+  .sidebar .s-head{
+    font-family:ui-monospace,Menlo,monospace; text-transform:uppercase; letter-spacing:.14em;
+    font-size:.72rem; font-weight:800; color:var(--red); margin:.2rem 0 .8rem .2rem;
+  }
+  .content{ flex:1 1 auto; min-width:0; }
+  #sessionNav{ display:flex; flex-direction:column; gap:.5rem; }
+  .s-item{
+    display:block; text-decoration:none; color:var(--fg);
+    background:var(--card); border:1px solid var(--line); border-radius:.7rem; padding:.6rem .75rem;
+  }
+  .s-item:hover{ border-color:var(--red) }
+  .s-item.active{ border-color:var(--red); box-shadow:inset 3px 0 0 var(--red); background:#fff }
+  .s-item .s-date{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:var(--muted) }
+  .s-item .s-title{ display:block; font-weight:700; font-size:.95rem; margin-top:.1rem }
+  .s-item .s-badge{
+    display:inline-block; margin-top:.35rem; font-family:ui-monospace,Menlo,monospace;
+    font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    background:var(--bg2); border:1px solid var(--line); border-radius:1rem; padding:.05rem .5rem;
+  }
+  .sidebar .s-foot{ margin-top:.9rem; font-size:.72rem; color:var(--muted); line-height:1.45 }
+  @media (max-width:900px){
+    .app{ flex-direction:column }
+    .sidebar{
+      position:static; min-height:0; width:100%; flex-basis:auto;
+      border-right:none; border-bottom:1px solid var(--line); padding:.8rem 1rem;
+    }
+    #sessionNav{ flex-direction:row; overflow-x:auto; gap:.5rem }
+    .s-item{ flex:0 0 auto; min-width:150px }
+  }
+  @media print{ .sidebar{ display:none } }
 </style>
 </head>
-<body>
+<body data-session="2026-07-17">
+
+<div class="app">
+<aside class="sidebar">
+  <div class="s-head">Sessions</div>
+  <nav id="sessionNav"></nav>
+  <div class="s-foot">멘토링마다 새 페이지가 하나씩 쌓입니다.</div>
+</aside>
+<div class="content">
 
 <header class="top">
   <div class="kicker">Mentoring prep · 2026-07-17</div>
@@ -414,6 +459,11 @@
 <footer>
   <p>Private prep sheet · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
 </footer>
+
+</div><!-- /.content -->
+</div><!-- /.app -->
+
+<script src="sessions.js"></script>
 
 <!-- PUBLIC study layer (committed): per-card Grok×Claude notes. Loads on the
      live site and locally alike. Anything personal/sensitive is NOT here — it
