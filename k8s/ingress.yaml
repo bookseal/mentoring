@@ -29,3 +29,32 @@ spec:
   tls:
   - hosts: [ mentoring.bit-habit.com ]
     secretName: tls-secret        # existing wildcard *.bit-habit.com cert
+---
+# Almanac — the portal/home of the personal knowledge system. Same static
+# backend (mentoring-svc serves site/), so almanac.bit-habit.com/ = the portal
+# (site/index.html) and the sessions live at /2026-07-*.html. No DNS or cert
+# work: *.bit-habit.com is wildcard and tls-secret already covers this host.
+# mentoring.bit-habit.com stays live as an alias to the same content.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: almanac
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: almanac.bit-habit.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mentoring-svc
+            port: { number: 80 }
+  tls:
+  - hosts: [ almanac.bit-habit.com ]
+    secretName: tls-secret        # existing wildcard *.bit-habit.com cert

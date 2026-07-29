@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미국 진출의 지형 — 2026-07-17</title>
+<meta name="description" content="My thinking notes for 2026-07-24 — topics with cross-verified sources and the open questions I'm sitting with.">
+<style>
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --card:#fffdf9;
+    --fg:#2b211a; --muted:#8a7b66; --line:#e8dcc4;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --purple:#7a5cc0;
+  }
+  *{box-sizing:border-box}
+  html{font-size:20px; scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue); text-underline-offset:3px}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ---------- layout + sidebar (matches index.html; see sessions.js) ---------- */
+  .app{ display:flex; align-items:flex-start; }
+  .sidebar{
+    flex:0 0 232px; position:sticky; top:0; align-self:stretch; min-height:100vh;
+    background:var(--bg2); border-right:1px solid var(--line); padding:1.4rem 1rem;
+  }
+  .sidebar .s-head{
+    font-family:ui-monospace,Menlo,monospace; text-transform:uppercase; letter-spacing:.14em;
+    font-size:.72rem; font-weight:800; color:var(--red); margin:.2rem 0 .8rem .2rem;
+  }
+  .content{ flex:1 1 auto; min-width:0; }
+  #sessionNav{ display:flex; flex-direction:column; gap:.5rem; }
+  .s-item{
+    display:block; text-decoration:none; color:var(--fg);
+    background:var(--card); border:1px solid var(--line); border-radius:.7rem; padding:.6rem .75rem;
+  }
+  .s-item:hover{ border-color:var(--red) }
+  .s-item.active{ border-color:var(--red); box-shadow:inset 3px 0 0 var(--red); background:#fff }
+  .s-item .s-date{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:var(--muted) }
+  .s-item .s-title{ display:block; font-weight:700; font-size:.95rem; margin-top:.1rem }
+  .s-item .s-sum{ display:block; font-size:.7rem; color:var(--muted); margin-top:.2rem; line-height:1.35 }
+  .s-item .s-badge{
+    display:inline-block; margin-top:.35rem; font-family:ui-monospace,Menlo,monospace;
+    font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    background:var(--bg2); border:1px solid var(--line); border-radius:1rem; padding:.05rem .5rem;
+  }
+  .sidebar .s-foot{ margin-top:.9rem; font-size:.72rem; color:var(--muted); line-height:1.45 }
+  @media (max-width:900px){
+    .app{ flex-direction:column }
+    .sidebar{
+      position:static; min-height:0; width:100%; flex-basis:auto;
+      border-right:none; border-bottom:1px solid var(--line); padding:.8rem 1rem;
+    }
+    #sessionNav{ flex-direction:row; overflow-x:auto; gap:.5rem }
+    .s-item{ flex:0 0 auto; min-width:150px }
+  }
+
+  /* ---------- header ---------- */
+  header.top{ max-width:1000px; margin:0 auto; padding:2.2rem 1.2rem 0.4rem; }
+  .kicker{
+    font-family:ui-monospace,Menlo,Consolas,monospace; text-transform:uppercase;
+    letter-spacing:.2em; font-size:.72rem; color:var(--red); font-weight:700;
+  }
+  header.top h1{
+    font-size:2.4rem; font-weight:900; letter-spacing:-.02em; margin:.35rem 0 .3rem;
+    text-transform:uppercase; line-height:1.05;
+  }
+  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:60ch }
+
+  /* ---------- reorder list (drag / ↑ ↓ · like the 2026-07-17 page) ---------- */
+  main{ max-width:1000px; margin:0 auto; padding:1.2rem 1.2rem 4rem }
+  .reorder{ margin:0 0 1rem }
+  .reorder-head{
+    font-family:ui-monospace,Menlo,monospace; font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.14em; font-weight:800; color:var(--red);
+  }
+  .reorder-head .hint{ color:var(--muted); font-weight:600; letter-spacing:.02em; text-transform:none }
+  .q-list{ list-style:none; margin:.7rem 0 0; padding:0; counter-reset:q }
+  .q-list li{
+    counter-increment:q; display:flex; align-items:flex-start; gap:.6rem;
+    background:#fff; border:1px solid var(--line); border-radius:.7rem; padding:.7rem .8rem; margin:.55rem 0; cursor:grab;
+  }
+  .q-list li.dragging{ opacity:.45 }
+  .q-list li.over{ border-color:var(--teal); box-shadow:0 0 0 2px #bfe9e0 }
+  .q-list li::before{
+    content:counter(q); flex:0 0 auto; font-family:ui-monospace,Menlo,monospace;
+    font-weight:800; color:#fff; background:var(--teal); border-radius:.4rem; padding:.05rem .5rem; font-size:.8rem; margin-top:.24rem;
+  }
+  .q-text{ flex:1; font-size:1.08rem; font-weight:600; line-height:1.4 }
+  .ord-title{ cursor:pointer }
+  .ord-title:hover{ color:var(--red); text-decoration:underline }
+  .q-actions{ flex:0 0 auto; display:flex; gap:.2rem }
+  .q-actions button{
+    border:1px solid var(--line); background:var(--card); border-radius:.4rem;
+    width:2rem; height:2rem; font-size:1rem; cursor:pointer; color:var(--fg); line-height:1;
+  }
+  .q-actions button:hover{ border-color:var(--teal); color:var(--teal) }
+  @media print{ .reorder{ display:none } .q-actions{ display:none } }
+
+  /* ---------- cards ---------- */
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:1rem;
+    padding:1.3rem 1.4rem 1.4rem; margin:1.1rem 0;
+    box-shadow:0 8px 0 -4px rgba(120,80,20,.15); border-left:8px solid var(--accent,var(--red)); scroll-margin-top:1rem;
+  }
+  .card .head{ display:flex; align-items:flex-start; gap:.9rem }
+  .card .icon{ font-size:2rem; line-height:1; flex:0 0 auto }
+  .card .num{
+    font-family:ui-monospace,Menlo,monospace; font-size:.8rem; font-weight:700;
+    color:#fff; background:var(--accent,var(--red)); border-radius:.4rem;
+    padding:.12rem .45rem; flex:0 0 auto; margin-top:.15rem;
+  }
+  .card h2{ font-size:1.4rem; font-weight:900; letter-spacing:-.01em; margin:.05rem 0 .15rem }
+  .card .why{ color:var(--muted); font-size:1rem; font-style:italic; margin:0 }
+  .card .banner{ display:block; width:100%; height:auto; border-radius:.6rem; margin:1rem 0 .2rem; border:1px solid var(--line) }
+  .card .portrait{ float:right; width:220px; margin:.2rem 0 .7rem 1.1rem }
+  .card .portrait img{ display:block; width:100%; height:auto; border-radius:.7rem; border:1px solid var(--line) }
+  .card .portrait figcaption{ font-size:.72rem; color:var(--muted); margin-top:.35rem; line-height:1.3 }
+  .card .portrait figcaption .src{ font-family:ui-monospace,Menlo,monospace; font-size:.64rem; display:block; margin-top:.1rem }
+  .card .portrait figcaption .li{ display:inline-flex; align-items:center; gap:.25rem; margin-top:.25rem; font-weight:700; color:#0a66c2; text-decoration:none }
+  .card .portrait figcaption .li:hover{ text-decoration:underline }
+  @media (max-width:520px){ .card .portrait{ float:none; width:180px; margin:.2rem 0 .6rem 0 } }
+  .card ul.tl{ list-style:none; margin:.5rem 0 0; padding:0 }
+  .card ul.tl li{ padding:.2rem 0; font-size:.96rem; line-height:1.45; border-left:2px solid var(--line); padding-left:.8rem; margin-left:.15rem }
+  .card ul.tl li b.yr{ color:var(--accent); font-variant-numeric:tabular-nums; margin-right:.15rem }
+  .card .context{ margin:.9rem 0 .2rem; font-size:1.02rem }
+  .card .context p{ margin:.5rem 0 }
+  .hl{ background:linear-gradient(transparent 60%, #ffe08a 60%); padding:0 .1em }
+  .verdict{
+    display:inline-block; font-size:.85rem; font-weight:700; border-radius:2rem;
+    padding:.15rem .7rem; margin:.3rem 0; border:1px solid;
+  }
+  .v-ok{ color:#1f7a45; background:#e6f4ea; border-color:#b6ddc2 }
+  .v-mix{ color:#9a6a00; background:#fbf1d8; border-color:#e6cf95 }
+  .v-warn{ color:#a5341f; background:#fbe4de; border-color:#e6b3a6 }
+
+  .block-tag{
+    display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem;
+    text-transform:uppercase; letter-spacing:.14em; font-weight:800; margin:.9rem 0 .35rem;
+  }
+  .srcs{ margin:.5rem 0 .2rem; font-size:.92rem }
+  .srcs .block-tag{ color:#a08a63 }
+  .srcs .row{ margin:.32rem 0; line-height:1.4 }
+  .srcs a{ font-weight:600; white-space:normal }
+  .srcs .sum{ color:var(--muted) }
+
+  .ask{ margin-top:1rem; padding:.9rem 1.05rem; background:var(--bg2); border-radius:.8rem; border:1px dashed #d9c9a6 }
+  .ask .block-tag{ color:var(--red); margin-top:0 }
+  .ask ul{ margin:0; padding-left:0; list-style:none }
+  .ask li{ font-size:1.12rem; font-weight:600; line-height:1.4; margin:.5rem 0; padding-left:1.5rem; position:relative }
+  .ask li::before{ content:"›"; position:absolute; left:.3rem; top:-.05rem; color:var(--accent,var(--red)); font-weight:900; font-size:1.3rem }
+
+  footer{ max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line) }
+  @media (max-width:640px){ html{font-size:18px} header.top h1{font-size:2rem} }
+
+  /* Claude's take (injected per card by the script at the end of body) */
+  .take{ margin-top:.9rem; padding:.85rem 1rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.98rem; line-height:1.5 }
+  .take .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.3rem }
+
+  /* edit-questions toggle + affordance (like the 2026-07-17 page) */
+  #editQ{ margin-left:.7rem; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:700; padding:.25rem .7rem; border:1px solid var(--line); border-radius:.5rem; background:var(--card); color:var(--fg); cursor:pointer; vertical-align:middle }
+  #editQ.on{ background:var(--blue); color:#fff; border-color:var(--blue) }
+  body.qediting .ask li[contenteditable="true"]{ background:#fffbe8; border-radius:.35rem; outline:none; cursor:text }
+  body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px #ffe08a }
+  @media print{ #editQ{ display:none } }
+/* verdict badges */
+  .verdict{ display:inline-block; font-size:.8rem; font-weight:700; border-radius:2rem; padding:.1rem .6rem; margin:.15rem .2rem .15rem 0; border:1px solid }
+  .v-ok{ color:#1f7a45; background:#e6f4ea; border-color:#b6ddc2 }
+  .v-mix{ color:#9a6a00; background:#fbf1d8; border-color:#e6cf95 }
+  .v-warn{ color:#a5341f; background:#fbe4de; border-color:#e6b3a6 }
+  .v-op{ color:#5a3fb0; background:#efeafb; border-color:#cdbff0 }
+
+  /* Claude cross-check box (bullets + verdicts + sources) */
+  .ctake{ margin-top:.9rem; padding:.9rem 1.05rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.96rem; line-height:1.5 }
+  .ctake .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.4rem }
+  .ctake h4{ margin:.7rem 0 .25rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:#a56a3a; font-family:ui-monospace,Menlo,monospace }
+  .ctake ul{ margin:.2rem 0 .4rem; padding-left:1.15rem }
+  .ctake li{ margin:.22rem 0 }
+  .ctake p{ margin:.35rem 0 }
+  .ctake .src{ font-size:.82rem; color:var(--muted); margin-top:.4rem }
+  .ctake .src a{ color:#2f6fd0; word-break:break-all }
+  .ctake h4.wis{ color:#5a3fb0 }   /* 대가들의 시선 */
+  .ctake h4.big{ color:#1f7a6a }   /* 더 큰 그림 */
+  .ctake h4.bias{ color:#a5341f }  /* bias-accent */
+  .ctake blockquote{ margin:.3rem 0 .3rem .2rem; padding:.15rem 0 .15rem .7rem; border-left:3px solid #cdbff0; color:#443; font-style:italic }
+  .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.1rem }
+  .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.3rem 0 }
+  .ctake th, .ctake td{ border:1px solid var(--line); padding:.25rem .45rem; text-align:left; vertical-align:top }
+  .ctake th{ background:#fbeede; color:#8a5a2a; font-size:.78rem }
+
+  /* theme sections + chips + TOC + collapsible dialogue + key quotes */
+  .themehead{ margin:2.6rem 0 .4rem; padding:.7rem 0 .55rem; border-bottom:2px solid #e0662e }
+  .themehead .tnum{ font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:800; letter-spacing:.14em; color:#c85a1b }
+  .themehead h2{ margin:.15rem 0 0; font-size:1.75rem; font-weight:900; letter-spacing:-.01em }
+  .themehead .tsub{ color:var(--muted); font-size:.92rem; margin:.2rem 0 0 }
+  .chip{ display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.6rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#8a5a2a; background:#fbeede; border:1px solid #ecd6ba; border-radius:1rem; padding:.08rem .5rem; margin-left:.5rem; vertical-align:middle }
+  .keyq{ margin:.7rem 0 .35rem; padding:.6rem .85rem; background:#f7f4ec; border-left:3px solid var(--accent,#c9a24a); border-radius:.5rem }
+  .keyq .block-tag{ color:#a08a63; margin:.1rem 0 .35rem }
+  .keyq .kq{ margin:.32rem 0; font-size:.98rem; line-height:1.5 }
+  .keyq .kq b.s{ font-family:ui-monospace,Menlo,monospace; font-size:.68rem; color:#fff; background:#b79a5e; border-radius:.3rem; padding:.03rem .34rem; margin-right:.35rem }
+  details.fulldlg{ margin:.45rem 0 .2rem; border:1px solid var(--line); border-radius:.6rem; background:#fdfbf6 }
+  details.fulldlg>summary{ cursor:pointer; padding:.5rem .8rem; font-family:ui-monospace,Menlo,monospace; font-size:.74rem; font-weight:700; color:#8a7b66; list-style:none }
+  details.fulldlg>summary::-webkit-details-marker{ display:none }
+  details.fulldlg>summary::before{ content:"▸ 전체 대화 보기 " }
+  details.fulldlg[open]>summary::before{ content:"▾ 전체 대화 접기 " }
+  details.fulldlg>summary span{ display:none }
+  details.fulldlg .dialog{ margin-top:0; border-top:1px dashed var(--line); padding:.5rem .8rem .6rem }
+  .toc{ background:var(--card); border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.2rem; margin:1.3rem 0 }
+  .toc .block-tag{ color:#a08a63 }
+  .toc .tgroup{ margin:.5rem 0; font-size:.94rem }
+  .toc .tgroup b{ color:#c85a1b }
+  .toc a{ text-decoration:none; color:var(--fg) }
+  .toc a:hover{ color:var(--red); text-decoration:underline }
+
+</style>
+</head>
+<body data-session="2026-07-17">
+
+<div class="app">
+<aside class="sidebar">
+  <div class="s-head">Almanac</div>
+  <nav id="sessionNav"></nav>
+  <div class="s-foot">A new page stacks up per session.</div>
+</aside>
+<div class="content">
+
+<header class="top"><div class="kicker">WTIA 첫 세션 · 2026-07-17</div>
+  <h1>미국 진출의 지형 — 첫 정리</h1>
+  <p class="sub">네트워킹·로보틱스·비자·창업 등, 첫 세션에서 배운 것을 주제별로 정리한 노트. 팩트는 교차검증하고 출처를 달았습니다. 매주 금요일 갱신.</p></header>
+
+<main><div class="toc"><span class="block-tag">이 세션의 주제</span><div class="tgroup"><b><a href="#s701">1. 미국 네트워킹·리퍼럴 문화</a></b></div><div class="tgroup"><b><a href="#s702">2. SaaS는 죽었나 — 거대모델이 앱을 삼킨다</a></b></div><div class="tgroup"><b><a href="#s703">3. 로보틱스 렌즈 — 데모 vs 실제, 센서와 해자</a></b></div><div class="tgroup"><b><a href="#s704">4. 하드웨어는 카피된다 → 알고리즘·데이터가 해자 (그리고 국방)</a></b></div><div class="tgroup"><b><a href="#s705">5. 인도계의 강점은 '구조' — 비대칭 포지셔닝</a></b></div><div class="tgroup"><b><a href="#s706">6. 비자·아메리칸 드림 — J-1과 원격 차익의 함정</a></b></div><div class="tgroup"><b><a href="#s707">7. AI 리터러시 교육 사업 — 비개발자 대상 시장</a></b></div><div class="tgroup"><b><a href="#s708">8. 창업의 원칙 — 회사를 팔아라, 생존 규칙, 정직</a></b></div><div class="tgroup"><b><a href="#s709">9. 한국의 그랜트·CES 게임과 Physical AI = 노동 대체</a></b></div><div class="tgroup"><b><a href="#s710">10. 미국의 인재 배분과 '내 고객층'</a></b></div></div>
+<section class="card" style="--accent:var(--gold)" id="s701">
+  <div class="head"><div class="icon">🤝</div><div><h2>미국 네트워킹·리퍼럴 문화 <span class="chip">네트워킹</span></h2><p class="why">미국 채용의 70~80%는 공고가 아니라 인맥·리퍼럴에서 나온다.</p></div></div>
+  <div class="context">
+    <p>미국에서는 일자리의 <b>70~80%가 구인 공고가 아니라 리퍼럴(추천)과 인맥</b>을 통해 채워진다. 그래서 이민자·유학생을 중심으로 한 지역 테크 커뮤니티(예: 시애틀권 한인 엔지니어·창업 모임)가 활발하다. 이런 모임은 주로 학생 비자로 미국 정착을 노리는 초기 진입자들이 채우고, 이미 자리 잡은 현지 인력은 상대적으로 덜 온다.</p>
+    <p>한국 기업이 이런 자리를 찾을 때는 아마존·마이크로소프트 등에 <b>이미 들어가 있는 사람</b>을 선호하는 경향이 있다. 미국 사정을 아는 '교두보'로 쓰기 위해서다.</p>
+  </div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>리퍼럴이 기본값</b>: 한 팀에서 성과를 내면 → 더 좋은 조건으로 이직하고 → 옛 동료가 승진해 다시 불러주는 순환이 만들어진다. 링크드인은 그 끊어진 선을 다시 잇는 도구다.</li>
+      <li>이것은 우정이 아니라 <b>프로페셔널 인맥</b>이다. 채용 전 레퍼런스 체크(전 상사·동료 약 3명)가 다음 채용으로 이어지므로, 어디를 가든 평판이 따라다닌다.</li>
+      <li>가장 좋은 기회는 친한 친구가 아니라 <b>느슨하게 아는 사람(약한 연결, weak ties)</b>에게서 온다 — 내가 이미 아는 정보가 아니라 새 정보를 물어오기 때문이다(Granovetter).</li>
+      <li>동문·전 직장 네트워크 같은 느슨한 연결망이 경제 변동기에 특히 강한 채용 채널로 작동한다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>AI 채용이 이력서 스크리닝을 자동화할수록, 역설적으로 <b>사람이 사람을 보증하는 신뢰 신호</b>의 값이 올라간다. 공개적으로 결과물을 쌓는 사람(build-in-public)은 그 기록 자체가 약한 연결을 끌어오는 자석이 된다. 커뮤니티 참여를 '일자리 부탁'이 아니라 '내가 만든 것 공유'로 시작하는 편이 초기 진입자에게 훨씬 유리하다 — 도움을 받으면서도 이용당하지 않는 방식이기 때문이다.</p>
+    <h4>기찬에게</h4>
+    <p>실전 함의: (1) 지금 다니는 조직이 무엇이든 늘 최선을 다하고, 함께 일한 사람과의 링크드인 연결을 끊지 말 것. (2) 커피챗은 부탁이 아니라 공유로 열 것. (3) 특정 국적 커뮤니티 한 곳에만 의존하지 말고, 자기 분야(AI·로보틱스)의 실무 커뮤니티까지 약한 연결을 넓힐 것.</p>
+    <div class="src">출처:
+      <a href="https://www.changbal.org/en/about-us" target="_blank" rel="noopener">시애틀권 한인 테크 커뮤니티(개요)</a> ·
+      <a href="https://www.bu.edu/questrom/blog/the-power-of-alumni-networks-in-todays-changing-economic-landscape/" target="_blank" rel="noopener">약한 연결·동문 네트워크의 힘 (BU)</a> ·
+      <a href="https://en.wikipedia.org/wiki/Interpersonal_ties" target="_blank" rel="noopener">약한 연결 이론 (Granovetter)</a>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--blue)" id="s702">
+  <div class="head"><div class="icon">🌐</div><div><h2>SaaS는 죽었나 — 거대모델이 앱을 삼킨다 <span class="chip">SaaS·AI</span></h2><p class="why">SaaS가 죽은 게 아니라 '자리(seat)당 과금'과 '얇은 래퍼'가 죽는다.</p></div></div>
+  <div class="context">
+    <p>2024년 말 "SaaS는 죽었다"는 발언이 나왔고, 2026년에 이르러 그 의미가 분명해졌다. AI 에이전트 하나가 사람 10명분의 일을 하면 <b>사용자 1인당(seat) 과금 모델이 깨진다</b>. 죽음이라기보다 <b>리프라이싱(repricing)</b>이다 — 돈이 '자리'에서 '사용량·성과(usage·outcome)'로 옮겨간다. 소프트웨어를 '짓는 것' 자체가 끝난 것은 아니다.</p>
+    <p>동시에 거대 모델은 앱을 직접 삼킨다. 2026년 7월 8일 공개된 실시간 음성 모델(GPT-Live)은 듣기와 말하기를 동시에 하고, 자연스럽게 끼어들며, 실시간 통역까지 한다 — 과거 번역 앱이나 모니터링 툴이 하던 일 그 자체다.</p>
+  </div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li>정확히 죽은 것은 <b>'seat당 과금 + 빠른 플립(flip)' 모델</b>이다. 어린 개발자에게 소액을 주고 앱을 만들어 대형 플랫폼에 되파는 VC식 플립 구조가 끝나가고 있다.</li>
+      <li>기존 SaaS(예: 세일즈포스류)는 <b>AI를 붙여 계속 살아남는다</b> — 리프라이싱을 흡수하는 것이지 소멸이 아니다.</li>
+      <li>거대 모델에 흡수되는 것은 <b>'얇은 래퍼(wrapper)'</b>다. 번역·상담·단순 법률 문의처럼 모델 API를 얇게 감싼 직종·앱은 모델이 그 기능을 내장하는 순간 사라진다.</li>
+      <li>광고·마케팅 AI 에이전트류는 <b>누구나 쉽게 카피</b>할 수 있고 이미 여러 시장에서 병렬적으로 만들어지고 있어 차별화가 약하다.</li>
+      <li>살아남는 것은 <b>자체 데이터 · 깊은 워크플로 · 유통 · 물리적 해자</b>를 가진 쪽이다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>리프라이싱의 승자는 '자리'가 아니라 '성과'로 값이 매겨지는 층에 서 있는 사람이다. 에이전트를 오케스트레이션하고 human-in-the-loop로 품질을 책임지는 <b>배포·거버넌스 층</b>은 모델이 삼키기 가장 어려운 자리다. 그리고 아무리 모델이 커져도 <b>세상을 직접 만질 수는 없기</b> 때문에, 물리(Physical AI)는 소프트웨어보다 한층 깊은 해자를 갖는다 — 이것이 로보틱스로 무게중심이 옮겨가는 근본 이유다.</p>
+    <h4>기찬에게</h4>
+    <p>실전 함의: (1) '앱을 짓느냐'가 아니라 '무엇이 이 앱을 흉내 못 내게 하느냐(데이터·워크플로·유통·물리)'를 먼저 물을 것. (2) 모델 위에 얹는 것이라면, 얇은 래퍼가 아니라 검증·책임·오케스트레이션 같은 '신뢰 층'에 가치를 둘 것. (3) 한국 시장에 아직 도는 "SaaS를 만들어 팔아라" 메시지는 플립 모델 기준의 낡은 서사일 수 있음을 감안할 것.</p>
+    <div class="src">출처:
+      <a href="https://www.idc.com/resource-center/blog/is-saas-dead-rethinking-the-future-of-software-in-the-age-of-ai/" target="_blank" rel="noopener">IDC: SaaS는 죽었나? (리프라이싱 관점)</a> ·
+      <a href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/" target="_blank" rel="noopener">TechCrunch: 실시간 음성 모델 GPT-Live</a>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--teal)" id="s703">
+  <div class="head"><div class="icon">🤖</div><div><h2>로보틱스 렌즈 — 데모 vs 실제, 센서와 해자 <span class="chip">로보틱스</span></h2><p class="why">데모의 '자연스러움'과 '자율성'은 다르고, 작업이 센서를 정하며, 해자는 하드웨어가 아니라 데이터·정책이다.</p></div></div>
+  <div class="context">
+    <p>2025년 한 가정용 휴머노이드는 2만 달러(월 구독 약 499달러)에 사전 예약을 열어 5일 만에 1만 대가 매진됐다. 그러나 출시 시점의 실체는 <b>원격조종(teleoperation)</b>이다 — VR 헤드셋을 쓴 사람이 실제로 로봇을 조종한다. 손가락 다섯 개의 움직임은 진짜지만, '뇌'는 안에 숨은 사람인 셈이다. 화려한 손을 만드는 목적도 대량 판매보다 '최초'를 증명해 투자를 받기 위한 성격이 크다 — 진짜 공장·대체용 로봇이 하는 일은 대개 단순해서 그렇게 복잡한 손이 필요 없다.</p>
+  </div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>데모 ≠ 자율성</b>: 2026년 최상위 정책 모델(policy model)조차 상당 부분을 원격조종 데이터로 학습한다. 어떤 휴머노이드도 아직 집안일 하나를 시작부터 끝까지 완전 자율로 해내지 못했고, 대부분의 데모는 스크립트되어 있다.</li>
+      <li><b>작업이 센서를 정한다</b>: 그래스핑(잡기)은 0.2~1m 근접 거리에서 <b>조밀한 색+깊이(RGB-D)</b>가 필요해 카메라가 유리하다. 실제로 2026년 상위 그래스핑 모델(π0.5·GR00T 계열 등)은 RGB 카메라 중심이고 라이다를 쓰지 않는다.</li>
+      <li><b>라이다의 자리</b>: 라이다는 3D 거리(약 5~45m)를 연산 없이 바로 얻는 데 강해 주행·이동·다리 쪽에 맞는다. 근접 잡기에는 색 정보가 없어 부적합하다. 저가 뎁스 카메라가 근접 색+깊이를 제공하는 반면 고가 라이다는 물리적으로 그 색을 줄 수 없다.</li>
+      <li><b>센서는 많을수록 좋다(리던던시)</b> — 하나가 죽어도 다른 하나가 산다. 다만 <b>비용이 유일한 제약</b>이다. 저비용을 택한 자율주행은 라이다를 빼기도 하고, 정확성이 중요하고 예산이 넉넉한 방산은 다 붙인다.</li>
+      <li><b>해자의 위치</b>: 화려한 하드웨어가 아니라 <b>'되는 단순함'과 그걸 만드는 데이터·정책</b>이 해자다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>로보틱스의 렌즈는 세 가지 질문으로 요약된다 — <b>(1) 이 능력은 데모인가 실제 자율인가, (2) 비용·센서 트레이드오프는 어디서 갈리는가, (3) 해자는 정확히 어디에 있는가.</b> 웹 개발이 좁은 도메인 안에서 논다면, 로보틱스는 늘 '리얼리티(실제로 되는가·도움이 되는가)'를 먼저 묻는다. 이 감각은 요약 글을 소비해서가 아니라 <b>π0·GR00T 같은 기술 블로그를 직접 읽고 LeRobot 같은 오픈 코드를 실제로 돌려보는 것</b>으로 길러진다.</p>
+    <h4>기찬에게</h4>
+    <p>실전 함의: (1) 휴머노이드 데모를 볼 때 '자율 정도'를 먼저 의심할 것. (2) '손' 중심 작업이라면 camera-first가 맞고, 센서 퓨전(라이다+카메라)은 이동 로봇으로 확장할 때의 다음 챕터로 남겨둘 것. (3) 화려한 손이 아니라 '단순 작업의 신뢰성'과 그 뒤의 데이터·정책이 진짜 경쟁력임을 기준으로 삼을 것.</p>
+    <div class="src">출처:
+      <a href="https://www.therobotreport.com/teleop-not-autonomy-the-path-for-1x-neo-humanoid/" target="_blank" rel="noopener">Robot Report: 자율이 아니라 원격조종</a> ·
+      <a href="https://www.engadget.com/ai/1x-neo-is-a-20000-home-robot-that-will-learn-chores-via-teleoperation-040252200.html" target="_blank" rel="noopener">Engadget: 원격조종으로 배우는 가정용 로봇</a> ·
+      <a href="https://www.orbbec.com/blog/how-lidar-and-rgbd-cameras-compare-and-work-together/" target="_blank" rel="noopener">Orbbec: LiDAR와 RGB-D 비교</a> ·
+      <a href="https://en.wikipedia.org/wiki/RGB-D_camera" target="_blank" rel="noopener">RGB-D 카메라 (개요)</a> ·
+      <a href="https://www.pi.website/blog/pi0" target="_blank" rel="noopener">Physical Intelligence π0 (VLA)</a> ·
+      <a href="https://developer.nvidia.com/isaac/gr00t" target="_blank" rel="noopener">NVIDIA Isaac GR00T</a> ·
+      <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener">LeRobot (Hugging Face)</a>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--purple)" id="s704">
+  <div class="head"><div class="icon">🛡️</div><div><h2>하드웨어는 카피된다 → 알고리즘·데이터가 해자 (그리고 국방) <span class="chip">하드웨어·국방</span></h2><p class="why">복제 가능한 하드웨어 위에서 오래 남는 것은 소프트웨어·데이터다.</p></div></div>
+  <div class="context"><p>하드웨어는 결국 복제된다. 저가로 빠르게 카피하는 공급망이 존재하는 한, 오래 버티는 해자는 하드웨어 자체가 아니라 <b>알고리즘·데이터·배포</b>에 있다. 미국이 소스코드를 함부로 오프쇼어하지 않고, TikTok 강제 매각(PAFACA)처럼 코드·법인 통제를 시장 접근 조건으로 거는 것도 같은 논리다. 국방 분야의 카운터드론 레이저 경쟁은 이 구도를 압축해서 보여준다 — 이스라엘 Iron Beam(100kW급)이 실전 요격에 들어갔고, 값싼 드론을 저렴한 레이저 샷으로 막는 <b>비용 비대칭</b>이 핵심이다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>비용 비대칭이 국방의 언어다.</b> 드론 스웜에 맞서 미사일(수백만 달러)이 아니라 레이저(샷당 몇 달러)로 대응한다는 셈법이 시장을 만든다.</li>
+      <li><b>가치는 레이저(하드웨어)가 아니라 소프트웨어에 있다.</b> 탐지·조준·센서퓨전·표적추적 같은 지각/자율 소프트웨어가 진짜 자산이고, 하드웨어는 카피되면 그만이다.</li>
+      <li><b>하드웨어 복제 시대에 알고리즘이 유일한 지속 해자.</b> 소스코드를 지키고 소스 이전을 꺼리는 이유가 여기 있다. 값싼 오프쇼어 개발에는 소스 유출 리스크가 따른다.</li>
+      <li><b>작은 팀의 IP 보호</b>는 영업비밀(접근 통제) + 속도 + 데이터 해자(모델 가중치·배포 데이터)의 조합이며, 특허는 보조 수단이다.</li>
+      <li><b>수요가 언제나 최종 심판이다.</b> 기술이 아무리 뛰어나도 현실 수요가 없으면 팔리지 않는다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>AI 코딩이 확산되면서 "코드를 타이핑하는 사람"의 가치는 내려가고 "AI가 쓴 코드를 <b>검증(verification)</b>하는 사람", 나아가 <b>무엇을 만들지 정의하는 사람</b>의 가치가 올라간다. 국방·상업 로보틱스의 지각·자율 기술은 서로 전이되지만, 방산은 시민권·보안 클리어런스 장벽이 높아 일반적으로 진입 문턱이 다르다. 원리는 국방에서 배우되, 실제 커리어·제품은 장벽이 낮은 상업 Physical AI 쪽이 현실적이다. 어느 쪽이든 해자는 하드웨어가 아니라 <b>모델·데이터·배포</b>라는 점은 동일하다.</p>
+    <h4>기찬에게</h4>
+    <p>로보틱스에서 "해자가 어디인가"를 반복해서 묻는 습관이 유용하다. 레이저든 로봇 팔이든, 복제 가능한 물건이 아니라 그 뒤의 데이터·검증·배포 층에 시선을 두는 것. 국방은 원리를 배우기엔 훌륭한 교과서지만, 진입 장벽 때문에 커리어 트랙으로는 상업 로보틱스가 더 열려 있다는 점을 함께 계산해두면 좋다.</p>
+    <div class="src">출처: <a href="https://www.aljazeera.com/economy/2026/2/14/are-lasers-the-future-of-anti-drone-warfare" target="_blank" rel="noopener">Al Jazeera: 카운터드론 레이저</a> · <a href="https://nationalsecurityjournal.org/israel-now-has-fully-operational-100-kilowatt-iron-beam-lasers/" target="_blank" rel="noopener">Iron Beam 실전 운용</a> · <a href="https://en.wikipedia.org/wiki/Protecting_Americans_from_Foreign_Adversary_Controlled_Applications_Act" target="_blank" rel="noopener">TikTok 강제 매각법(PAFACA)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--red)" id="s705">
+  <div class="head"><div class="icon">🌏</div><div><h2>인도계의 강점은 '구조' — 비대칭 포지셔닝 <span class="chip">구조·포지셔닝</span></h2><p class="why">개인의 우열이 아니라 파이프라인·리퍼럴·영어라는 구조의 힘.</p></div></div>
+  <div class="context"><p>미국 IT 대기업에서 인도계 비중이 높고, 마이크로소프트·구글·어도비·IBM 등을 인도 출신 경영진이 이끈다. 미국 인구의 약 1%지만 실리콘밸리에서는 훨씬 큰 비중을 차지한다. 이는 "타고난 우월함"보다 <b>구조</b>로 설명된다 — 치열한 선발(IIT 등)로 걸러진 인재 풀, 미국 대학원 파이프라인, 영어 유창성, 그리고 다음 세대를 끌어올리는 <b>강한 리퍼럴·선배 네트워크</b>. 미국 H-1B 비자의 다수가 인도 출신에게 돌아간다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>명확한 파이프라인.</b> 미국 정착을 장기 목표로 두고 F-1 유학 → 석사 → H-1B → 영주권으로 이어지는 경로를 집단적으로 밟는다.</li>
+      <li><b>영어 + in-group 리퍼럴.</b> 언어 이점에 더해, 먼저 자리 잡은 사람이 다음 사람을 추천·조언으로 끌어주는 네트워크가 복리로 작동한다.</li>
+      <li><b>배울 것은 인종 서사가 아니라 구조.</b> 파이프라인 설계와 리퍼럴 문화 자체가 재현 가능한 교훈이다.</li>
+      <li><b>비대칭 포지셔닝.</b> 이미 강한 파이프라인이 깔린 소프트웨어 정면승부보다, 그 파이프라인이 아직 얇은 영역(예: Physical AI)으로 비켜 서는 편이 방어적이다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>이 현상의 교훈은 "누가 더 똑똑한가"가 아니라 <b>어떤 구조가 사람을 밀어 올리는가</b>다. 개인 역량이 비슷할 때 결과를 가르는 것은 언어·네트워크·경로 설계 같은 구조적 레버다. 따라서 다른 집단이 취할 전략은 같은 링에서 정면으로 겨루는 것이 아니라, 경쟁 밀도가 낮은 인접 영역을 골라 <b>구조적 우위를 스스로 만드는 것</b>이다. 협업 국면에서는 누구의 산출물이든 <b>결과물 기준으로 검증</b>하는 습관이 갈수록 값어치를 갖는다.</p>
+    <h4>기찬에게</h4>
+    <p>정면승부 대신 비대칭 위치를 고르는 사고가 핵심이다. 남들이 이미 파이프라인·리퍼럴로 두껍게 깔아둔 소프트웨어 트랙보다, 그 구조가 아직 성기게 깔린 Physical AI 쪽에서 자기만의 파이프라인과 기록·네트워크를 쌓는 편이 유리하다. 배울 대상은 "인도계"가 아니라 그들이 만든 <b>구조</b>다.</p>
+    <div class="src">출처: <a href="https://www.newsweek.com/2025/08/08/indian-ceos-america-are-more-common-everwhat-sets-them-apart-2101964.html" target="_blank" rel="noopener">Newsweek: 미국의 인도계 CEO</a> · <a href="https://en.wikipedia.org/wiki/H-1B_visa" target="_blank" rel="noopener">H-1B 비자 (개요)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--blue)" id="s706">
+  <div class="head"><div class="icon">🛂</div><div><h2>비자·아메리칸 드림 — J-1과 원격 차익의 함정 <span class="chip">비자</span></h2><p class="why">J-1의 2년 규칙과 원격 소득의 세금 함정, 미리 따져야 할 조건들.</p></div></div>
+  <div class="context"><p>J-1(교류방문) 비자에는 <b>2년 본국 거주 요건(INA §212(e))</b>이 붙을 수 있다. 적용되면 waiver를 받기 전까지 H-1B나 영주권 경로로 넘어갈 수 없어, 2년간 본국 거주 의무가 생긴다. 한편 "아메리칸 드림 2.0"은 물가가 낮은 곳에 살며 미국 수준의 소득을 버는 <b>지리적 차익</b>, 또는 원격으로 미국 시장을 겨냥해 일하는 방식을 말한다. 둘 다 현실적 선택지이지만, 각각 "먼저 확인해야 할 조건"이 분명히 있다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>212(e) 적용 여부부터 확정.</b> DS-2019 서류로 2년 거주 요건 해당 여부를 먼저 확인한다. 적용되면 waiver 전에는 H-1B·영주권이 막힌다.</li>
+      <li><b>waiver 경로.</b> 대표적으로 no-objection statement(본국 정부의 무이의서), 미국 연방기관의 이해관계 요청(interested government agency), 박해·hardship 사유 등이 있다. 서식은 USCIS I-612 등.</li>
+      <li><b>J-1은 다리이자 발목.</b> "본국을 먼저 거친 뒤 해외 취업" 같은 계획에는 오히려 무리가 없지만, 곧바로 미국 장기 정착을 노리는 경우 2년 규칙이 발목이 될 수 있다. 비자를 받기 전에 이 조건부터 계산하는 것이 순서다.</li>
+      <li><b>원격 소득의 벽.</b> 미국은 타국에서 작성된 소스코드·제품을 그대로 들여쓰는 데 보수적이다. "제품 판매"보다 "서비스·오케스트레이션" 형태의 원격 계약이 상대적으로 통한다.</li>
+      <li><b>세금·PE 함정.</b> 지리적 차익에는 세금과 고정사업장(Permanent Establishment) 이슈가 따라붙는다. 본국을 base로 미국 계약을 <b>서비스 구조</b>로 잡는 편이 현실적이다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>비자와 원격 소득은 둘 다 "겉보기 이점"과 "숨은 조건"이 짝을 이룬다. J-1은 진입은 쉽지만 212(e)라는 조건이 뒤에 붙고, 원격 차익은 소득 숫자는 매력적이지만 세후·환율·지속성과 PE 리스크로 다시 계산해야 실질이 남는다. FIRE(조기 경제적 독립)식 계산도 명목 "수익"이 아니라 <b>세후·환율·지속가능성</b> 기준으로 봐야 한다. 하드웨어가 이미 저가로 복제되는 시대에, 소스까지 새면 남는 것이 없다는 점도 원격 제품 전략의 한계를 규정한다.</p>
+    <h4>기찬에게</h4>
+    <p>비자든 원격 소득이든 "받고 나서 후회"가 아니라 "받기 전에 조건 확정"이 요령이다. J-1이라면 212(e) 해당 여부와 waiver 가능성을 먼저 계산하고, 원격 US 수익을 노린다면 제품 판매가 아니라 서비스 계약 구조 + 세금·PE 설계를 함께 짜두는 편이 안전하다.</p>
+    <div class="src">출처: <a href="https://travel.state.gov/content/travel/en/us-visas/study/exchange/waiver-of-the-exchange-visitor.html" target="_blank" rel="noopener">state.gov: J-1 waiver 안내</a> · <a href="https://www.uscis.gov/i-612" target="_blank" rel="noopener">USCIS I-612</a> · <a href="https://www.forbes.com/sites/meggenharris/2026/05/12/the-new-american-dream-may-be-overseas/" target="_blank" rel="noopener">Forbes: 해외로 옮겨가는 아메리칸 드림</a> · <a href="https://en.wikipedia.org/wiki/Permanent_establishment" target="_blank" rel="noopener">Permanent Establishment (세무 개념)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--gold)" id="s707">
+  <div class="head"><div class="icon">🎓</div><div><h2>AI 리터러시 교육 사업 — 비개발자 대상 시장 <span class="chip">AI 교육</span></h2><p class="why">깊은 전문성이 아니라 '접근성'을 파는 시장 — 그 우위가 얼마나 오래가는가</p></div></div>
+  <div class="context"><p>AI 기업 교육(corporate training) 시장은 2026년 기준 약 <b>75억 달러</b> 규모로, 연 <b>19%대</b>로 성장하는 것으로 추정된다(Mordor Intelligence: 2026년 74.9억 → 2031년 181.9억 달러, CAGR 19.43%). 이 시장이 원하는 인재는 컴퓨터과학자가 아니라 <b>'AI 제너럴리스트'</b> — 자기 도메인 전문성 위에 높은 AI 리터러시를 얹은 사람이다. 여기서 '전문성보다 접근성'이라는 진입 쐐기가 나온다: 어려운 이론이 아니라 <b>비개발자가 자기 업무를 AI로 효율화하는 법</b>을 가르치는 것이다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>개발자 대상 시장은 포화</b>다. '바이브코딩' 류의 개발자 교육은 이미 공급이 넘쳐 차별화가 어렵다. 반면 <b>마케팅·영업·행정 등 비개발자</b>에게 '내 업무를 돕는 도구'로 가르치는 층은 아직 열려 있다 — 미국의 컨설턴트가 하던 역할에 가깝다.</li>
+      <li><b>지불 주체가 핵심 변수</b>다. 학습자 개인의 자비 결제만으로는 사업 지속이 어렵고, 특히 월 소액 구독 모델은 매출이 얇아 재투자·투자 유치가 힘들다. 청년실업·재직자 재교육에 <b>공적 자금(국비 훈련)</b>이 크게 붙는 구조에서는 지원금이 실질 수요를 만든다.</li>
+      <li>그래서 유효한 형태 중 하나가 <b>'비영리/공익 + 정부 그랜트'</b> 모델이다. 개인 과금에 얹기보다 공적 트랙에 정렬하는 편이 초기 현금흐름을 안정시킨다.</li>
+      <li><b>'접근성'은 초기 우위일 뿐 빠르게 상품화(commoditize)된다.</b> 진입 장벽이 낮은 만큼 후발 주자가 금방 따라온다 — 접근성 하나로는 해자가 되지 못한다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>2026년의 AI 스킬 격차 논의는 '누가 코드를 짜느냐'에서 '누가 AI를 업무에 통합하느냐'로 이동했다(DataCamp의 2026 데이터·AI 리터러시 보고서). 이 흐름에서 교육 사업의 지속 가능한 해자는 강의 콘텐츠 자체가 아니다 — 콘텐츠는 복제되지만, <b>학습자 커뮤니티와 그들이 남긴 실습·리뷰 기록</b>은 복제하기 어렵다. '1인 강사 → 플랫폼'으로 가는 경로도 여기에 있다: 개별 수업이 아니라 <b>축적된 커뮤니티 기록이 곧 커리큘럼</b>이 되도록 설계하고, 실행 레버는 국비 훈련(예: 국민내일배움카드·K-Digital) 트랙과의 정렬에 둔다. 정리하면 해자는 두 축 — (1) 복제 불가한 커뮤니티·기록, (2) 공적 자금 트랙 — 이며, 접근성은 문을 여는 열쇠일 뿐 문을 지키는 자물쇠는 아니다.</p>
+    <h4 class="wis">대가들의 시선</h4>
+    <blockquote>"미래는 이미 와 있다. 다만 고르게 퍼져 있지 않을 뿐이다."<cite>— William Gibson</cite></blockquote>
+    <p>새 기술의 사업 기회는 기술 자체가 아니라 <b>그 기술이 아직 닿지 않은 사람에게 다리를 놓는 일</b>에서 나온다는 통찰이다. AI 리터러시 교육의 본질도 최전선 연구가 아니라 '보급'이다. 다만 다리를 놓는 일은 누구나 시작할 수 있어 경쟁이 붙는다 — 그래서 다리 위에 무엇을 쌓아 남기느냐가 승부를 가른다.</p>
+    <h4>기찬에게</h4>
+    <p>실전 함의는 세 가지다. 첫째, 타깃을 <b>비개발자 실무자</b>로 좁혀라 — 개발자 교육 레드오션과 정면으로 부딪히지 말 것. 둘째, 수익 모델을 개인 구독에만 걸지 말고 처음부터 <b>공적 자금 트랙(국비 훈련)</b>과 정렬해 현금흐름을 안정시켜라. 셋째, '접근성'만으로 방어하려 하지 말고 <b>복제 불가한 자산(커뮤니티·실습 기록)</b>을 콘텐츠와 함께 쌓아라 — 그게 후발 주자와 상품화 압력에 대한 유일한 실질 방어다.</p>
+    <div class="src">출처: <a href="https://www.mordorintelligence.com/industry-reports/ai-powered-corporate-training-market" target="_blank" rel="noopener">Mordor Intelligence — AI 기업 교육 시장</a> · <a href="https://www.datacamp.com/blog/the-state-of-data-and-ai-literacy-in-2026-definitions-statistics-and-the-ai-skills-gap" target="_blank" rel="noopener">DataCamp — 2026 데이터·AI 리터러시 현황</a> · <a href="https://www.hrd.go.kr" target="_blank" rel="noopener">HRD-Net (국민내일배움카드)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--purple)" id="s708">
+  <div class="head"><div class="icon">🚀</div><div><h2>창업의 원칙 — 회사를 팔아라, 생존 규칙, 정직 <span class="chip">창업</span></h2><p class="why">부는 제품이 아니라 지분에서 나오고, 살아남는 규칙과 평판이 그 지분을 지킨다</p></div></div>
+  <div class="context"><p>미국식 창업의 밑그림 세 조각을 하나로 본다. 첫째, 미국에서 큰 부는 대개 <b>제품을 파는 것이 아니라 회사를 파는 것</b>(인수·엑싯)에서 나온다 — VC는 세일즈·서비스 플레이보다 <b>엑싯 가능한 방어적 기술</b>에 투자한다. 둘째, 그 엑싯에 도달하기까지 창업자를 <b>살아남게 하는 생존 규칙</b>이 있다. 셋째, 반복 게임인 시장에서 <b>정직(integrity)</b>은 도덕이 아니라 자산으로 복리처럼 쌓인다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>제품이 아니라 회사를 판다.</b> 월급은 세금이 크게 떼어가 '부자처럼' 살기 어렵고, 진짜 부의 사건은 지분 엑싯이다. 그래서 처음부터 <b>'인수 가능하게(acquirable)'</b> 설계하라 — 독점 데이터, 전환비용, 팀 자체. 다만 build-to-sell만이 정답은 아니다(생존편향 주의): <b>현금흐름이 탄탄한 '작지만 단단한' 회사</b>라는 길도 유효하다.</li>
+      <li><b>절대 자기 돈으로 하지 마라.</b> 정부·그랜트 등 공짜 돈이 있을 때는 그걸 쓴다. 빚내서 창업하는 것은 용기가 아니라 대개 어리석음에 가깝다 — 빚은 옵션이 아니라 마지막 수단이다.</li>
+      <li><b>펀딩이 확정되기 전엔 직장을 버리지 마라.</b> 생활(생계)이 먼저다 — 생활이 불안정하면 리스크를 감당할 수 없다. 떠날 신호는 단 하나: <b>계약된 매출·펀딩이 생활비를 커버하는 순간</b>. 그전까지는 부업으로 둔다.</li>
+      <li><b>보조금이 살아있을 때 들어가</b> 끝나기 전(대략 2년)에 자리를 잡고, 트랙션을 만들어 다음 단계로 점프하라. 런웨이·생활비는 감정이 아니라 <b>'리스크 예산'</b>으로 명시적으로 계산한다.</li>
+      <li><b>순수 카피는 오래 못 간다.</b> 실행력으로 한 판은 이겨도, 평판이 따라다니는 시장에서는 무너진다. 단 '카피=필패'는 과장이다 — 관건은 카피 위에 <b>진짜 차별화(데이터·커뮤니티·유통)</b>를 얹었는가이다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>세 조각은 서로를 지탱한다. '회사를 판다'는 목표는 <b>무엇이 해자인가</b>를 규정하고 — 방어적 기술은 대개 특허가 아니라 남이 못 모으는 <b>데이터·전환비용·평판</b>이다. '생존 규칙'은 그 해자를 쌓을 시간을 벌어준다 — 창업 실패의 최상위 원인이 여전히 '현금 고갈/시장 없음'이라는 CB Insights 분석과 정확히 맞물린다. 그리고 '정직'은 그 시간과 자본이 <b>다음 라운드로 이어지게</b> 하는 접착제다. 미국은 레퍼런스·인맥으로 굴러가는 경제라 신뢰가 곧 재계약·재투자로 환산되기 때문이다. 정리하면: 방어적 자산을 목표로 두고(회사를 판다), 자기 자본과 생계를 태우지 않으며 시간을 벌고(생존 규칙), 그 위에 반복 거래가 가능한 평판을 쌓는다(정직) — 이 셋이 한 몸이다.</p>
+    <h4 class="wis">대가들의 시선</h4>
+    <blockquote>"시간을 빌려주는 것으로는 부자가 될 수 없다. 재정적 자유를 얻으려면 지분 — 사업의 일부 — 을 소유해야 한다."<cite>— Naval Ravikant</cite></blockquote>
+    <p>Naval의 이 문장은 '제품이 아니라 회사(지분)를 판다'는 원칙의 압축이다. 생존 규칙에 대해서는 Paul Graham이 스타트업에 늘 던지라고 한 질문이 핵심이다 — <b>"지금의 성장·지출 속도에서, 돈이 떨어지기 전에 흑자에 도달하는가(default alive)? 아닌가(default dead)?"</b> 이 질문에 답할 수 있어야 생존 규칙이 감이 아닌 계산이 된다. 정직에 대해서는 Warren Buffett의 채용 기준이 유명하다 — <b>"지성·에너지·정직 중 정직이 없으면, 앞의 둘이 당신을 죽인다."</b> 세 대가가 각각 지분·생존·평판을 가리키며, 위 세 조각과 그대로 포개진다.</p>
+    <h4>기찬에게</h4>
+    <p>실전 함의는 세 가지다. 첫째, 무엇을 만들든 <b>'인수 가능한 해자'</b>를 먼저 물어라 — 남이 못 모으는 데이터인가, 전환비용인가. 없다면 build-to-sell 대신 현금흐름 좋은 길을 택하라. 둘째, <b>자기 돈과 직장을 태우지 마라.</b> 그랜트가 살아있을 때 들어가 2년 안에 트랙션을 만들고, 계약 매출·펀딩이 생활비를 덮는 순간에만 전업으로 전환하라. 셋째, 카피에서 시작하더라도 <b>복제 불가한 차별화를 반드시 얹고</b>, 짧은 이득을 위해 신뢰를 태우지 마라 — 같은 사람들과 계속 마주치는 시장에서 정직은 다음 계약과 다음 투자를 부르는 복리 자산이다.</p>
+    <div class="src">출처: <a href="https://nav.al/rich" target="_blank" rel="noopener">Naval Ravikant — 부자 되는 법</a> · <a href="https://paulgraham.com/aord.html" target="_blank" rel="noopener">Paul Graham — Default Alive냐 Default Dead냐(생존 계산)</a> · <a href="https://en.wikipedia.org/wiki/Acqui-hiring" target="_blank" rel="noopener">Acqui-hiring(인재 인수 개념)</a> · <a href="https://www.cbinsights.com/research/report/startup-failure-reasons-top/" target="_blank" rel="noopener">CB Insights — 스타트업 실패 원인</a> · <a href="https://en.wikipedia.org/wiki/First-mover_advantage" target="_blank" rel="noopener">선발주자 vs 빠른 추격자(fast-follower)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--teal)" id="s709">
+  <div class="head"><div class="icon">🏭</div><div><h2>한국의 그랜트·CES 게임과 Physical AI = 노동 대체 <span class="chip">정책·Physical AI</span></h2><p class="why">한국 초기 스타트업의 자금은 매출보다 '검증 신호'를 따라가고, Physical AI의 실제 값어치는 부족한 노동력의 대체에서 나온다.</p></div></div>
+  <div class="context"><p>한국의 초기 창업 생태계는 <b>정부 자금(K-Startup·TIPS 등)</b>의 비중이 크고, 후속 지원은 '눈에 보이는 검증'을 따라 붙는다. 그중 가장 강한 신호가 <b>수상 이력, 특히 CES Innovation Award</b>다 — 공공 자금은 매출(매출)보다 인정(상장)을 더 크게 평가하는 경향이 있기 때문이다. 한편 Physical AI(로봇 자동화)의 진짜 제품은 '정교한 손'이 아니라, <b>희소하고 비싼 노동력을 대체하는 것</b>이다. 고령화와 제조 인력 감소가 겹치면서, 배포된 로봇 한 대가 곧 하나의 인건비 항목을 대신하는 구조로 간다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>지원금 우선(grant-first)</b> 경로는 지분 희석 없이 초기 검증을 할 수 있는 합리적 전략이다. 다만 '고객 없는 성장' 위험이 있어, 수상으로 출발하더라도 <b>실제 트랙션(배포 대수, 대체한 인건비 등 숫자)</b>으로 빠르게 갈아타야 지속 가능하다.</li>
+      <li>공공 자금이 궁극적으로 원하는 것은 서사가 아니라 <b>숫자로 증명되는 대체 효과</b>다. '미래에 대체될 것'이 아니라 '지금 측정 가능한 단위'로 성과를 제시해야 설득력이 있다.</li>
+      <li>한국 제조업의 구조적 특징: (1) <b>다양한 소규모 공장</b>이 많고, (2) 외국산 턴키 시스템을 그대로 쓰기 어렵고, (3) 소기업은 <b>현장별로 커스터마이즈된 로봇</b>이 필요하다(대기업은 자체 제작). 이 때문에 로봇 도입은 기계 작업이자 동시에 <b>배포·커스터마이즈(코딩) 작업</b>이 된다.</li>
+      <li>진입 문턱은 낮아지는 추세다. <b>LeRobot</b> 같은 오픈 스택과 저가 하드웨어가 학습·정책(policy) 층의 진입 장벽을 낮추고 있어, 반드시 기계공학 배경이 없어도 '배포+커스터마이즈' 역할로 참여할 여지가 생긴다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>정책 시그널과 노동 논거는 하나로 수렴한다. 정부가 그랜트로 사실상 사려는 것은 '<b>이 소프트웨어/로봇이 인력을 얼마나 대체하는가</b>'에 대한 증거다. 그래서 가장 강한 제안은 추상적 비전이 아니라 <b>단위 작업(예: 한 라인의 pick-and-place, 검사, 기계 투입) 하나를 실제로 대체하는 데모</b>다 — 이것이 CES 수상 같은 인정 신호와 결합될 때 자금 유입 확률이 올라간다. 다만 '지금 당장 대규모 일자리가 대체되고 있다'는 식의 과장은 피해야 한다. <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank" rel="noopener">WEF Future of Jobs 2025</a>가 보여주듯 자동화의 노동 영향은 직무 재편의 형태로 점진적으로 나타나며, 설득력은 '측정 가능한 지금의 단위'에서 나온다. 타깃 선정에서도 이왕이면 국제 경쟁이 덜한 영역, 즉 해외 저가 솔루션이 쉽게 들어오지 못하는 국내 특화 현장을 고르는 편이 방어적이다.</p>
+    <h4>기찬에게</h4>
+    <p>일반 원칙으로 정리하면: (1) 그랜트와 수상은 '시작 연료'로 쓰되, 성패는 배포 수·대체 인건비 같은 트랙션 지표로 판정한다. (2) 정부·공공 자금 대상으로는 '미래 대체'가 아니라 '지금 증명 가능한 단위 작업의 대체'를 언어로 삼는다. (3) 로봇 커스터마이즈=코딩이라는 점에서, 하드웨어 제작보다 <b>학습·정책 층의 배포·검증</b>에 강점을 두는 포지셔닝이 소규모 공장 시장과 잘 맞는다.</p>
+    <div class="src">출처:
+      <a href="https://www.k-startup.go.kr" target="_blank" rel="noopener">K-Startup (정부 포털)</a> ·
+      <a href="https://www.ces.tech/innovation-awards/" target="_blank" rel="noopener">CES Innovation Awards</a> ·
+      <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener">LeRobot (Hugging Face)</a> ·
+      <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank" rel="noopener">WEF: Future of Jobs 2025</a>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--red)" id="s710">
+  <div class="head"><div class="icon">🎯</div><div><h2>미국의 인재 배분과 '내 고객층' <span class="chip">내 고객층</span></h2><p class="why">전공은 경쟁으로 배분되고, 밀려난 이들이 다시 코딩 교육으로 돌아온다 — 다만 진짜 방어적인 고객은 '전환 개발자'다.</p></div></div>
+  <div class="context"><p>미국 대학은 전공을 미리 배정하지 않고 <b>경쟁시켜 성적순으로</b> 배분하는 경우가 많다. 상위권은 취업이 많은 <b>공학</b> 계열로 가고, 밀린 학생들은 비즈니스 → 인문 → 순수학문 쪽으로 내려간다. 미국 경제를 실질적으로 굴리는 축은 대체로 <b>공학·금융·의료</b>로 묘사되고, 그 밖 전공은 애초에 일자리 수가 적다. 그 결과, 취업이 어려운 인문계 졸업생 상당수가 <b>다시 CS·코딩 부트캠프</b>로 유입된다 — 이것이 코딩 교육 시장의 전형적 고객 흐름으로 이야기된다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li>'인문계 → 코딩 전환'이라는 흐름의 방향성 자체는 관찰되지만, 숫자로 보면 뉘앙스가 크다. <b>코딩 부트캠프의 취업률·임금은 편차가 매우 크다</b> — 우수 프로그램은 높은 성과를 내지만 평균값은 들쭉날쭉하다.</li>
+      <li>2023~24년 이후 <b>테크 채용 둔화</b>와 <b>AI 코딩 도구 확산</b>이 겹치면서, 아무 배경이 없는 완전 입문자가 주니어 개발자로 진입하는 <b>문턱이 뚜렷이 올라갔다</b>.</li>
+      <li>따라서 '코딩 입문자 일반'을 핵심 고객(ICP)으로 잡는 것은 시장 방어력이 약하다. 더 방어적인 세그먼트는 <b>이미 소프트웨어를 어느 정도 아는 사람이 새 영역(예: Physical AI)으로 전환하려는 경우</b>다.</li>
+      <li>정리하면: '문과 → 코딩'은 시장을 넓게 설명하는 <b>마케팅 서사</b>로 두고, 실제 타깃 정의는 <b>전환 개발자(career-switcher, 특히 재직 중 개발자)</b>로 좁히는 편이 유리하다.</li>
+    </ul>
+    <h4 class="big">더 큰 그림 · 최신(2026)</h4>
+    <p>노동시장 데이터가 이 방향을 뒷받침한다. <a href="https://www.bls.gov/emp/chart-unemployment-earnings-education.htm" target="_blank" rel="noopener">BLS의 학력별 실업률·임금 자료</a>는 학력과 소득·고용 안정성의 강한 상관을 보여주지만, 이는 '어떤 교육이든 통한다'는 뜻이 아니라 <b>시장이 실제로 값을 매기는 역량이 무엇인가</b>가 관건이라는 의미에 가깝다. AI 코딩 도구가 초급 반복 작업을 흡수하는 국면에서 시장이 값을 매기는 지점은 코드를 '타이핑'하는 능력이 아니라 <b>정의하고 검증하는 능력</b> 쪽으로 이동한다. 그래서 진입 교육의 승부처는 '완전 입문자를 취업시킨다'는 넓은 약속이 아니라, <b>이미 기본기가 있는 사람을 수요가 있는 특정 영역으로 옮겨 앉히는 전환 경로</b>를 얼마나 구체적으로 설계하느냐다. 무료·정부 지원 교육과 정면 경쟁하는 대신, 이 '전환'의 부가가치가 명확한 세그먼트를 겨냥하는 것이 차별화의 핵심이다.</p>
+    <h4>기찬에게</h4>
+    <p>일반 원칙으로: (1) 마케팅 서사(문과→코딩)와 실제 타깃 정의(전환 개발자)를 분리해서 관리한다. (2) 무료·국비 교육과 겹치는 완전 입문 구간에서 정면 승부하기보다, 기본기를 가진 사람의 <b>영역 전환</b>에서 값어치가 나오는 지점을 좁게 겨냥한다. (3) 성과 지표는 '수료 수'가 아니라 '전환 후 실제 고용/역할 변화'로 잡는 편이 시장 신뢰를 쌓는다.</p>
+    <div class="src">출처:
+      <a href="https://en.wikipedia.org/wiki/Coding_bootcamp" target="_blank" rel="noopener">코딩 부트캠프 (개요)</a> ·
+      <a href="https://www.bls.gov/emp/chart-unemployment-earnings-education.htm" target="_blank" rel="noopener">BLS: 학력별 실업률·임금</a>
+    </div>
+  </div>
+</section></main>
+
+<footer>
+  <p>Private thinking notes · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
+</footer>
+
+</div><!-- /.content -->
+</div><!-- /.app -->
+
+<script src="sessions.js"></script>
+
+
+
+
+
+
+</body></html>

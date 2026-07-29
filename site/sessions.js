@@ -8,7 +8,7 @@
  */
 (function () {
   window.MENTORING_SESSIONS = [
-    { id: "2026-07-17", date: "2026-07-17", title: "WTIA 첫 세션", summary: "네트워킹·로보틱스·비자·창업 — 미국 진출의 지형", href: "index.html", status: "done" },
+    { id: "2026-07-17", date: "2026-07-17", title: "WTIA 첫 세션", summary: "네트워킹·로보틱스·비자·창업 — 미국 진출의 지형", href: "2026-07-17.html", status: "done" },
     { id: "2026-07-24", date: "2026-07-24", title: "미국 진출·커리어 정리", summary: "문화·시장·Upstage·비자를 주제별로 정리", href: "2026-07-24.html", status: "done" },
     { id: "2026-07-31", date: "2026-07-31", title: "다음 질문", summary: "권력·AGI·Upstage 비자·로보틱스 — 앞으로 물어볼 것", href: "2026-07-31.html", status: "upcoming" },
   ];
@@ -17,7 +17,13 @@
     var host = document.getElementById("sessionNav");
     if (!host) return;
     var cur = (document.body && document.body.getAttribute("data-session")) || "";
-    host.innerHTML = window.MENTORING_SESSIONS.map(function (s) {
+    var home =
+      '<a class="s-item s-home' + (cur === "portal" ? " active" : "") + '" href="index.html"' +
+      (cur === "portal" ? ' aria-current="page"' : "") + ">" +
+      '<span class="s-title">📚 Almanac 포털</span>' +
+      '<span class="s-sum">시스템 소개 · 세션 인덱스</span>' +
+      "</a>";
+    host.innerHTML = home + window.MENTORING_SESSIONS.map(function (s) {
       var active = s.id === cur;
       return (
         '<a class="s-item' + (active ? " active" : "") + '" href="' + s.href + '"' +
