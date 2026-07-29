@@ -1,111 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Almanac — bit-habit 지식 시스템</title>
-<meta name="description" content="Almanac — 배운 것을 정리(Almanac)하고, 에세이(Blog)로 다듬어, 소셜·뉴스레터로 확산하는 개인 지식 발행 시스템.">
-<style>
-  :root{
-    --bg:#fbf5e9; --bg2:#f5ecd8; --card:#fffdf9;
-    --fg:#2b211a; --muted:#8a7b66; --line:#e8dcc4;
-    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --purple:#7a5cc0;
-  }
-  *{box-sizing:border-box}
-  html{font-size:20px; scroll-behavior:smooth}
-  body{
-    margin:0; background:var(--bg); color:var(--fg);
-    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
-    line-height:1.55; -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--blue); text-underline-offset:3px}
-  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-
-  /* ---------- layout + sidebar (matches session pages; see sessions.js) ---------- */
-  .app{ display:flex; align-items:flex-start; }
-  .sidebar{
-    flex:0 0 232px; position:sticky; top:0; align-self:stretch; min-height:100vh;
-    background:var(--bg2); border-right:1px solid var(--line); padding:1.4rem 1rem;
-  }
-  .sidebar .s-head{
-    font-family:ui-monospace,Menlo,monospace; text-transform:uppercase; letter-spacing:.14em;
-    font-size:.72rem; font-weight:800; color:var(--red); margin:.2rem 0 .8rem .2rem;
-  }
-  .content{ flex:1 1 auto; min-width:0; }
-  #sessionNav{ display:flex; flex-direction:column; gap:.5rem; }
-  .s-item{
-    display:block; text-decoration:none; color:var(--fg);
-    background:var(--card); border:1px solid var(--line); border-radius:.7rem; padding:.6rem .75rem;
-  }
-  .s-item:hover{ border-color:var(--red) }
-  .s-item.active{ border-color:var(--red); box-shadow:inset 3px 0 0 var(--red); background:#fff }
-  .s-item .s-date{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:var(--muted) }
-  .s-item .s-title{ display:block; font-weight:700; font-size:.95rem; margin-top:.1rem }
-  .s-item .s-sum{ display:block; font-size:.7rem; color:var(--muted); margin-top:.2rem; line-height:1.35 }
-  .s-item .s-badge{
-    display:inline-block; margin-top:.35rem; font-family:ui-monospace,Menlo,monospace;
-    font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
-    background:var(--bg2); border:1px solid var(--line); border-radius:1rem; padding:.05rem .5rem;
-  }
-  .s-item.s-home{ background:#fff4ec; border-color:#f0d6c4 }
-  .s-item.s-home .s-title{ color:#c85a1b }
-  .sidebar .s-foot{ margin-top:.9rem; font-size:.72rem; color:var(--muted); line-height:1.45 }
-  @media (max-width:900px){
-    .app{ flex-direction:column }
-    .sidebar{
-      position:static; min-height:0; width:100%; flex-basis:auto;
-      border-right:none; border-bottom:1px solid var(--line); padding:.8rem 1rem;
-    }
-    #sessionNav{ flex-direction:row; overflow-x:auto; gap:.5rem }
-    .s-item{ flex:0 0 auto; min-width:150px }
-  }
-
-  /* ---------- header ---------- */
-  header.top{ max-width:1000px; margin:0 auto; padding:2.2rem 1.2rem 0.4rem; }
-  .kicker{
-    font-family:ui-monospace,Menlo,Consolas,monospace; text-transform:uppercase;
-    letter-spacing:.2em; font-size:.72rem; color:var(--red); font-weight:700;
-  }
-  header.top h1{
-    font-size:2.4rem; font-weight:900; letter-spacing:-.02em; margin:.35rem 0 .3rem;
-    text-transform:uppercase; line-height:1.05;
-  }
-  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:60ch }
-
-  /* ---------- main + cards ---------- */
-  main{ max-width:1000px; margin:0 auto; padding:1.2rem 1.2rem 4rem }
-  .card{
-    background:var(--card); border:1px solid var(--line); border-radius:1rem;
-    padding:1.3rem 1.4rem 1.4rem; margin:1.1rem 0;
-    box-shadow:0 8px 0 -4px rgba(120,80,20,.15); border-left:8px solid var(--accent,var(--red)); scroll-margin-top:1rem;
-  }
-  .card .head{ display:flex; align-items:flex-start; gap:.9rem }
-  .card .icon{ font-size:2rem; line-height:1; flex:0 0 auto }
-  .card h2{ font-size:1.4rem; font-weight:900; letter-spacing:-.01em; margin:.05rem 0 .15rem }
-  .card .why{ color:var(--muted); font-size:1rem; font-style:italic; margin:0 }
-  .card .context{ margin:.9rem 0 .2rem; font-size:1.02rem }
-  .card .context p{ margin:.5rem 0 }
-
-  .block-tag{
-    display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem;
-    text-transform:uppercase; letter-spacing:.14em; font-weight:800; margin:.9rem 0 .35rem;
-  }
-  footer{ max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line) }
-  @media (max-width:640px){ html{font-size:18px} header.top h1{font-size:2rem} }
-
-  /* theme sections + chips + TOC */
-  .themehead{ margin:2.6rem 0 .4rem; padding:.7rem 0 .55rem; border-bottom:2px solid #e0662e }
-  .themehead .tnum{ font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:800; letter-spacing:.14em; color:#c85a1b }
-  .themehead h2{ margin:.15rem 0 0; font-size:1.75rem; font-weight:900; letter-spacing:-.01em }
-  .themehead .tsub{ color:var(--muted); font-size:.92rem; margin:.2rem 0 0 }
-  .chip{ display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.6rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#8a5a2a; background:#fbeede; border:1px solid #ecd6ba; border-radius:1rem; padding:.08rem .5rem; margin-left:.5rem; vertical-align:middle }
-  .toc{ background:var(--card); border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.2rem; margin:1.3rem 0 }
-  .toc .block-tag{ color:#a08a63 }
-  .toc .tgroup{ margin:.5rem 0; font-size:.94rem }
-  .toc .tgroup b{ color:#c85a1b }
-  .toc a{ text-decoration:none; color:var(--fg) }
-  .toc a:hover{ color:var(--red); text-decoration:underline }
-
-</style>
+<title>Almanac — a personal knowledge system</title>
+<meta name="description" content="Almanac — I collect what I learn, distill it into essays, and share it. A personal knowledge system: wiki, blog, and social.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Noto+Serif+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body data-session="portal">
 
@@ -113,29 +15,38 @@
 <aside class="sidebar">
   <div class="s-head">Almanac</div>
   <nav id="sessionNav"></nav>
-  <div class="s-foot">매주 금요일, 한 세션씩 쌓입니다.</div>
+  <div class="s-foot">A new entry stacks up each Friday.</div>
 </aside>
 <div class="content">
 
-<header class="top"><div class="kicker">bit-habit · 개인 지식 시스템</div>
+<header class="top"><div class="kicker">A PERSONAL ALMANAC</div>
     <h1>Almanac</h1>
-    <p class="sub">배운 것을 raw로 쌓고(Almanac) · 에세이로 다듬고(Blog) · 소셜·뉴스레터로 확산하는 개인 지식 발행 시스템. 나발 라비칸트식으로 식견을 공개적으로 축적합니다.</p></header>
+    <p class="sub">I collect what I learn, distill it into essays, and share it.</p></header>
+
+<div class="hero" aria-hidden="true">
+<svg viewBox="0 0 780 150" preserveAspectRatio="xMidYMid meet">
+  <!-- baseline: a single thin horizon rule, deliberately minimal (Almanack mood) -->
+  <line x1="0" y1="120" x2="780" y2="120" stroke="var(--gold)" stroke-width="1.25"/>
+  <!-- TODO(human): the almanac emblem goes here — a small sun + mountains line drawing,
+       gold stroke, sitting above the horizon (y < 120). Keep it minimal and centered. -->
+</svg>
+</div>
 
 <main>
-<p style="max-width:60ch;color:var(--muted);margin:.2rem 0 0">이 사이트는 제가 매주 배우고 정리한 것을 쌓아 두는 곳입니다. 아래는 그 지식이 흐르는 3단계입니다.</p>
+<p style="color:var(--muted);font-style:italic;margin:.2rem 0 0">Three layers — and learning flows down them.</p>
 
-<div class="themehead"><div class="tnum">SYSTEM</div><h2>3-tier 지식 시스템</h2><p class="tsub">학습 → 📚 Almanac(정리) → ✍️ Blog(에세이) → 📡 Social·Newsletter(확산)</p></div>
+<div class="themehead"><div class="tnum">SYSTEM</div><h2>How it works</h2><p class="tsub">Learn → Store (Almanac) → Distill (Blog) → Share (Social &amp; Newsletter)</p></div>
 
-<section class="card" id="tier-almanac" style="--accent:var(--red)"><div class="head"><div class="icon">📚</div><div><h2>1. Almanac <span class="chip">여기 · 위키</span></h2><p class="why">raw·evergreen 지식을 주제별로</p></div></div>
-<div class="context"><p>매주 배운 것을 주제별로 정리해 쌓는 <b>evergreen 위키</b>입니다. 지금 이 사이트가 Almanac이고, 아래 <b>세션</b>들이 그 항목입니다. 여기선 다듬기 전의 raw 지식과 교차검증된 사실을 모읍니다.</p></div></section>
+<section class="card" id="tier-almanac"><div class="head"><div class="icon">📚</div><div><h2>1. Almanac <span class="chip">the wiki · here</span></h2><p class="why">raw notes, kept by topic</p></div></div>
+<div class="context"><p>The wiki. Raw, evergreen notes organized by topic — this site. Where learning is stored before it is polished. Each <b>session</b> below is one entry.</p></div></section>
 
-<section class="card" id="tier-blog" style="--accent:var(--gold)"><div class="head"><div class="icon">✍️</div><div><h2>2. Blog <span class="chip">시간순 에세이</span></h2><p class="why">Almanac에서 증류한 개인 에세이</p></div></div>
-<div class="context"><p>Almanac의 raw 지식을 <b>시간순 개인 에세이</b>로 다듬어 발행합니다. 나발 라비칸트식으로, 식견을 명료한 글로. → <a href="https://blog.bit-habit.com" target="_blank" rel="noopener">blog.bit-habit.com</a></p></div></section>
+<section class="card" id="tier-blog"><div class="head"><div class="icon">✍️</div><div><h2>2. Blog <span class="chip">essays</span></h2><p class="why">distilled, one idea at a time</p></div></div>
+<div class="context"><p>The essays. Distilled from the almanac and written over time — the Naval way, turning notes into clear prose. → <a href="https://blog.bit-habit.com" target="_blank" rel="noopener">blog.bit-habit.com</a></p></div></section>
 
-<section class="card" id="tier-social" style="--accent:var(--teal)"><div class="head"><div class="icon">📡</div><div><h2>3. Social &amp; Newsletter <span class="chip">확산</span></h2><p class="why">에세이를 채널별로 재가공</p></div></div>
-<div class="context"><p>각 에세이를 <b>X · LinkedIn · Threads · Instagram · 네이버 블로그 · 이메일 뉴스레터</b>로 재가공해 확산합니다. 채널마다 언어·길이·톤 규격을 맞춰 한 번 더 가공합니다.</p></div></section>
+<section class="card" id="tier-social"><div class="head"><div class="icon">📡</div><div><h2>3. Social &amp; Newsletter <span class="chip">reach</span></h2><p class="why">one essay, every channel</p></div></div>
+<div class="context"><p>The reach. Each essay is reworked for X, LinkedIn, Threads, Instagram, Naver, and an email newsletter — matched to each channel's length and tone.</p></div></section>
 
-<div class="themehead"><div class="tnum">ALMANAC</div><h2>세션 (정리 항목)</h2><p class="tsub">매주 금요일 갱신 — 왼쪽 사이드바에서도 이동할 수 있습니다</p></div>
+<div class="themehead"><div class="tnum">NOTEBOOK</div><h2>Sessions</h2><p class="tsub">Updated every Friday · also in the sidebar</p></div>
 <div class="toc"><span class="block-tag">세션 인덱스</span>
 <div class="tgroup"><b><a href="2026-07-17.html">2026-07-17 · WTIA 첫 세션</a></b><br><span style="color:var(--muted);font-size:.88em">네트워킹·로보틱스·비자·창업 — 미국 진출의 지형</span></div>
 <div class="tgroup"><b><a href="2026-07-24.html">2026-07-24 · 미국 진출·커리어 정리</a></b><br><span style="color:var(--muted);font-size:.88em">문화·시장·Upstage·비자를 주제별로 정리</span></div>
@@ -144,7 +55,7 @@
 </main>
 
 <footer>
-  <p>Almanac · bit-habit 개인 지식 시스템 · <span class="mono">almanac.bit-habit.com</span> — 배운 것을 정리(Almanac)하고, 에세이(Blog)로 다듬어, 여러 채널로 나눕니다.</p>
+  <p>Almanac · a personal knowledge system · <span class="mono">almanac.bit-habit.com</span> — collect what I learn, distill it into essays, share it.</p>
 </footer>
 
 </div><!-- /.content -->

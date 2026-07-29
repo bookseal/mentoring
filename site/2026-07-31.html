@@ -4,217 +4,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>다음 질문 — 2026-07-31</title>
 <meta name="description" content="My thinking notes for 2026-07-24 — topics with cross-verified sources and the open questions I'm sitting with.">
-<style>
-  :root{
-    --bg:#fbf5e9; --bg2:#f5ecd8; --card:#fffdf9;
-    --fg:#2b211a; --muted:#8a7b66; --line:#e8dcc4;
-    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --purple:#7a5cc0;
-  }
-  *{box-sizing:border-box}
-  html{font-size:20px; scroll-behavior:smooth}
-  body{
-    margin:0; background:var(--bg); color:var(--fg);
-    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
-    line-height:1.55; -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--blue); text-underline-offset:3px}
-  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-
-  /* ---------- layout + sidebar (matches index.html; see sessions.js) ---------- */
-  .app{ display:flex; align-items:flex-start; }
-  .sidebar{
-    flex:0 0 232px; position:sticky; top:0; align-self:stretch; min-height:100vh;
-    background:var(--bg2); border-right:1px solid var(--line); padding:1.4rem 1rem;
-  }
-  .sidebar .s-head{
-    font-family:ui-monospace,Menlo,monospace; text-transform:uppercase; letter-spacing:.14em;
-    font-size:.72rem; font-weight:800; color:var(--red); margin:.2rem 0 .8rem .2rem;
-  }
-  .content{ flex:1 1 auto; min-width:0; }
-  #sessionNav{ display:flex; flex-direction:column; gap:.5rem; }
-  .s-item{
-    display:block; text-decoration:none; color:var(--fg);
-    background:var(--card); border:1px solid var(--line); border-radius:.7rem; padding:.6rem .75rem;
-  }
-  .s-item:hover{ border-color:var(--red) }
-  .s-item.active{ border-color:var(--red); box-shadow:inset 3px 0 0 var(--red); background:#fff }
-  .s-item .s-date{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:var(--muted) }
-  .s-item .s-title{ display:block; font-weight:700; font-size:.95rem; margin-top:.1rem }
-  .s-item .s-sum{ display:block; font-size:.7rem; color:var(--muted); margin-top:.2rem; line-height:1.35 }
-  .s-item .s-badge{
-    display:inline-block; margin-top:.35rem; font-family:ui-monospace,Menlo,monospace;
-    font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
-    background:var(--bg2); border:1px solid var(--line); border-radius:1rem; padding:.05rem .5rem;
-  }
-  .sidebar .s-foot{ margin-top:.9rem; font-size:.72rem; color:var(--muted); line-height:1.45 }
-  @media (max-width:900px){
-    .app{ flex-direction:column }
-    .sidebar{
-      position:static; min-height:0; width:100%; flex-basis:auto;
-      border-right:none; border-bottom:1px solid var(--line); padding:.8rem 1rem;
-    }
-    #sessionNav{ flex-direction:row; overflow-x:auto; gap:.5rem }
-    .s-item{ flex:0 0 auto; min-width:150px }
-  }
-
-  /* ---------- header ---------- */
-  header.top{ max-width:1000px; margin:0 auto; padding:2.2rem 1.2rem 0.4rem; }
-  .kicker{
-    font-family:ui-monospace,Menlo,Consolas,monospace; text-transform:uppercase;
-    letter-spacing:.2em; font-size:.72rem; color:var(--red); font-weight:700;
-  }
-  header.top h1{
-    font-size:2.4rem; font-weight:900; letter-spacing:-.02em; margin:.35rem 0 .3rem;
-    text-transform:uppercase; line-height:1.05;
-  }
-  header.top .sub{ color:var(--muted); font-size:1.05rem; max-width:60ch }
-
-  /* ---------- reorder list (drag / ↑ ↓ · like the 2026-07-17 page) ---------- */
-  main{ max-width:1000px; margin:0 auto; padding:1.2rem 1.2rem 4rem }
-  .reorder{ margin:0 0 1rem }
-  .reorder-head{
-    font-family:ui-monospace,Menlo,monospace; font-size:.72rem; text-transform:uppercase;
-    letter-spacing:.14em; font-weight:800; color:var(--red);
-  }
-  .reorder-head .hint{ color:var(--muted); font-weight:600; letter-spacing:.02em; text-transform:none }
-  .q-list{ list-style:none; margin:.7rem 0 0; padding:0; counter-reset:q }
-  .q-list li{
-    counter-increment:q; display:flex; align-items:flex-start; gap:.6rem;
-    background:#fff; border:1px solid var(--line); border-radius:.7rem; padding:.7rem .8rem; margin:.55rem 0; cursor:grab;
-  }
-  .q-list li.dragging{ opacity:.45 }
-  .q-list li.over{ border-color:var(--teal); box-shadow:0 0 0 2px #bfe9e0 }
-  .q-list li::before{
-    content:counter(q); flex:0 0 auto; font-family:ui-monospace,Menlo,monospace;
-    font-weight:800; color:#fff; background:var(--teal); border-radius:.4rem; padding:.05rem .5rem; font-size:.8rem; margin-top:.24rem;
-  }
-  .q-text{ flex:1; font-size:1.08rem; font-weight:600; line-height:1.4 }
-  .ord-title{ cursor:pointer }
-  .ord-title:hover{ color:var(--red); text-decoration:underline }
-  .q-actions{ flex:0 0 auto; display:flex; gap:.2rem }
-  .q-actions button{
-    border:1px solid var(--line); background:var(--card); border-radius:.4rem;
-    width:2rem; height:2rem; font-size:1rem; cursor:pointer; color:var(--fg); line-height:1;
-  }
-  .q-actions button:hover{ border-color:var(--teal); color:var(--teal) }
-  @media print{ .reorder{ display:none } .q-actions{ display:none } }
-
-  /* ---------- cards ---------- */
-  .card{
-    background:var(--card); border:1px solid var(--line); border-radius:1rem;
-    padding:1.3rem 1.4rem 1.4rem; margin:1.1rem 0;
-    box-shadow:0 8px 0 -4px rgba(120,80,20,.15); border-left:8px solid var(--accent,var(--red)); scroll-margin-top:1rem;
-  }
-  .card .head{ display:flex; align-items:flex-start; gap:.9rem }
-  .card .icon{ font-size:2rem; line-height:1; flex:0 0 auto }
-  .card .num{
-    font-family:ui-monospace,Menlo,monospace; font-size:.8rem; font-weight:700;
-    color:#fff; background:var(--accent,var(--red)); border-radius:.4rem;
-    padding:.12rem .45rem; flex:0 0 auto; margin-top:.15rem;
-  }
-  .card h2{ font-size:1.4rem; font-weight:900; letter-spacing:-.01em; margin:.05rem 0 .15rem }
-  .card .why{ color:var(--muted); font-size:1rem; font-style:italic; margin:0 }
-  .card .banner{ display:block; width:100%; height:auto; border-radius:.6rem; margin:1rem 0 .2rem; border:1px solid var(--line) }
-  .card .portrait{ float:right; width:220px; margin:.2rem 0 .7rem 1.1rem }
-  .card .portrait img{ display:block; width:100%; height:auto; border-radius:.7rem; border:1px solid var(--line) }
-  .card .portrait figcaption{ font-size:.72rem; color:var(--muted); margin-top:.35rem; line-height:1.3 }
-  .card .portrait figcaption .src{ font-family:ui-monospace,Menlo,monospace; font-size:.64rem; display:block; margin-top:.1rem }
-  .card .portrait figcaption .li{ display:inline-flex; align-items:center; gap:.25rem; margin-top:.25rem; font-weight:700; color:#0a66c2; text-decoration:none }
-  .card .portrait figcaption .li:hover{ text-decoration:underline }
-  @media (max-width:520px){ .card .portrait{ float:none; width:180px; margin:.2rem 0 .6rem 0 } }
-  .card ul.tl{ list-style:none; margin:.5rem 0 0; padding:0 }
-  .card ul.tl li{ padding:.2rem 0; font-size:.96rem; line-height:1.45; border-left:2px solid var(--line); padding-left:.8rem; margin-left:.15rem }
-  .card ul.tl li b.yr{ color:var(--accent); font-variant-numeric:tabular-nums; margin-right:.15rem }
-  .card .context{ margin:.9rem 0 .2rem; font-size:1.02rem }
-  .card .context p{ margin:.5rem 0 }
-  .hl{ background:linear-gradient(transparent 60%, #ffe08a 60%); padding:0 .1em }
-  .verdict{
-    display:inline-block; font-size:.85rem; font-weight:700; border-radius:2rem;
-    padding:.15rem .7rem; margin:.3rem 0; border:1px solid;
-  }
-  .v-ok{ color:#1f7a45; background:#e6f4ea; border-color:#b6ddc2 }
-  .v-mix{ color:#9a6a00; background:#fbf1d8; border-color:#e6cf95 }
-  .v-warn{ color:#a5341f; background:#fbe4de; border-color:#e6b3a6 }
-
-  .block-tag{
-    display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem;
-    text-transform:uppercase; letter-spacing:.14em; font-weight:800; margin:.9rem 0 .35rem;
-  }
-  .srcs{ margin:.5rem 0 .2rem; font-size:.92rem }
-  .srcs .block-tag{ color:#a08a63 }
-  .srcs .row{ margin:.32rem 0; line-height:1.4 }
-  .srcs a{ font-weight:600; white-space:normal }
-  .srcs .sum{ color:var(--muted) }
-
-  .ask{ margin-top:1rem; padding:.9rem 1.05rem; background:var(--bg2); border-radius:.8rem; border:1px dashed #d9c9a6 }
-  .ask .block-tag{ color:var(--red); margin-top:0 }
-  .ask ul{ margin:0; padding-left:0; list-style:none }
-  .ask li{ font-size:1.12rem; font-weight:600; line-height:1.4; margin:.5rem 0; padding-left:1.5rem; position:relative }
-  .ask li::before{ content:"›"; position:absolute; left:.3rem; top:-.05rem; color:var(--accent,var(--red)); font-weight:900; font-size:1.3rem }
-
-  footer{ max-width:1000px; margin:0 auto; padding:1.5rem 1.2rem 3rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line) }
-  @media (max-width:640px){ html{font-size:18px} header.top h1{font-size:2rem} }
-
-  /* Claude's take (injected per card by the script at the end of body) */
-  .take{ margin-top:.9rem; padding:.85rem 1rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.98rem; line-height:1.5 }
-  .take .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.3rem }
-
-  /* edit-questions toggle + affordance (like the 2026-07-17 page) */
-  #editQ{ margin-left:.7rem; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:700; padding:.25rem .7rem; border:1px solid var(--line); border-radius:.5rem; background:var(--card); color:var(--fg); cursor:pointer; vertical-align:middle }
-  #editQ.on{ background:var(--blue); color:#fff; border-color:var(--blue) }
-  body.qediting .ask li[contenteditable="true"]{ background:#fffbe8; border-radius:.35rem; outline:none; cursor:text }
-  body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px #ffe08a }
-  @media print{ #editQ{ display:none } }
-/* verdict badges */
-  .verdict{ display:inline-block; font-size:.8rem; font-weight:700; border-radius:2rem; padding:.1rem .6rem; margin:.15rem .2rem .15rem 0; border:1px solid }
-  .v-ok{ color:#1f7a45; background:#e6f4ea; border-color:#b6ddc2 }
-  .v-mix{ color:#9a6a00; background:#fbf1d8; border-color:#e6cf95 }
-  .v-warn{ color:#a5341f; background:#fbe4de; border-color:#e6b3a6 }
-  .v-op{ color:#5a3fb0; background:#efeafb; border-color:#cdbff0 }
-
-  /* Claude cross-check box (bullets + verdicts + sources) */
-  .ctake{ margin-top:.9rem; padding:.9rem 1.05rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.96rem; line-height:1.5 }
-  .ctake .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.4rem }
-  .ctake h4{ margin:.7rem 0 .25rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:#a56a3a; font-family:ui-monospace,Menlo,monospace }
-  .ctake ul{ margin:.2rem 0 .4rem; padding-left:1.15rem }
-  .ctake li{ margin:.22rem 0 }
-  .ctake p{ margin:.35rem 0 }
-  .ctake .src{ font-size:.82rem; color:var(--muted); margin-top:.4rem }
-  .ctake .src a{ color:#2f6fd0; word-break:break-all }
-  .ctake h4.wis{ color:#5a3fb0 }   /* 대가들의 시선 */
-  .ctake h4.big{ color:#1f7a6a }   /* 더 큰 그림 */
-  .ctake h4.bias{ color:#a5341f }  /* bias-accent */
-  .ctake blockquote{ margin:.3rem 0 .3rem .2rem; padding:.15rem 0 .15rem .7rem; border-left:3px solid #cdbff0; color:#443; font-style:italic }
-  .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.1rem }
-  .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.3rem 0 }
-  .ctake th, .ctake td{ border:1px solid var(--line); padding:.25rem .45rem; text-align:left; vertical-align:top }
-  .ctake th{ background:#fbeede; color:#8a5a2a; font-size:.78rem }
-
-  /* theme sections + chips + TOC + collapsible dialogue + key quotes */
-  .themehead{ margin:2.6rem 0 .4rem; padding:.7rem 0 .55rem; border-bottom:2px solid #e0662e }
-  .themehead .tnum{ font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:800; letter-spacing:.14em; color:#c85a1b }
-  .themehead h2{ margin:.15rem 0 0; font-size:1.75rem; font-weight:900; letter-spacing:-.01em }
-  .themehead .tsub{ color:var(--muted); font-size:.92rem; margin:.2rem 0 0 }
-  .chip{ display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.6rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#8a5a2a; background:#fbeede; border:1px solid #ecd6ba; border-radius:1rem; padding:.08rem .5rem; margin-left:.5rem; vertical-align:middle }
-  .keyq{ margin:.7rem 0 .35rem; padding:.6rem .85rem; background:#f7f4ec; border-left:3px solid var(--accent,#c9a24a); border-radius:.5rem }
-  .keyq .block-tag{ color:#a08a63; margin:.1rem 0 .35rem }
-  .keyq .kq{ margin:.32rem 0; font-size:.98rem; line-height:1.5 }
-  .keyq .kq b.s{ font-family:ui-monospace,Menlo,monospace; font-size:.68rem; color:#fff; background:#b79a5e; border-radius:.3rem; padding:.03rem .34rem; margin-right:.35rem }
-  details.fulldlg{ margin:.45rem 0 .2rem; border:1px solid var(--line); border-radius:.6rem; background:#fdfbf6 }
-  details.fulldlg>summary{ cursor:pointer; padding:.5rem .8rem; font-family:ui-monospace,Menlo,monospace; font-size:.74rem; font-weight:700; color:#8a7b66; list-style:none }
-  details.fulldlg>summary::-webkit-details-marker{ display:none }
-  details.fulldlg>summary::before{ content:"▸ 전체 대화 보기 " }
-  details.fulldlg[open]>summary::before{ content:"▾ 전체 대화 접기 " }
-  details.fulldlg>summary span{ display:none }
-  details.fulldlg .dialog{ margin-top:0; border-top:1px dashed var(--line); padding:.5rem .8rem .6rem }
-  .toc{ background:var(--card); border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.2rem; margin:1.3rem 0 }
-  .toc .block-tag{ color:#a08a63 }
-  .toc .tgroup{ margin:.5rem 0; font-size:.94rem }
-  .toc .tgroup b{ color:#c85a1b }
-  .toc a{ text-decoration:none; color:var(--fg) }
-  .toc a:hover{ color:var(--red); text-decoration:underline }
-
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Noto+Serif+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body data-session="2026-07-31">
 
@@ -222,7 +15,7 @@
 <aside class="sidebar">
   <div class="s-head">Almanac</div>
   <nav id="sessionNav"></nav>
-  <div class="s-foot">A new page stacks up per session.</div>
+  <div class="s-foot">매주 금요일, 한 세션씩 쌓입니다.</div>
 </aside>
 <div class="content">
 
@@ -250,7 +43,7 @@
   </section></main>
 
 <footer>
-  <p>Private thinking notes · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
+  <p>Almanac · <span class="mono">almanac.bit-habit.com</span> · 매주 금요일 갱신 — 배운 것을 주제별로 정리합니다.</p>
 </footer>
 
 </div><!-- /.content -->
