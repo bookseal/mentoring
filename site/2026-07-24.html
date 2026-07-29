@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Open questions — 2026-07-24</title>
+<title>정리 — 2026-07-24</title>
 <meta name="description" content="My thinking notes for 2026-07-24 — topics with cross-verified sources and the open questions I'm sitting with.">
 <style>
   :root{
@@ -41,6 +40,7 @@
   .s-item.active{ border-color:var(--red); box-shadow:inset 3px 0 0 var(--red); background:#fff }
   .s-item .s-date{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.72rem; color:var(--muted) }
   .s-item .s-title{ display:block; font-weight:700; font-size:.95rem; margin-top:.1rem }
+  .s-item .s-sum{ display:block; font-size:.7rem; color:var(--muted); margin-top:.2rem; line-height:1.35 }
   .s-item .s-badge{
     display:inline-block; margin-top:.35rem; font-family:ui-monospace,Menlo,monospace;
     font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
@@ -165,6 +165,55 @@
   body.qediting .ask li[contenteditable="true"]{ background:#fffbe8; border-radius:.35rem; outline:none; cursor:text }
   body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px #ffe08a }
   @media print{ #editQ{ display:none } }
+/* verdict badges */
+  .verdict{ display:inline-block; font-size:.8rem; font-weight:700; border-radius:2rem; padding:.1rem .6rem; margin:.15rem .2rem .15rem 0; border:1px solid }
+  .v-ok{ color:#1f7a45; background:#e6f4ea; border-color:#b6ddc2 }
+  .v-mix{ color:#9a6a00; background:#fbf1d8; border-color:#e6cf95 }
+  .v-warn{ color:#a5341f; background:#fbe4de; border-color:#e6b3a6 }
+  .v-op{ color:#5a3fb0; background:#efeafb; border-color:#cdbff0 }
+
+  /* Claude cross-check box (bullets + verdicts + sources) */
+  .ctake{ margin-top:.9rem; padding:.9rem 1.05rem; background:#fff4ec; border:1px solid #f0d6c4; border-left:4px solid #e0662e; border-radius:.7rem; font-size:.96rem; line-height:1.5 }
+  .ctake .who{ display:block; font-family:ui-monospace,Menlo,monospace; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#c85a1b; margin-bottom:.4rem }
+  .ctake h4{ margin:.7rem 0 .25rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:#a56a3a; font-family:ui-monospace,Menlo,monospace }
+  .ctake ul{ margin:.2rem 0 .4rem; padding-left:1.15rem }
+  .ctake li{ margin:.22rem 0 }
+  .ctake p{ margin:.35rem 0 }
+  .ctake .src{ font-size:.82rem; color:var(--muted); margin-top:.4rem }
+  .ctake .src a{ color:#2f6fd0; word-break:break-all }
+  .ctake h4.wis{ color:#5a3fb0 }   /* 대가들의 시선 */
+  .ctake h4.big{ color:#1f7a6a }   /* 더 큰 그림 */
+  .ctake h4.bias{ color:#a5341f }  /* bias-accent */
+  .ctake blockquote{ margin:.3rem 0 .3rem .2rem; padding:.15rem 0 .15rem .7rem; border-left:3px solid #cdbff0; color:#443; font-style:italic }
+  .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.1rem }
+  .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.3rem 0 }
+  .ctake th, .ctake td{ border:1px solid var(--line); padding:.25rem .45rem; text-align:left; vertical-align:top }
+  .ctake th{ background:#fbeede; color:#8a5a2a; font-size:.78rem }
+
+  /* theme sections + chips + TOC + collapsible dialogue + key quotes */
+  .themehead{ margin:2.6rem 0 .4rem; padding:.7rem 0 .55rem; border-bottom:2px solid #e0662e }
+  .themehead .tnum{ font-family:ui-monospace,Menlo,monospace; font-size:.72rem; font-weight:800; letter-spacing:.14em; color:#c85a1b }
+  .themehead h2{ margin:.15rem 0 0; font-size:1.75rem; font-weight:900; letter-spacing:-.01em }
+  .themehead .tsub{ color:var(--muted); font-size:.92rem; margin:.2rem 0 0 }
+  .chip{ display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:.6rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#8a5a2a; background:#fbeede; border:1px solid #ecd6ba; border-radius:1rem; padding:.08rem .5rem; margin-left:.5rem; vertical-align:middle }
+  .keyq{ margin:.7rem 0 .35rem; padding:.6rem .85rem; background:#f7f4ec; border-left:3px solid var(--accent,#c9a24a); border-radius:.5rem }
+  .keyq .block-tag{ color:#a08a63; margin:.1rem 0 .35rem }
+  .keyq .kq{ margin:.32rem 0; font-size:.98rem; line-height:1.5 }
+  .keyq .kq b.s{ font-family:ui-monospace,Menlo,monospace; font-size:.68rem; color:#fff; background:#b79a5e; border-radius:.3rem; padding:.03rem .34rem; margin-right:.35rem }
+  details.fulldlg{ margin:.45rem 0 .2rem; border:1px solid var(--line); border-radius:.6rem; background:#fdfbf6 }
+  details.fulldlg>summary{ cursor:pointer; padding:.5rem .8rem; font-family:ui-monospace,Menlo,monospace; font-size:.74rem; font-weight:700; color:#8a7b66; list-style:none }
+  details.fulldlg>summary::-webkit-details-marker{ display:none }
+  details.fulldlg>summary::before{ content:"▸ 전체 대화 보기 " }
+  details.fulldlg[open]>summary::before{ content:"▾ 전체 대화 접기 " }
+  details.fulldlg>summary span{ display:none }
+  details.fulldlg .dialog{ margin-top:0; border-top:1px dashed var(--line); padding:.5rem .8rem .6rem }
+  .toc{ background:var(--card); border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.2rem; margin:1.3rem 0 }
+  .toc .block-tag{ color:#a08a63 }
+  .toc .tgroup{ margin:.5rem 0; font-size:.94rem }
+  .toc .tgroup b{ color:#c85a1b }
+  .toc a{ text-decoration:none; color:var(--fg) }
+  .toc a:hover{ color:var(--red); text-decoration:underline }
+
 </style>
 </head>
 <body data-session="2026-07-24">
@@ -177,412 +226,296 @@
 </aside>
 <div class="content">
 
-<header class="top">
-  <div class="kicker">Thinking notes · 2026-07-24</div>
-  <h1>Open questions</h1>
-  <p class="sub">Topics I'm chewing on. Each card has a <b>cross-verified summary + sources (URL) + the open questions I'm sitting with</b>. Badges show what checked out — <span class="verdict v-ok">Verified</span> <span class="verdict v-mix">Contested</span> <span class="verdict v-warn">Caution</span>. <b>Drag the list to reorder by priority.</b></p>
-</header>
+<header class="top"><div class="kicker">정리 · 2026-07-24 (금)</div>
+    <h1>지난 세션에서 배운 것</h1>
+    <p class="sub">미국 진출·커리어를 주제별로 정리한 노트 — 이 주에 다룬 내용의 배경 지식과 실전 함의. 팩트는 교차검증하고 출처를 달았습니다. 매주 금요일 갱신.</p></header>
 
-<main>
+<main><div class="toc"><span class="block-tag">이 주의 주제</span><div class="tgroup"><b><a href="#r02">1. 미국 실용주의와 '지갑이 열리는 순간'</a></b></div><div class="tgroup"><b><a href="#r03">2. 미국에서의 커리어 전략 — 증거의 힘</a></b></div><div class="tgroup"><b><a href="#r04">3. 좋은 창업 예시 가려내기 — 겉보기 성공 vs 실제 성취</a></b></div><div class="tgroup"><b><a href="#r05">4. Upstage 딥다이브 — 펀딩·전략 뜯어보기</a></b></div><div class="tgroup"><b><a href="#r06">5. 미국 시장 진출 — 온프레미스 LLM·현지화</a></b></div><div class="tgroup"><b><a href="#r07">6. 로보틱스 · Physical AI — 미국·한국·국방</a></b></div><div class="tgroup"><b><a href="#r08">7. 글로벌 AI 교육 사업 — 미국·싱가포르·한국</a></b></div><div class="tgroup"><b><a href="#r09">8. 싱가포르 — 미국·한국과 비교한 대안 트랙</a></b></div><div class="tgroup"><b><a href="#r10">9. 재미 한국계 미국인 · 미국 근무 문화 · 정보 격차</a></b></div></div>
+<section class="card" style="--accent:var(--gold)" id="r02">
+  <div class="head"><div class="icon">💳</div><div><h2>미국 실용주의와 '지갑이 열리는 순간' <span class="chip">실용주의·소비</span></h2><p class="why">저맥락·DIY·개인책임이라는 세 축이 만나, 미국 소비자는 "위험이 0에 수렴할 때" 비로소 돈을 낸다</p></div></div>
+  <div class="context"><p>미국 시장은 "명확한가(저맥락)·스스로 되는가(DIY)·되돌릴 수 있는가(리스크 리버설)"라는 필터로 제품을 거른다. 문화 관찰(간판이 작다, 다들 바쁘다, 자영업이 드물다)에서 출발해, 그것이 왜 그대로 제품·마케팅 설계 원리가 되는지를 하나로 꿰어 정리한다. 가격 경쟁이 아니라 "지각된 위험(perceived risk)"을 없애는 쪽이 이긴다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4><ul>
+      <li><b>저맥락(low-context)</b>: 미국은 버튼·라벨·간판·문서까지 정보를 '명시적으로' 드러낸다. 눈치로 채우는 한국식 고맥락과 반대. 근거는 Edward T. Hall의 고/저맥락 이론(1976)과 Erin Meyer의 문화 지도로, 미국은 세계에서 가장 저맥락 축에 놓인다.</li>
+      <li><b>DIY·개인책임</b>: 인건비가 비싸 잔디·집수리·차 정비를 직접 한다. 전문가가 중간에서 보증해 주지 않으니, 소비자는 "안 되면 되돌린다"는 안전장치를 구매 조건으로 요구한다.</li>
+      <li><b>리스크 리버설로 지갑이 열림</b>: refund·return·free trial·warranty처럼 위험을 파는 쪽이 떠안는 장치가 있어야 산다. 마찰 없는 반품을 주는 Costco·Amazon이 이기고, 반품 안 되는 물건은 애초에 안 산다.</li>
+      <li><b>must-have만 산다</b>: 시간이 빠듯해 "있으면 좋은(nice-to-have)"엔 지갑을 안 연다. '이거 없으면 안 된다' 수준의 확실한 문제 해결(진통제)만 통과한다.</li>
+    </ul>
+    <h4 class="big">사람들이 어떻게 사고·작동시키는가</h4><p>SaaS/UX를 넘어, 미국인이 제품·서비스 자체를 대하는 태도가 <b>명시성·셀프서비스·DIY</b>로 수렴한다. <b>DIY 문화 ↔ SaaS 개발</b>: 전문가를 안 부르고 직접 해결하는 습관은, 소프트웨어에도 "설치기사·컨설턴트 없이 스스로 되는 것"을 기대하게 만든다. 그래서 미국 SaaS의 표준은 (1) 첫 화면 한 문장으로 "무엇을·왜 좋게 하는가" 명시, (2) 숨은 기능은 눈치로 찾게 두지 말고 라벨·툴팁·인앱 가이드로 전부 노출, (3) 사람이 붙지 않아도 굴러가는 셀프서브 온보딩과 명확한 문서(문서화가 곧 제품)다. 저맥락이라 '직설'과 혼동하기 쉽지만, 미국은 명확하되 표현은 부드러운(비대립) 결이라 카피 톤은 강압적이지 않게 다듬어야 한다 — 독일·네덜란드식 정면 반박과는 또 다르다.</p>
+    <h4 class="big">무엇에 돈을 쓰나 (개인 &amp; 법인)</h4><p><b>개인</b>: 스크린골프처럼 실내에서 저비용으로 때우는 여가는 미국에서 약하다(밖에서 실제로 하거나, Topgolf처럼 '가상 타격+사교'로 키운다). 대신 미국인은 <b>경험·편의·시간 절약·집·차 유지</b>에 돈을 쓴다. 주말이 통째로 유지보수로 새기 때문에 "내 주말 3시간을 돌려준다"가 보이는 자동화·대행 서비스가 강력하다. 상류층일수록 로고를 지우는 '조용한 럭셔리(quiet luxury)'와, 여가가 아니라 '바쁨' 자체를 지위로 삼는(busyness as status) 경향도 함께 읽어야 한다. <b>법인(B2B)</b>: 자영업 비중이 낮고(자영업률 한국 약 23~24% vs 미국 약 6~7%, 2023) 조직 소속 전문직이 표준이라, 지출 결정도 조직 논리를 따른다. 법인 지갑은 <b>ROI·규정준수·리스크 제거·시간 절감</b>이 수치로 보일 때 열린다. 마케팅/CRO 관점에선 개인이든 법인이든 원리는 같다 — 리스크 리버설(무료 PoC, 원클릭 취소, 환불·SLA 보증)로 구매 마찰을 없애면 전환율이 오른다.</p>
+    <h4 class="wis">대가들의 시선</h4><blockquote>"사람은 같은 크기라도 이득보다 손실을 약 두 배로 아프게 느낀다."<cite>— Kahneman &amp; Tversky, 전망이론(prospect theory)</cite></blockquote><p>환불·반품·무료 체험은 '손실 가능성'이라는 가장 큰 구매 장벽을 판매자가 대신 짊어지는 장치다. Cialdini는 <i>Influence</i>에서 위험이 제거될 때 사람이 행동한다고 봤고, 이를 마케팅 문법으로 정식화한 것이 '리스크 리버설'이다. 반대편에서 Veblen의 '과시적 소비'가 로고를 지우는 조용한 럭셔리로 뒤집힌 것도 같은 사회를 다른 각도에서 비춘다 — 미국 중상류층은 '티 안 냄'과 '바쁨'으로 지위를 표현한다.</p>
+    <h4>기찬에게</h4><p>미국용 제품(특히 SaaS)의 첫 설계 항목은 가격이 아니라 <b>보증 구조</b>다. ① 카드 없이 쓰는 무료 체험, ② 마찰 없는 환불·취소 흐름, ③ "안 되면 되돌릴 수 있다"를 랜딩 최상단에. 동시에 반품·이탈이 곧 비용이므로 온보딩·품질로 "환불이 안 나오게" 만드는 게 진짜 해자다(2026년엔 상습 반품 제한·유료 반품·keep-it 환불로 정책이 정교해지는 중). 저맥락에 맞춰 효용을 눈에 보이게, DIY에 맞춰 스스로 되게, 개인책임에 맞춰 위험을 내가 떠안게 — 이 셋을 채우면 지갑이 열린다. 커리어도 같은 논리다: 진입장벽 낮은 점포형 자영업 대신, 조직에서 전문성을 복리로 쌓다가 확장 가능한(scalable) 형태로 독립하는 경로가 이 시장 구조에 맞는다.</p>
+    <div class="src">출처: <a href="https://hbr.org/2014/05/navigating-the-cultural-minefield" target="_blank" rel="noopener">Erin Meyer, "문화의 지뢰밭 헤쳐가기" — HBR</a> · <a href="https://data.worldbank.org/indicator/SL.EMP.SELF.ZS" target="_blank" rel="noopener">World Bank — 자영업 비중(고용 대비 %)</a> · <a href="https://en.wikipedia.org/wiki/Prospect_theory" target="_blank" rel="noopener">전망이론 (Kahneman &amp; Tversky)</a> · <a href="https://en.wikipedia.org/wiki/Influence:_The_Psychology_of_Persuasion" target="_blank" rel="noopener">설득의 심리학 (Cialdini)</a></div>
+  </div>
+</section>
 
-  <section class="reorder" aria-label="Topic order">
-    <div class="reorder-head">Topics <span class="hint">— drag to reorder · click to jump</span><button id="editQ" type="button">✎ Edit questions</button></div>
-    <ol class="q-list" id="topicOrder"></ol>
-  </section>
+<section class="card" style="--accent:var(--blue)" id="r03">
+  <div class="head"><div class="icon">🧭</div><div><h2>미국에서의 커리어 전략 — 증거의 힘 <span class="chip">커리어</span></h2><p class="why">스펙이 아니라 '만든 것의 증거'가 문을 연다 — 즐김을 희소성으로, 희소성을 협상력으로</p></div></div>
+  <div class="context"><p>미국 커리어 전략의 뼈대를 하나로 엮은 종합 노트다. 출발점은 "즐기는 일(enjoyment)"이지만, 그 즐김이 값이 매겨지려면 (1) 남이 못 복제하는 specific knowledge가 되고, (2) 포트폴리오·실물·시연이라는 proof of work로 증명되며, (3) 계약 형태·안정성의 환상을 걷어낸 optionality(옵션 축적) 위에 서야 한다. 2026년의 채용시장은 AI 직무 폭증과 대규모 감원이 동시에 진행되는 양극화 국면이라, "재미있는 것 중 지금 수요가 붙는 것"을 의식적으로 고르는 판단이 그 어느 때보다 중요하다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4><ul>
+      <li><b>즐김 → 희소성:</b> 스스로 즐겨서(enjoyment) 한 일만이 남이 훈련으로 복제할 수 없는 specific knowledge가 된다. "커리어가 아니라 재미로 만든 것"을 남들이 원한다는 신호는 곧 희소성의 증거다.</li>
+      <li><b>Show, don't tell:</b> 미국 채용은 학벌·연차보다 "무엇을 실제로 만들었나"를 본다. 배포된 앱·GitHub·데모·문서가 자기소개서보다 강한 신호다. 실제로 스킬 기반 채용은 고용주 약 85%가 도입했고 학위 요건 제거가 확산 중이다.</li>
+      <li><b>'때(timing)'와 수요의 교집합:</b> LinkedIn 기준 AI 채용 공고가 전년 대비 +74%, 'AI Engineer'는 미국에서 가장 빠르게 성장한 직함(공고 +143%), AI 스킬 임금 프리미엄 약 62%. 다만 같은 기간 감원도 폭증(2026년 1월 발표 감원만 약 10.8만 건, 전년比 +118%)이라 "즐기면 알아서 된다"보다 "즐기는 것 중 수요가 붙는 것에 집중"이 훨씬 강한 전략이다.</li>
+      <li><b>정규직 = 안전이라는 전제는 낡았다:</b> 미국 대부분의 주는 at-will 고용이라 정규직도 회사 사정이면 잘린다. 진짜 안전은 고용주가 주는 게 아니라 본인의 적응력·평판·옵션에서 나온다.</li>
+      <li><b>레버리지로서의 리모트:</b> 완전 리모트 오퍼의 진짜 가치는 일회성 사이닝보너스가 아니라 "어디서든 일할 수 있는 옵션"과 총보상(base+equity+장비·교육 예산)이다. 비동기 근무에서 documentation·커뮤니케이션 능력이 곧 실력으로 평가된다.</li>
+    </ul>
 
-  <!-- ============ power ============ -->
-  <section class="card" data-topic="power" style="--accent:var(--red)">
-    <div class="head">
-      <div class="icon">🕵️</div><div class="num">01</div>
-      <div><h2>Secret circles &amp; power — the 'Dialog' leak</h2>
-      <p class="why">Where does real power sit now — Washington, or Silicon Valley?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/power.svg" alt="Secret circles & power">
-    <div class="context">
-      <p><span class="verdict v-ok">Real event</span> In June 2026 a Swiss hacker (maia arson crimew) pulled <b>222 registrants</b> from the insecurely-exposed website of <span class="hl">'Dialog'</span>, a private, invite-only group <b>co-founded in 2006 by Peter Thiel and Auren Hoffman</b>. Wired broke it; major outlets confirmed.</p>
-      <p>Registrants included <b>US Treasury Sec. Scott Bessent, Senators Ted Cruz &amp; Cory Booker, Elon Musk, Eric Schmidt, Google/DeepMind execs, a NATO commander, and Israel's Finance Ministry chief economist</b>. Members were tiered <b>A/B/C</b> (the 'C' tier may be the top). Session titles for the Aug 2026 Ireland retreat included <span class="hl">"Navigating WWIII" and "Technology for the Battlefield."</span></p>
-      <p><span class="verdict v-warn">Caution</span> It was an <b>exposed website, not a dramatic hack</b>, and <b>registration ≠ attendance</b>. "Power is moving from DC to Silicon Valley" is a <b>contested reading</b> — the state still holds law, force, and the contracts (Palantir's growth is itself government-dependent).</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://www.forbes.com/sites/maryroeloffs/2026/06/18/what-we-know-about-billionaire-peter-thiels-secret-dialog-society-including-whos-involved/" target="_blank" rel="noopener">Forbes (2026-06-18)</a> <span class="sum">— overview &amp; who's on the list</span></div>
-      <div class="row"><a href="https://san.com/cc/peter-thiels-dialog-network-was-super-secret-a-data-leak-changed-that/" target="_blank" rel="noopener">Wired summary (SAN)</a> <span class="sum">— how it leaked, session titles, 222 names</span></div>
-      <div class="row"><a href="https://cybernews.com/news/peter-thiels-secret-society-leak-ai-disruption-cult-world-war-iii/" target="_blank" rel="noopener">Cybernews</a> <span class="sum">— the A/B/C tiers &amp; the WWIII sessions</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/Balaji_Srinivasan" target="_blank" rel="noopener">'Network State' (Balaji)</a> <span class="sum">— the tech-sovereignty blueprint (concept)</span></div>
-      <div class="row"><a href="https://www.nybooks.com/online/2025/10/04/the-war-over-defense-tech/" target="_blank" rel="noopener">NY Review (2025-10)</a> <span class="sum">— the fight over defense-tech (balanced)</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've been around long enough to have watched where power actually sits — maybe sat in a few of those rooms yourself. Tell me about a time a decision got made by <i>who</i> was in the room, not what was on paper. What did that teach you?</li>
-        <li>If power really is concentrating in a few tech-and-capital rooms, what can people like us actually <i>do</i> about it — build something, get near it, route around it, or just make peace with it?</li>
-        <li>Where's the leverage for an outsider — is it trying to get into those rooms, or building something they eventually can't ignore? I want to think this through with you.</li>
-        <li>When you look at where this is all heading, what would you tell someone at my stage to <i>do now</i> so we're not just spectators to it?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="big">Proof of work — 미국식 '증거의 힘'</h4>
+    <p>한국·아시아권 채용이 시험 점수·학벌·연차 같은 <em>대리 지표</em>로 사람을 거른다면, 미국은 <em>결과물 그 자체</em>를 본다. 이 차이가 실전에서 나타나는 양상은 셋이다.</p>
+    <p><b>① 실물이 언어 장벽을 우회한다.</b> 특히 하드웨어·엔지니어링 직군에서 "말로 설명하기 어려우면 만들어서 보여준다"는 접근은 강력하게 통한다. 실제로 실증 가능한 역량(라이브 시연·실물 제작)이 언어 약점을 상당 부분 상쇄한다는 것은 STEM 채용의 정설이다. 다만 반쪽 진실을 놓치면 안 된다 — 실물로 <em>문은 열 수 있어도</em>, 조직 안에서 영향력·의사결정권(리드·승진)까지 가려면 언어는 결국 '천장을 올리는 두 번째 엔진'으로 병행 투자해야 한다.</p>
+    <p><b>② "정규직 안정성"은 환상에 가깝다.</b> 6개월 계약이냐 정규직이냐의 진짜 축은 '안정성'이 아니라 '어느 쪽이 더 넓은 경험·미래가치(optionality)를 주는가'다. 미국에선 정규직이 못 끝내는 문제를 급히 해결하는 고급 계약직이 오히려 시급 프리미엄을 받기도 한다. 단 계약직은 건강보험·유급휴가가 없고 1099이면 자영업세 15.3%를 스스로 부담하며 조기 종료 위험이 크다 — 그래서 비자 신분이라면 "미래가치"와 "체류 안전판"을 함께 계산해야 한다. 오퍼 비교는 연봉만이 아니라 복리후생·세금 형태(W-2/1099)·비자 스폰서십까지 표로 놓고 따진다.</p>
+    <p><b>③ "정착 실패"는 커리어 준비의 문제로 재정의된다.</b> 성인의 미국 정착 성패는 대개 세 축에서 갈린다 — (1) 비자·신분의 안정성(추첨·기간 제한에 휘둘리지 않는 경로인가), (2) 언어·나이에 따른 적응 곡선, (3) 그 시점의 취업시장. 2026년은 (3)이 특히 불리하다(22~27세 대졸 실업률 5.7%, 빅테크 신입 채용 2019년 대비 50%+ 감소, entry-level SWE 공고 약 30% 감소). 이 냉각기를 우회하는 현실적 카드가 <b>로테이션(주재원) 파견</b> — 사내 전근(L-1)류 경로는 직접 취업시장이 얼어붙어도 회사가 밀어주므로 "평생은 아니어도 몇 년 살아본다"는 목표에 정확히 맞고, 리스크를 '몇 년 실험 → 그때 결정'으로 잘게 나눌 수 있다. 참고로 "CS는 특정 국적 아니면 힘들다"류의 말은 과장이다 — H-1B의 국적 편중(FY2024 인도 약 71%, 중국 약 12%)은 IT 아웃소싱 산업 구조 탓이지 자격 요건이 아니며, 2025년 9월부터 신규 H-1B에 10만 달러 수수료가 붙어 그 대량 채용 경로 자체가 좁아지는 방향이다.</p>
 
-  <!-- ============ robotics ============ -->
-  <section class="card" data-topic="robotics" style="--accent:var(--blue)">
-    <div class="head">
-      <div class="icon">🤖</div><div class="num">02</div>
-      <div><h2>The future of robotics — "the data is the product"</h2>
-      <p class="why">Is the moat the hardware, or the data ecosystem that trains it?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/robotics.svg" alt="The future of robotics">
-    <div class="context">
-      <p><span class="verdict v-mix">Self-reported</span> Xiaomi says its factory humanoid raised nut-fastening success <span class="hl">90.2% → 98%</span> (~4 months), hit ~90% on console-panel sorting and parts-bin folding, and handled <b>flexible / deformable parts</b> continuously for hours — all <b>Xiaomi's own numbers, no independent audit</b>. Cite as "Xiaomi reports."</p>
-      <p>The thesis: the robot isn't the product; the <span class="hl">data flywheel</span> (using your own factory as an RL testbed) is the moat. But "data = moat" and "data = bottleneck" are two sides of one coin — real-world data can't be scraped, it's generated task-by-task. China's price collapse (Unitree R1 ~$4,900) pushes the contest to <b>software / foundation models</b>.</p>
-      <p><span class="verdict v-mix">Counter-view: "the wall of physics"</span> Actuator non-linearity, contact/slip, hardware marginal cost, and long-tail edge cases aren't solved by data-scaling alone. <b>Moravec's paradox</b>: intelligence tests are easy; a one-year-old's perception &amp; movement are the hard part.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://technode.com/2026/07/15/xiaomi-updates-progress-on-humanoid-robots-in-auto-factory-achieves-98-success-rate-in-some-tasks/" target="_blank" rel="noopener">TechNode (2026-07-15)</a> <span class="sum">— Xiaomi's 98% &amp; flexible parts (self-reported)</span></div>
-      <div class="row"><a href="https://www.bvp.com/atlas/bessemer-predicts-robotics-and-physical-ai" target="_blank" rel="noopener">Bessemer VP</a> <span class="sum">— the "data flywheel = moat" thesis</span></div>
-      <div class="row"><a href="https://www.forbes.com/sites/josipamajic/2026/06/29/physical-ai-hits-a-data-labeling-wall-that-only-cash-can-fix/" target="_blank" rel="noopener">Forbes (2026-06-29)</a> <span class="sum">— the data-labeling "wall" (counterpoint)</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/Moravec%27s_paradox" target="_blank" rel="noopener">Moravec's paradox</a> <span class="sum">— perception &amp; movement is the hard part</span></div>
-      <div class="row"><a href="https://people.csail.mit.edu/brooks/papers/representation.pdf" target="_blank" rel="noopener">Rodney Brooks (PDF)</a> <span class="sum">— "the world is its own best model"</span></div>
-      <div class="row"><a href="http://en.people.cn/n3/2026/0707/c90000-20475138.html" target="_blank" rel="noopener">People's Daily</a> <span class="sum">— WRC 2026 Beijing (Aug 19–23)</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've actually built and shipped real things — tell me about a time the "wall of physics" bit you, some hardware reality software people like me completely underestimate. What happened?</li>
-        <li>I keep telling myself robotics is where I should go, but part of me thinks a software guy with no factory is kidding himself. Am I wrong to chase this?</li>
-        <li>If you were me — no hardware background, no capital — where would you actually plant your feet here so you're not roadkill?</li>
-        <li>I'd rather hear it straight: is "the data is the moat" a real opening for me, or just a story we software people tell ourselves?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="big">게임 vs 실물 — 미래에 무엇에 투자되나(2026)</h4>
+    <p>"사람들이 미래에 무엇에 돈을 거나"를 읽으면 진로 지형이 보인다. 가상(게임) 산업은 세 힘이 겹쳐 침체 중이다 — (1) 코로나 특수의 반작용(집콕 수요 소멸 후 과잉 고용 조정), (2) 자본 재배치(게임 대신 AI·데이터센터·방산으로 투자 이동), (3) 생성형 AI로 인한 제작 파이프라인 재편. Microsoft는 2025년 전체 약 9,000명 감원 중 게임 부문이 크게 타격받았고 Xbox에서 약 3,200명을 줄이며 스튜디오를 정리했다. 다만 "게임을 다 죽였다"는 과장이다 — 2023년 Activision Blizzard를 약 690억 달러에 인수했고 하드웨어·Game Pass·주요 IP는 계속 운영 중이니 '철수'가 아니라 '구조조정 + AI로의 자본 재배치'로 보는 게 정확하다. GDC 2026 조사에서도 종사자 52%가 생성형 AI의 부정적 영향을 우려(비주얼·기술 아트 직군 64%)해, 대체는 '확정'이 아니라 '진행 중인 압력'이다.</p>
+    <p>반대편으로 자본이 이동한 곳이 <b>국방·실물·Physical AI</b>다 — Anduril·Shield AI·Palantir 등이 급성장하며 자금이 몰린다. 핵심 통찰은 '게임 전공을 버려라'가 아니라 <b>'그 기술을 어느 산업에 태우느냐'</b>다. 실시간 3D·시뮬레이션·엔진 역량은 죽지 않고 방산·로보틱스·산업 시뮬레이션으로 전이되는 중이다. 단 국방 '직접' 조달은 보안 clearance·시민권 요건이 강해 유학생 신분에는 진입 장벽이 오히려 더 높으니, 현실적 진입점은 dual-use(민군 겸용) 시뮬레이션·엔진 쪽이 안전하다.</p>
 
-  <!-- ============ agi ============ -->
-  <section class="card" data-topic="agi" style="--accent:var(--teal)">
-    <div class="head">
-      <div class="icon">🧬</div><div class="num">03</div>
-      <div><h2>AGI &amp; curing disease — real, or hype?</h2>
-      <p class="why">Kurzweil's 2029 AGI / 2032 longevity escape — is any of it real?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/agi.svg" alt="AGI & curing disease">
-    <div class="context">
-      <p><span class="verdict v-mix">Predictions, not facts</span> Kurzweil's actual forecasts: <b>2029 AGI · 2032 Longevity Escape Velocity · 2045 Singularity</b> (his 2024 book). These are <b>predictions</b>, not settled science.</p>
-      <p><span class="verdict v-ok">Real progress</span> <b>AlphaFold 3</b> (DeepMind/Isomorphic, Nature 2024) predicts protein–DNA–ligand interactions; AlphaFold won the <b>2024 Nobel Prize in Chemistry</b> — but it's a <b>research accelerator, not a "cure."</b></p>
-      <p><span class="verdict v-warn">Brakes on the curve</span> The <b>data wall</b> (quality human data exhausting ~2026–2032, Epoch AI), <b>model collapse</b> (recursive training on AI-generated data degrades models, Nature 2024), the <b>energy bottleneck</b> (IEA: data-center power ~950 TWh by 2030), and <b>LeCun</b>'s view that autoregressive LLMs aren't the path to AGI (opinion, contested).</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://www.penguinrandomhouse.com/books/670270/the-singularity-is-nearer-by-ray-kurzweil/" target="_blank" rel="noopener">Kurzweil, <i>The Singularity Is Nearer</i> (2024)</a> <span class="sum">— the 2029/2032/2045 forecasts</span></div>
-      <div class="row"><a href="https://www.nature.com/articles/d41586-024-03214-7" target="_blank" rel="noopener">Nature</a> <span class="sum">— AlphaFold &amp; the 2024 Nobel</span></div>
-      <div class="row"><a href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank" rel="noopener">Epoch AI</a> <span class="sum">— the "data wall," ~2026–2032</span></div>
-      <div class="row"><a href="https://www.nature.com/articles/s41586-024-07566-y" target="_blank" rel="noopener">Nature (2024)</a> <span class="sum">— model collapse (recursive synthetic training)</span></div>
-      <div class="row"><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary" target="_blank" rel="noopener">IEA</a> <span class="sum">— AI &amp; the energy bottleneck</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've lived through a few tech cycles now — real booms and pure theater. Tell me about a time you had to call whether something hyped was actually real, and bet on it or pass. How did you read it, and were you right?</li>
-        <li>I'm quietly scared of betting my next ten years on something that stalls. If a winter comes, where would you make sure you're standing?</li>
-        <li>This might sound odd, but if people really start living much longer, my whole FIRE plan feels naive. How would you think about it if you were me?</li>
-        <li>If AGI really lands around 2029 — I know I still need to focus on my career right now — but with your years behind you, how would you tell someone at my age and stage to actually <i>position</i> for it, not just brace for it?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="wis">대가들의 시선</h4>
+    <p>이 노트의 첫 축 '즐김이 곧 경쟁력'을 Paul Graham은 리트머스 시험으로, Naval Ravikant는 메커니즘으로 뒷받침한다.</p>
+    <blockquote>"어떤 일을 진짜 사랑하는지 가리는 시험은, 돈을 받지 않아도 그 일을 할 것인가이다."<cite>— Paul Graham, "How to Do What You Love"</cite></blockquote>
+    <blockquote>"고유한 지식은 타고난 재능, 진짜 호기심, 그리고 열정을 좇을 때 훨씬 더 잘 발견된다."<cite>— Naval Ravikant</cite></blockquote>
+    <p>즉 "커리어가 아니라 재미로 만든 것"이 정확히 이 시험을 통과한 물건이고, 즐김을 좇는 것이 곧 남이 훈련으로 복제할 수 없는 지식을 쌓는 길이다. 왜 훈련 가능한 스펙은 해자가 못 되는지, 그리고 그 탈출구가 무엇인지도 Naval이 못박는다.</p>
+    <blockquote>"당신이 훈련으로 익힐 수 있는 일이라면, 다른 누군가도 훈련으로 익힐 수 있다."<cite>— Naval Ravikant</cite></blockquote>
+    <blockquote>"자기다움으로 경쟁을 벗어나라. 당신이 당신인 것은 아무도 이길 수 없다."<cite>— Naval Ravikant</cite></blockquote>
+    <p>이것이 '열정 vs 희소성'의 핵심이다. 누구나 원하는 대중적 목표(예: 스트리밍 대기업 취업)에 수천 명이 같은 문을 두드릴 때, 승부는 '얼마나 원하느냐'가 아니라 '얼마나 대체 불가능하냐'로 갈린다 — 대체 가능한 열정은 실업률로, 대체 불가능한 역량은 오퍼 협상력으로 나타난다. 붐비는 시장에서 남과 똑같이 싸우는 것을 Peter Thiel은 '지는 게임'이라 부른다.</p>
+    <blockquote>"경쟁은 패자들이나 하는 것이다."<cite>— Peter Thiel, Zero to One</cite></blockquote>
+    <blockquote>"성공한 회사는 저마다 다르다. 각자 고유한 문제를 풀어 독점을 얻어낸다. 실패한 회사는 모두 똑같다. 경쟁을 벗어나지 못했다."<cite>— Peter Thiel, Zero to One</cite></blockquote>
+    <p>레드오션(게임)에서 니치(국방 시뮬레이션·Physical AI)로 옮기는 것이 곧 '경쟁을 진정성으로 벗어나는' 실천이다. '만들 줄 알고 팔 줄 아는' 능력이 그 무기이며, 그 결과물을 굳이 세상에 내놓아야 하는 이유는 Derek Sivers가 답한다.</p>
+    <blockquote>"파는 법을 배우고, 만드는 법을 배워라. 둘 다 할 수 있다면 아무도 당신을 막지 못한다."<cite>— Naval Ravikant</cite></blockquote>
+    <blockquote>"누구에게나 자기 아이디어는 뻔해 보인다."<cite>— Derek Sivers</cite></blockquote>
+    <p>네게 뻔한 것이 남에겐 놀랍다 — 그러니 판단은 세상에 맡기고 일단 내놓는 것, 그것이 포트폴리오 채용의 심리적 토대다. 마지막으로 '평생직장' 전제가 왜 끝났는지는 Reid Hoffman이, 그 대안이 무엇인지는 다시 Naval이 정리한다.</p>
+    <blockquote>"20세기 대부분의 기간 동안, 선진국에서 고용주와 직원 사이의 약속은 오로지 안정성에 관한 것이었다."<cite>— Reid Hoffman 외, "Tours of Duty" (HBR)</cite></blockquote>
+    <blockquote>"시간을 빌려주는 것으로는 부자가 될 수 없다. 재정적 자유를 얻으려면 지분, 즉 사업의 일부를 소유해야 한다."<cite>— Naval Ravikant</cite></blockquote>
+    <p>안정 중심의 고용 계약은 끝났고, 고용은 이제 '한 차례의 임무(tour of duty)'다. 그렇다면 진짜 안전판은 소유(equity)와, 6개월 계약조차 장기 평판·관계의 노드로 삼는 optionality다. "장기적인 사람들과 장기적인 게임을 하라."</p>
 
-  <!-- ============ pragmatism ============ -->
-  <section class="card" data-topic="pragmatism" style="--accent:var(--gold)">
-    <div class="head">
-      <div class="icon">🇺🇸</div><div class="num">04</div>
-      <div><h2>America's pragmatism — is it a real thing?</h2>
-      <p class="why">In the US, do you sell on utility, durability &amp; intuitiveness over looks?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/pragmatism.svg" alt="American pragmatism">
-    <div class="context">
-      <p><span class="verdict v-ok">Well-grounded</span> <b>Low-context (US) vs high-context (Korea)</b> — Edward Hall: an immigrant society needs <b>explicit</b> messages, so intuitive, no-manual UX is essential. <b>Sign value</b> (Baudrillard): Koreans consume status/aesthetics, so looks matter more. <b>American pragmatism</b> (James/Dewey): what <i>works</i> is true → <span class="hl">durability &amp; intuitiveness are themselves the aesthetic</span>.</p>
-      <p><span class="verdict v-warn">But — the twist (weight ~40%)</span> "If it's useful, ugly is fine" is a trap. US premium leaders (Apple, Stripe, Notion) prove <b>"minimalism that hides complexity" is itself the premium</b>. Utility is the engine; a crude shell is not OK.</p>
-      <p><span class="verdict v-ok">Everyday evidence</span> Seattle's <b>Sign Code</b> (zoning) keeps signage minimal; instead of signs, businesses win customers via <b>Google Maps/Yelp local SEO, USPS EDDM, Nextdoor</b>; fewer parking-lot warning devices, but <b>pedestrian right-of-way + premises liability (lawsuits)</b> make drivers cautious.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://www.ebsco.com/research-starters/communication-and-mass-media/high-context-and-low-context-cultures" target="_blank" rel="noopener">High vs low context (Edward Hall)</a> <span class="sum">— the explicitness gap</span></div>
-      <div class="row"><a href="https://plato.stanford.edu/entries/baudrillard/" target="_blank" rel="noopener">Baudrillard (SEP)</a> <span class="sum">— "sign value" consumption</span></div>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/The_Design_of_Everyday_Things" target="_blank" rel="noopener">Don Norman</a> <span class="sum">— discoverability &amp; affordances</span></div>
-      <div class="row"><a href="https://www.seattle.gov/sdci/codes/codes-we-enforce-(a-z)/sign-code" target="_blank" rel="noopener">Seattle Sign Code</a> <span class="sum">— the regulatory reason signage is minimal</span></div>
-      <div class="row"><a href="https://www.usps.com/business/every-door-direct-mail.htm" target="_blank" rel="noopener">USPS EDDM</a> · <a href="https://business.nextdoor.com/en-us/" target="_blank" rel="noopener">Nextdoor</a> <span class="sum">— marketing without signage</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've sold here and you know the Korean side too — tell me about a specific time something that would've worked in Korea just fell flat in the US. When did it click <i>why</i>?</li>
-        <li>Give me the honest one: what's the mistake Koreans keep making here that they can't see in themselves? I'd rather know now than learn it the hard way.</li>
-        <li>I still think with Korean instincts. If you were coaching me, how would you retrain my sense for what Americans actually value?</li>
-      </ul>
-    </div>
-  </section>
+    <h4>기찬에게</h4>
+    <p><b>1) 합격의 원인을 오해하지 말 것.</b> "운 좋게 서류 통과"가 아니라 "만든 것의 증거" 때문이다. 지원마다 배포 링크·데모·짧은 문서를 반드시 붙이고, 다음 프로젝트를 고를 땐 "이게 재미있는가"와 "지금 AI 흐름에서 수요가 붙는가"를 동시에 물어라 — 그 교집합이 바로 '때'다.</p>
+    <p><b>2) 계약 형태는 '안정성'이 아니라 '경험·미래가치·옵션'으로 판단하라.</b> 더 넓은 경험을 주는 쪽이 합리적이되, 비자 신분이면 계약 종료 후 체류 플랜을 미리 세우고 오퍼는 연봉·복리후생·세금 형태·비자 스폰서십을 표로 비교하라. 즉시 현금(사이닝보너스)보다 총보상과 "어디서든 일하는 옵션"이라는 레버리지를 먼저 보라.</p>
+    <p><b>3) 영어는 '입장권'이 아니라 '천장을 올리는 지렛대'.</b> 지금 구간에선 영어와 씨름하기보다 "보여줄 수 있는 결과물"(Physical AI 데모·엔드투엔드 프로젝트)로 문을 여는 편이 효율적이다. 단 리드 포지션·'내 사업'까지 가려면 실물로 진입한 뒤 영어를 두 번째 엔진으로 꾸준히 키워라.</p>
+    <p><b>4) 산업 냉각기는 '경로'로 우회하라.</b> 미국 직접 취업에 올인하기보다, 미국 진출을 준비하는 회사로의 이직(주재·로테이션 가능성 포함)을 축으로 삼으면 시장 냉각기를 우회하며 '몇 년 실험'이라는 옵션을 살릴 수 있다. Physical AI·국방 앵글로의 피벗은 방향이 옳지만, '남이 안 가는 길' 자체가 목적이 아니라 그 길에서 '남이 못 하는 것'(구체적 기술 스택·도메인 지식)을 갖추는 게 목적임을 잊지 말 것.</p>
+    <div class="src">출처: <a href="https://paulgraham.com/love.html" target="_blank" rel="noopener">Paul Graham — 좋아하는 일을 하는 법</a> · <a href="https://nav.al/rich" target="_blank" rel="noopener">Naval Ravikant — 부자 되는 법 (고유한 지식)</a> · <a href="https://sive.rs/obvious" target="_blank" rel="noopener">Derek Sivers — 나에겐 뻔한 것이 남에겐 놀랍다</a> · <a href="https://www.wsj.com/articles/peter-thiel-competition-is-for-losers-1410535536" target="_blank" rel="noopener">Peter Thiel — 경쟁은 패자들의 것 (WSJ)</a> · <a href="https://hbr.org/2013/06/tours-of-duty-the-new-employer-employee-compact" target="_blank" rel="noopener">Reid Hoffman 외 — Tours of Duty (HBR)</a> · <a href="https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html" target="_blank" rel="noopener">PwC — 2026 글로벌 AI 일자리 지표</a> · <a href="https://au.variety.com/2025/digital/news/microsoft-layoffs-gut-gaming-divisions-amid-increasing-investment-in-ai-24811" target="_blank" rel="noopener">Variety — MS, AI 투자 속 게임 부문 대량 감원</a> · <a href="https://gdconf.com/article/gdc-2026-state-of-the-game-industry-reveals-impact-of-layoffs-generative-ai-and-more/" target="_blank" rel="noopener">GDC 2026 게임 산업 현황 보고서</a></div>
+  </div>
+</section>
 
-  <!-- ============ wallet ============ -->
-  <section class="card" data-topic="wallet" style="--accent:var(--gold)">
-    <div class="head">
-      <div class="icon">💵</div><div class="num">05</div>
-      <div><h2>Pragmatism, part 2 — how you actually open a wallet</h2>
-      <p class="why">The under-appreciated US skill I don't have: getting people to pay.</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/wallet.svg" alt="How Americans decide to pay">
-    <div class="context">
-      <p><span class="verdict v-ok">The mechanic that matters most</span> Americans buy when the <b>downside of buying is removed</b>, not when the pitch is loudest. <b>Risk reversal</b> — money-back guarantee, free trial, easy returns, warranty — transfers the transaction risk from buyer to seller and reads as a <b>quality signal</b> (a bad seller couldn't afford it). Stack Cialdini's levers on top: <b>social proof, scarcity, authority, reciprocity</b>.</p>
-      <p><span class="verdict v-ok">Pricing is psychology, and it's tested</span> <b>Anchoring</b> (a high reference price makes the target look cheap), the <b>decoy effect</b> — Ariely's <i>Economist</i> test swung the combo from <b>32% → 84%</b> by adding a dominated option — and <b>charm pricing</b> ($29.99 reads as "twenty-something"). These are replicated experiments, not marketing folklore. And sell the <b>job</b> (JTBD), not the feature list.</p>
-      <p><span class="verdict v-warn">But — the engineer's trap</span> "Benefits, not features" has limits: once the outcome is clear, <b>technical buyers do want the spec sheet</b>. And US B2B is a committee sport that's mostly <b>self-directed</b> — Gartner: buyers spend only <b>~17%</b> of the journey with any one rep, and <b>77%</b> call the purchase "complex/difficult." Your docs, free tier and case studies sell before a human does.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://www.influenceatwork.com/7-principles-of-persuasion/" target="_blank" rel="noopener">Cialdini's 7 principles</a> <span class="sum">— reciprocity, social proof, scarcity, authority…</span></div>
-      <div class="row"><a href="https://theconversation.com/the-economics-of-the-money-back-guarantee-80876" target="_blank" rel="noopener">Economics of the money-back guarantee</a> <span class="sum">— risk reversal as a quality signal</span></div>
-      <div class="row"><a href="https://danariely.com/books/predictably-irrational/" target="_blank" rel="noopener">Ariely, <i>Predictably Irrational</i></a> <span class="sum">— anchoring &amp; the decoy effect (32%→84%)</span></div>
-      <div class="row"><a href="https://hbr.org/2016/09/know-your-customers-jobs-to-be-done" target="_blank" rel="noopener">Jobs to Be Done (HBR, Christensen)</a> <span class="sum">— sell the progress, not the feature</span></div>
-      <div class="row"><a href="https://www.gartner.com/en/sales/insights/b2b-buying-journey" target="_blank" rel="noopener">Gartner B2B buying journey</a> · <a href="https://patents.google.com/patent/US5960411A/en" target="_blank" rel="noopener">Amazon 1-Click patent</a> <span class="sum">— self-directed buying · monetizing friction removal</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've closed real deals here — walk me through one where someone was on the fence and then actually paid. What flipped them? I want the lived version, not the textbook one.</li>
-        <li>I'm an engineer, so my reflex is to show the spec sheet. Where does that reflex help me close, and where is it quietly killing the sale?</li>
-        <li>If there's one thing about pricing or risk-reversal that Koreans keep getting wrong in the US, and can't see in themselves — I'd rather you just tell me now.</li>
-      </ul>
-    </div>
-  </section>
+<section class="card" style="--accent:var(--purple)" id="r04">
+  <div class="head"><div class="icon">🚀</div><div><h2>좋은 창업 예시 가려내기 — 겉보기 성공 vs 실제 성취 <span class="chip">창업 롤모델</span></h2><p class="why">화려한 이력·그럴듯한 외양이 아니라, "봐줄 이유 없는 심판의 검증"과 해자로 진짜를 가른다</p></div></div>
+  <div class="context"><p>창업 강연·모임에 나가면 "대기업→MBA→빅테크→exit" 같은 화려한 이력으로 <b>실제로 한 것보다 훨씬 대단해 보이는</b> 사람을 자주 만난다. 반대로 정부 지원금을 썼다는 이유만으로 폄하되는 경우도 있다. 둘 다 오독이다. 판단의 축은 두 개다 — (1) 그 성취가 <b>봐줄 이유가 없는 심판</b>(유료 고객·콜드 투자자·유권자) 앞에서 검증됐는가, (2) 사업이라면 <b>해자(moat)와 유닛 이코노믹스</b>가 성립하는가. 이 카드의 회의적 논점은 특정인을 깎으려는 게 아니라 '그럴듯해 보이는 예시'에 휘둘리지 않기 위한 도구이며, 감정이 아니라 <b>공개된 언론·리서치 기사</b>에 얹고 곧바로 <b>과장을 걷어내는 균형추</b>를 같이 단다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>화려한 라벨은 '입장권'이지 '증명'이 아니다.</b> 대기업·MBA·빅테크·exit은 문을 열어주지만, 그 자체가 실력·성취를 보증하진 않는다.</li>
+      <li><b>자금 출처와 사업 실질은 별개의 축</b>이다. "정부 돈을 썼다"는 사실 하나가 사업의 진위를 가르지 않는다 — 유료 고객·재구매·후속 민간 라운드를 따로 떼어 봐야 한다.</li>
+      <li><b>"미국 top-tier VC가 왜 안 들어왔나"는 건강한 회의 필터</b>다. 편견이 아니라, 시장 검증 자본(냉정한 민간 투자자)과 정책 자본(정부 마중물)을 구분해 신호의 질을 읽는 질문이다.</li>
+      <li><b>카피 자체가 죄는 아니다.</b> 실행으로 이긴 카피(Coupang 로켓배송, 초기 Amazon도 서점 카피)와 0→1이어야만 이기는 시장(검색·소셜)이 갈린다. 기준은 '독창성'이 아니라 방어 가능한 우위와 단위 경제성이다.</li>
+    </ul>
+    <h4 class="big">겉보기 성공 vs 실제 성취 — 가려내는 체크리스트</h4>
+    <p>"실제로 한 건 별로 없는데 성공한 사업가처럼 보이는" 예시에 속지 않으려면, 다음을 물어라. 하나라도 '심판의 검증'이 아니라 '관계·정책·라벨'로만 채워져 있으면 한 번 더 의심할 것.</p>
+    <ul>
+      <li><b>유료 고객의 검증:</b> 누군가 실제로 돈을 내고, 다시 사는가? (수상·지원금·팔로워·인맥은 검증이 아니다)</li>
+      <li><b>콜드 자본의 검증:</b> 봐줄 이유 없는 <b>민간 투자자</b>가 실사(due diligence) 후 리드로 들어왔는가? 아니면 마중물·연줄 자본뿐인가?</li>
+      <li><b>exit의 실체:</b> 누구에게 얼마에 팔렸나? 그게 시장가치인가, 아니면 관계·정책의 산물인가?</li>
+      <li><b>Founder–market fit:</b> 창업자가 그 문제를 <b>직접 겪은</b> 사람인가, 유행을 좇은 것인가?</li>
+      <li><b>반복 가능성:</b> 한 번의 운인가, 다른 무대에서도 반복된 성취인가? — 예컨대 <b>Sam Cho</b>는 무역 사업 exit에 더해 선거(60.8% 득표)라는 전혀 다른 심판대에서도 검증됐다(아래 참조).</li>
+    </ul>
+    <h4 class="big">"미국 VC가 왜 투자 안 했나"라는 건강한 회의 필터</h4>
+    <p>진짜 대단한 딥테크라면 미국 top-tier VC가 왜 한 번도 리드로 들어오지 않았을까 — 이 질문은 편견이 아니라 <b>신호의 질을 검증하는 도구</b>다. 자본에는 종류가 있다. 시장 검증 자본은 냉정한 민간 투자자가 실사와 후속 라운드로 규율하는 돈이고, 정책 자본은 국가가 산업을 키우려 마중물로 대는 돈이다. 후자가 나쁜 게 아니라, <b>같은 무게로 읽으면 안 된다</b>는 뜻이다. 이건 내 인상이 아니라 학계·업계도 정면으로 짚는다:</p>
+    <blockquote>"한국의 정부 주도 VC 투자에서 얻는 교훈: 정부 출자 VC 펀드와 상장 VC 기업"<cite>— ECGI (Narae Lee), 2024</cite></blockquote>
+    <blockquote>"한국 모태펀드 20주년: 스타트업 생태계를 떠받쳐 온 20년"<cite>— KoreaTechDesk, 2025</cite></blockquote>
+    <p>실제로 정부 <b>모태펀드(Korea Fund of Funds)</b>는 2005년 출범해 마중물 자본을 대왔고, 누적 정부 출자를 지렛대 삼아 그 몇 배 규모의 자펀드를 민간과 함께 조성해 왔다. 즉 "정부 돈이 섞여 있다"는 감각엔 근거가 있다. <b>단, "다 정부 돈"은 과장이다.</b> 자펀드의 실제 출자는 연기금·금융사·모기업 CVC 같은 <b>민간 LP가 더 큰 비중</b>을 차지하고, 독립계 VC·순수 민간 펀드도 실재한다. 게다가 선진국 벤처 생태계도 상당 부분 '공공 마중물'에서 출발했다 — 미국 SBIC·In-Q-Tel, 이스라엘 Yozma, 싱가포르 Temasek이 대표적이다. 그러니 본질은 "정부 돈이냐"가 아니라 <b>"그 자본이 실사·후속 민간 라운드·시장 검증이라는 규율 위에서 배분됐느냐"</b>다.</p>
+    <h4 class="big">해자(moat)·독창성·유닛 이코노믹스</h4>
+    <p>"카피는 무조건 안 된다"는 명제는 사례에 따라 갈린다. 판단 기준을 '독창적인가?'에서 <b>'해자가 있는가, 유닛 이코노믹스가 성립하는가?'</b>로 옮기면 훨씬 단단해진다.</p>
+    <ul>
+      <li><b>해자(moat)는 대개 엔지니어링·데이터·물류·현지화에서 나온다.</b> 같은 모델이라도 남이 쉽게 못 따라오는 운영 역량·데이터 축적이 방어선이다. Coupang은 물류 내재화와 멤버십으로 Amazon과 닮은 모델을 한국에서 방어 가능한 우위로 바꿔 흑자 전환(2024년 매출 약 302억 달러, 조정 EBITDA 흑자)했다.</li>
+      <li><b>유닛 이코노믹스</b>는 고객 한 명 단위의 경제성이다. 신규 고객 획득비용 <b>CAC</b>, 그 고객이 평생 남기는 가치 <b>LTV</b>, 변동비를 뺀 <b>기여이익(contribution margin)</b>. LTV/CAC가 건강하고(통상 3배 이상) 기여이익이 양(+)으로 도는가 — 지속 가능성은 여기서 갈린다.</li>
+    </ul>
+    <p>'해자 없는 미투'가 왜 위험한지도 감이 아니라 데이터가 말한다:</p>
+    <blockquote>"스타트업이 실패하는 주된 이유 9가지"<cite>— CB Insights, 2024</cite></blockquote>
+    <p>실패 원인 상위권에 <b>"unsustainable unit economics"(지속 불가능한 유닛 이코노믹스, 약 19%)</b>와 <b>경쟁에서 밀림</b>이 나란히 온다. 차별화 없이 베끼면 가격·마케팅 출혈로 유닛 이코노믹스가 무너진다 — 카피가 위험한 진짜 이유는 '독창적이지 않아서'가 아니라 <b>방어선이 없어서</b>다. <b>단, "카피=실패"로 확장하면 과장이다.</b> Coupang처럼 실행과 해자로 원본을 이긴 카피도 있다. 기준은 '베꼈나'가 아니라 '해자와 단위 경제성이 서는가'다.</p>
+    <p>같은 렌즈를 "VR은 가짜다"류 결론에도 대 보자. 소비자 VR의 낮은 지불의향은 관찰된 사실이고, 언론도 Meta의 VR 부문 적자를 반복 보도한다:</p>
+    <blockquote>"Meta의 Reality Labs, 4분기 42.8억 달러 손실 기록… 2023년 한 해 160억 달러 이상"<cite>— CNBC, 2024</cite></blockquote>
+    <p><b>단, "적자 = 기술이 가짜"는 과장이다.</b> 이 숫자는 회사가 아니라 특정 <b>'부문(Reality Labs)'의 손실 흡수</b>이고, 본체는 광고로 이 베팅을 감당한다. 무게중심이 소비자 VR에서 AR·엔터프라이즈로 옮겨가는 <b>장기 베팅</b>에 가깝다. 회의는 헤드라인의 사실(적자 규모)까지만, 결론(가짜다)은 한 단계 걸러서.</p>
+    <h4 class="wis">대가들의 시선</h4>
+    <blockquote>"다음 세대의 Bill Gates는 운영체제를 만들지 않을 것이다… 그들을 베끼고 있다면, 당신은 그들에게서 배우고 있는 게 아니다."<cite>— Peter Thiel, 『Zero to One』</cite></blockquote>
+    <p>Thiel의 핵심은 남을 베끼는 <b>수평 확장(1→n)</b>과 새로움을 창조하는 <b>수직 도약(0→1)</b>의 구분이다. 흉내는 배움이 아니고, 진짜 가치는 아무도 하지 않은 것을 하는 독점에서 나온다. Naval Ravikant는 여기에 정체성의 해자를 더한다 — 같은 트랙에서 이기기보다, 대체 불가능한 자기다움으로 경쟁 자체를 벗어나는 것이 진짜 우위다.</p>
+    <blockquote>"당신이 당신인 것은 아무도 이길 수 없다."<cite>— Naval Ravikant</cite></blockquote>
+    <p>긍정 롤모델로 짚을 실제 사례가 <b>Sam Cho</b>다. US-born(1990년 시카고 출생) 한국계 2세로, 2019년 Port of Seattle(시애틀 항만청) 커미셔너 선거에서 전 Bellevue 시장 Grant Degginger를 <b>60.8% 득표</b>로 꺾었다. 백인 다수 유권자라는 '봐줄 이유 없는 심판단' 앞에서 표로 검증받았고, 그 전엔 Seven Seas Export로 미국 계란 250만 파운드 이상을 아시아에 수출한 창업 이력도 있다 — <b>서로 다른 무대에서 반복된 검증</b>. 빌린 정당성이 아니라 <b>획득한 정당성</b>이다. 인센티브를 보라는 Munger의 렌즈로 읽으면, 유권자가 왜 그를 찍었는지(신뢰·의제·실행력)를 묻는 게 라벨로 재단하는 것보다 진실에 가깝다.</p>
+    <blockquote>"인센티브를 보여주면, 나는 그 결과를 보여주겠다."<cite>— Charlie Munger</cite></blockquote>
+    <h4>기찬에게</h4>
+    <p>창업가·연사를 만날 때 이분법("미국 돈이냐 한국 돈이냐") 대신 위 <b>체크리스트</b>를 돌려라 — 유료 고객·재구매, 민간 후속 라운드, founder–market fit, 반복 가능성. 회사를 고를 때도 "독창적인가?"가 아니라 "해자가 있는가, 유닛 이코노믹스가 서는가?"를 먼저 물어라. 부정적 판단은 <b>네 인상 말고 공개된 근거(기사·리서치)에 얹고, 곧바로 과장을 걷어내는 한 문장을 붙여라</b>. 그리고 네가 소수자 포지션(한국인·유학생)으로 미국 시장에 설 때, 남의 성취를 깎는 도구로 쓰지 말고 — 복제 불가능한 너만의 조합(기술 스택 + 언어 + 검증된 포트폴리오)을 무기로 만들어라. 낯선 사람이 네 결과물에 지갑을 열게 하는 것, 그게 네 버전의 60.8%다.</p>
+    <div class="src">출처: <a href="https://www.ecgi.global/publications/blog/lessons-from-government-driven-vc-investments-in-korea-government-sponsored-vc" target="_blank" rel="noopener">한국의 정부 주도 VC 투자에서 얻는 교훈 (ECGI, 2024)</a> · <a href="https://koreatechdesk.com/korea-fund-of-funds-mother-fund-20-year-anniversary-extension-push" target="_blank" rel="noopener">한국 모태펀드 20주년 (KoreaTechDesk)</a> · <a href="https://www.cbinsights.com/research/startup-failure-reasons-top/" target="_blank" rel="noopener">스타트업이 실패하는 주된 이유 (CB Insights)</a> · <a href="https://www.cnbc.com/2024/02/01/metas-reality-labs-records-4point28-billion-loss-in-fourth-quarter.html" target="_blank" rel="noopener">Meta의 Reality Labs, 42.8억 달러 손실 기록 (CNBC, 2024)</a> · <a href="https://en.wikipedia.org/wiki/Sam_Cho" target="_blank" rel="noopener">Sam Cho (Wikipedia)</a> · <a href="https://umbrex.com/resources/company-profiles/coupang/" target="_blank" rel="noopener">Coupang 전략과 비즈니스 모델 (Umbrex)</a></div>
+  </div>
+</section>
 
-  <!-- ============ upstage ============ -->
-  <section class="card" data-topic="upstage" style="--accent:var(--purple)">
-    <div class="head">
-      <div class="icon">🚀</div><div class="num">05</div>
-      <div><h2>Upstage career — funding, IPO, US team</h2>
-      <p class="why">I'm joining Upstage, maybe working with the US team — the company, its money, its Valley play?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/upstage.svg" alt="Upstage career">
-    <div class="context">
-      <p><span class="verdict v-ok">Company</span> Founded 2020 by <b>Sung Kim</b> (ex-Naver Clova). <b>Solar LLM</b> + <b>Document AI (Document Parse OCR)</b>. Customers: Samsung Life, Samsung Electronics, government; cloud partners <b>AWS (Bedrock), Snowflake</b>.</p>
-      <p><span class="verdict v-ok">Funding &amp; valuation</span> Series B $72M (2024-04, SK Networks·KT), B-bridge $45M (2025-08, KDB·<b>Amazon·AMD</b>), <b>Series C first close ~$126M (2026-04, Sazze lead, Hyundai·Kia joined) → $1B valuation, Korea's first generative-AI unicorn</b>. ~$157M+ raised.</p>
-      <p><span class="verdict v-mix">IPO (planned)</span> Underwriters <b>KB·Mirae (+UBS)</b>; target <b>2H2026 filing → listing by 1H2027</b> (KOSPI/KOSDAQ both open). Acquired Daum (AXZ) to boost revenue for the IPO (Kakao holds a stake). ₩2–5T valuation talk is speculative.</p>
-      <p><span class="verdict v-ok">US</span> <b>Kasey Roh</b> leads the US business (SF Bay Area), <b>insurance vertical</b> as the wedge, AWS/Bedrock/Snowflake distribution. <span class="verdict v-warn">Gov Valley support</span> <b>KIC Silicon Valley · KOTRA · Born2Global</b> are the outbound channels (landing pad, soft-landing, JV, visas). Note: K-Startup Grand Challenge is <b>inbound</b> (foreign→Korea), not a Valley-landing vehicle. Whether Upstage used any is unconfirmed.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://en.sedaily.com/finance/2026/04/16/upstage-becomes-koreas-first-ai-startup-unicorn-eyes-daum" target="_blank" rel="noopener">Seoul Economic (2026-04-16)</a> <span class="sum">— Series C, unicorn, Daum</span></div>
-      <div class="row"><a href="https://siliconangle.com/2025/08/20/upstage-bags-45m-expand-ai-native-document-intelligence-suite-us/" target="_blank" rel="noopener">SiliconANGLE (2025-08-20)</a> <span class="sum">— $45M, US, insurance strategy</span></div>
-      <div class="row"><a href="https://www.bloomberg.com/news/articles/2025-12-02/ai-startup-upstage-hires-kb-securities-mirae-for-korea-ipo" target="_blank" rel="noopener">Bloomberg (2025-12-02)</a> <span class="sum">— IPO underwriters &amp; timeline</span></div>
-      <div class="row"><a href="https://www.computerworld.com/article/3963873/south-korean-ai-innovator-upstage-eyes-expansion-in-the-us-and-japan.html" target="_blank" rel="noopener">Computerworld (2025)</a> <span class="sum">— US/Japan expansion &amp; positioning</span></div>
-      <div class="row"><a href="https://www.kicsv.org/" target="_blank" rel="noopener">KIC Silicon Valley</a> · <a href="https://www.kotrasvit.org/english/contact/" target="_blank" rel="noopener">KOTRA SV</a> <span class="sum">— Korea's government Valley channels</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've been the Korean engineer inside an American / foreign company — tell me about a moment you felt you weren't taken seriously, and what you did about it. What actually changed how they saw you?</li>
-        <li>What made people trust you early, before you'd proven anything? I want the real version, not the LinkedIn one.</li>
-        <li>If you were me — one foot in Korea, wanting into foreign companies — would you push for the US side of Upstage, or is that the wrong door?</li>
-      </ul>
-    </div>
-  </section>
+<section class="card" style="--accent:var(--teal)" id="r05">
+  <div class="head"><div class="icon">🦄</div><div><h2>Upstage 딥다이브 — 펀딩·전략 뜯어보기 <span class="chip">Upstage</span></h2><p class="why">유니콘 타이틀보다 '돈의 구조'와 '방어 가능한 전략'을 읽는 법</p></div></div>
+  <div class="context"><p>Upstage는 2026년 한국 첫 생성형 AI 유니콘이 됐다. 그런데 뉴스의 숫자($72M, $1B, $400M…)를 그냥 외우면 아무것도 못 읽는다. 이 카드는 스타트업 펀딩 용어를 바닥부터 풀고, Upstage 실제 수치를 예시로 붙인 뒤, "이 회사가 무슨 전략으로 굴러가는가"까지 한 번에 정리한다. (Upstage는 상장/공개 정보 기업이므로 실명·공개 수치를 그대로 쓴다.)</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>돈의 규모, 기초부터</h4>
+    <p>먼저 용어부터. 스타트업은 성장 단계마다 새 투자를 받는데, 이걸 <b>라운드(round)</b>라 부른다.</p>
+    <ul>
+      <li><b>시드(Seed) → 시리즈 A → B → C …</b> — 뒤로 갈수록 회사가 커지고 조달액·밸류가 올라간다. A는 "제품·초기 매출 검증", B는 "본격 확장", C는 "시장 지배·글로벌·상장 준비" 정도로 이해하면 된다. 정답 금액은 없지만, 미국 기준으론 시리즈 A만 해도 수천만~1억 달러가 흔하다. 즉 <u>같은 "시리즈 B"라도 나라·시장마다 체급이 다르다</u>.</li>
+      <li><b>브릿지 라운드(bridge round)</b> — 정식 라운드와 라운드 <u>사이</u>에 하는 소규모 연결 자금. 다음 큰 라운드까지 현금(런웨이)을 잇거나, 전략적 투자자를 새로 태우려고 한다. "다리를 놓는다"는 뜻 그대로다.</li>
+      <li><b>밸류에이션(valuation)</b> — 회사의 값. <b>pre-money</b>는 이번 투자금이 <u>들어오기 전</u> 회사 값, <b>post-money</b>는 그 뒤(= pre-money + 신규 투자금). 예: pre-money 8억 달러 회사에 2억 달러가 들어오면 post-money 10억 달러. 투자자 지분율 = 신규 투자금 ÷ post-money.</li>
+      <li><b>유니콘(unicorn)</b> — 밸류에이션 <u>10억 달러($1B) 이상</u>의 <u>비상장</u> 스타트업. 상장(IPO) 전에 붙는 '몸값' 타이틀이지 실제 벌어들인 돈이 아니라는 점이 핵심.</li>
+      <li><b>스톡옵션 / IPO</b> — 스톡옵션은 "정해진 가격에 자사 주식을 살 권리"로, 직원 보상의 큰 축이다. IPO(기업공개)는 주식을 공개시장에 상장해 누구나 사고팔게 만드는 것 — 초기 투자자·직원이 지분을 현금화(exit)하는 대표 경로다.</li>
+    </ul>
+    <p>이제 Upstage 실제 수치에 대입해 보자.</p>
+    <ul>
+      <li><b>시리즈 B ~$72M</b>(약 1,000억원, 2024): SK네트웍스·KT·산업은행 등 한국계가 주도. 당시 국내 AI 소프트웨어로는 최대급이었지만, 미국 시리즈 A 체급과 비교하면 "글로벌 기준 큰돈은 아니다".</li>
+      <li><b>시리즈 B 브릿지 ~$45M</b>(2025): 여기서 <b>Amazon·AMD</b>가 합류. 즉 흔히 말하는 "시리즈 B에 아마존"은 시점상 <u>정규 B가 아니라 이 브릿지</u>다. 글로벌 빅테크가 이름을 올리면 미국 VC들이 관심을 갖는 <b>시그널링(signaling) 효과</b>가 생긴다.</li>
+      <li><b>시리즈 C 1차 클로징 ~$125.9M</b>(약 1,800억원, 2026-04): 이걸로 밸류 $1B를 넘겨 <b>한국 첫 생성형 AI 유니콘</b> 등극. 누적 조달 $157M+.</li>
+      <li><b>정부 펀드 지분투자 ~$400M</b>(2026-05): Sovereign AI 흐름 속 정부 펀드가 사상 첫 대형 지분 투자를 집행. 조달의 상당 부분이 <u>정부·공적자금</u>이라는 게 Upstage 펀딩의 특징이자 양날의 검이다.</li>
+    </ul>
+    <h4 class="big">GTM(Go-To-Market)이란</h4>
+    <p><b>GTM</b>은 "만든 걸 <u>누구에게 · 어떤 채널로 · 어떤 메시지로</u> 파느냐"의 설계다. 제품이 좋아도 GTM이 없으면 안 팔린다. 세 축으로 쪼개 보면:</p>
+    <ul>
+      <li><b>누구에게(Who)</b> — Upstage의 1차 고객은 <u>정부·공공</u>과 대기업(문서 AI 도입처로 삼성·한화 등), 그리고 보험·금융·의료 같은 <u>규제산업</u>. 데이터를 밖으로 못 내보내는 곳일수록 국산·온프레미스 벤더를 찾는다.</li>
+      <li><b>어떤 채널(Channel)</b> — 정부 조달, Sovereign AI 컨소시엄, 대기업 직접 영업, 그리고 미국 진출을 위한 실리콘밸리 오피스·현지팀. 한국 정부 지원기관(KOTRA·KIC 실리콘밸리 등)도 해외 진출 채널이 된다.</li>
+      <li><b>어떤 메시지(Message)</b> — "범용 LLM으로 GPT와 붙는다"가 아니라 <b>Document AI(문서 파싱·구조화)</b> + <b>데이터 주권/온프레미스</b>. 규제산업이 딱 원하는 말이다.</li>
+    </ul>
+    <p>정리하면 Upstage의 GTM은 <u>국내 정부·대기업에서 레퍼런스를 쌓아 미국 규제산업으로 확장</u>하는 그림이다. 미국은 시장이 성숙하고 IDP(문서 자동화) 경쟁자가 이미 있어, 진짜 승부처는 "한국 벤더를 미국 고객이 신뢰하게 만드는 현지화"다.</p>
+    <h4 class="big">전략·코파운더 관점</h4>
+    <p>프로필 나열 대신 "무슨 전략으로 회사를 하는가"로 읽자. Upstage의 전략은 세 겹이다.</p>
+    <ul>
+      <li><b>좁고 방어 가능한 버티컬 집중</b> — GPT·Gemini·Claude급 범용 LLM 스케일 경쟁을 정면으로 피하고, <b>문서 파싱·Document AI</b>라는 방어선(자체 <b>Solar</b> LLM 포함)에 집중. 큰 물에서 익사하지 않고 이길 수 있는 물을 고른 것.</li>
+      <li><b>Sovereign AI 흐름 올라타기</b> — 각국이 안보·데이터 주권을 이유로 자국 모델·문서 스택을 국산화하는 흐름. 한국 정부는 2025년 Naver·SKT·LG·NCSoft·Upstage 등 소수 컨소시엄에 자금을 집중했고, Upstage는 후속 평가에서도 생존했다. "정부가 밀어주는 국가대표" 포지션.</li>
+      <li><b>미국 진출</b> — 실리콘밸리 오피스·미국팀으로 상업 시장 자립을 노린다. 여기가 최대 미완의 과제이자 기회.</li>
+    </ul>
+    <p><span class="verdict v-warn">흔한 오해</span> 창업자 김성훈(Sung Kim) CEO를 두고 "대학·학위 없는 창업자"라는 서사가 도는데 <u>사실이 아니다</u>. 실제 이력은 정반대에 가깝다 — <b>컴퓨터공학 박사(UC Santa Cruz)</b>, <b>홍콩과기대(HKUST) 교수</b>, <b>네이버 Clova AI 총괄</b> 출신의 정통 연구·제품 커리어다. (덧붙여 "한국 최초의 구글을 만들었다"도 오귀속 — 그는 네이버 <u>창업자가 아니라</u> Clova AI 조직 리더였다.) 교훈: 학위 유무가 아니라 <u>실제 연구·제품 실적</u>이 핵심이라는 정확한 프레임을 쓰자.</p>
+    <h4>기찬에게</h4>
+    <p>지원자 관점에서 이 회사의 최대 리스크이자 기회는 동일하다 — <b>미국 시장 자립</b>. 조달의 큰 몫이 정부·공적자금이라는 건, 뒤집으면 <u>미국 GTM을 실제로 열 사람의 희소가치가 크다</u>는 뜻이다. "미국 주재원으로 보내달라"를 어필할 때 인건비·비자 논리가 아니라, 미국 규제산업 고객이 한국 벤더를 신뢰하게 만들 <b>구체안</b>을 들고 가라 — 온프레미스 배포, SOC 2·HIPAA 등 컴플라이언스, 현지 레퍼런스 확보 경로. 그리고 인터뷰에서 CEO를 언급할 땐 "학위 없는 창업자"가 아니라 <b>"CS 박사·Clova AI 총괄 출신이 Document AI 버티컬에 집중한다"</b>는 정확한 서사를 써야 사실 확인이 된 사람으로 보인다. 유니콘·밸류 타이틀은 협상 카드가 아니라 '아직 미국 매출은 얇다'는 신호로도 함께 읽으면 균형이 잡힌다.</p>
+    <div class="src">출처: <a href="https://en.wowtale.net/2026/04/15/233892/" target="_blank" rel="noopener">Upstage, 1억 2,590만 달러 시리즈 C 1차 클로징으로 한국 첫 생성형 AI 유니콘 등극 (WOWTALE)</a> · <a href="https://en.upstage.ai/newsroom/artificial-intelligence-startup" target="_blank" rel="noopener">전 네이버 Clova AI 총괄, HKUST 김성훈 교수가 'Upstage' 설립 (Upstage 뉴스룸)</a></div>
+  </div>
+</section>
 
-  <!-- ============ usux ============ -->
-  <section class="card" data-topic="usux" style="--accent:var(--blue)">
-    <div class="head">
-      <div class="icon">🖥️</div><div class="num">07</div>
-      <div><h2>Making the UI feel native to Americans</h2>
-      <p class="why">If I touch studio.upstage.ai's UX — what makes a product read as "American"?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/usux.svg" alt="UI that feels native to Americans">
-    <div class="context">
-      <p><span class="verdict v-ok">Trust is decided in ~5 seconds</span> Stanford's web-credibility study (4,500+ people): <b>~46% judged a site's credibility on visual design</b> — layout, type, color — <i>before</i> reading a word. NN/g's four trust levers: <b>professional polish, up-front disclosure</b> (clear pricing, contact, policies), <b>current content</b>, and <b>links out</b> (third-party proof beats self-praise). The "small stuff" <span class="hl">is</span> the credibility signal.</p>
-      <p><span class="verdict v-warn">The "built abroad" tells</span> Wrong formats undo polish fastest: US expects <b>MM/DD/YYYY</b>, <b>12-hour AM/PM</b>, <b>$1,234.56</b>, imperial units, a <b>State dropdown + 5-digit ZIP</b>, <b>(XXX) XXX-XXXX</b>, and <b>first-name → last-name</b> order. A European date or a "Province/Postcode" label is an instant foreign flag.</p>
-      <p><span class="verdict v-ok">Localization ≠ translation</span> US product copy is <b>less formal</b> than Korean — over-formal, deferential phrasing reads stiff. Make it <b>plain, scannable, benefit-led</b> (NN/g measured a <b>124%</b> usability lift from concise + scannable + objective copy; users scan in an <b>F-pattern</b>). Put security cues <i>next to</i> sensitive fields (Baymard); avoid aggressive popups (Google penalizes intrusive interstitials); and treat <b>WCAG 2.1 AA</b> as a US legal norm (ADA), not a nice-to-have.</p>
-      <p><span class="verdict v-mix">The reference taste (opinion)</span> The aesthetic Americans have been trained on for serious AI/SaaS is <b>Stripe / Linear / Notion / Vercel</b>: generous whitespace, one accent color, restrained type, "it just works" minimalism. This is taste, not proof — but it's the taste your users bring. Let the AI output be the visual hero.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://credibility.stanford.edu/guidelines/index.html" target="_blank" rel="noopener">Stanford Web Credibility</a> <span class="sum">— ~46% judge credibility on visual design</span></div>
-      <div class="row"><a href="https://www.nngroup.com/articles/trustworthy-design/" target="_blank" rel="noopener">NN/g — Trustworthy design</a> · <a href="https://www.nngroup.com/articles/international-usability-details-differ/" target="_blank" rel="noopener">international details</a> <span class="sum">— trust levers + format conventions</span></div>
-      <div class="row"><a href="https://www.nngroup.com/articles/concise-scannable-and-objective-how-to-write-for-the-web/" target="_blank" rel="noopener">NN/g — concise/scannable copy (124%)</a> · <a href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/" target="_blank" rel="noopener">F-pattern</a> <span class="sum">— US copy tone, scannability</span></div>
-      <div class="row"><a href="https://baymard.com/blog/perceived-security-of-payment-form" target="_blank" rel="noopener">Baymard — perceived security</a> · <a href="https://developers.google.com/search/docs/appearance/avoid-intrusive-interstitials" target="_blank" rel="noopener">Google — interstitials</a> <span class="sum">— place trust cues; don't popup-spam</span></div>
-      <div class="row"><a href="https://www.ada.gov/resources/2024-03-08-web-rule/" target="_blank" rel="noopener">ADA — 2024 web rule (WCAG 2.1 AA)</a> <span class="sum">— accessibility as US legal norm</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> walk me through the last time you landed on a product and <i>instantly</i> didn't trust it — what specifically tipped you off in the first five seconds, before you'd read anything?</li>
-        <li>When you sign up for a new AI tool, at what exact moment do you decide it's legit enough to hand over your card or connect your data — and what would make you bail right there?</li>
-        <li>As an engineer <i>and</i> a user: what's a convention American products get right that you only notice when it's missing or done the foreign way?</li>
-      </ul>
-    </div>
-  </section>
+<section class="card" style="--accent:var(--blue)" id="r06">
+  <div class="head"><div class="icon">🔒</div><div><h2>미국 시장 진출 — 온프레미스 LLM·현지화 <span class="chip">진출·현지화</span></h2><p class="why">미국 규제산업에 파는 무기는 '더 좋은 모델'이 아니라 '데이터가 고객 경계를 안 벗어남'과 '문화에 맞춘 제품'이다.</p></div></div>
+  <div class="context"><p>민감 문서(의료·보험·금융)를 다루는 한국 벤더가 미국에 진출할 때 부딪히는 두 개의 벽 — ① 낯선 외국 SaaS에 데이터를 안 올리는 신뢰 장벽, ② 한국식 UI·영업 방식을 그대로 이식하면 안 팔리는 현지화 장벽 — 을 온프레미스 배포·컴플라이언스·현지화 전략으로 어떻게 넘는지 정리한다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>왜 엔터프라이즈는 온프레미스/프라이빗 LLM에 끌리나</h4>
+    <p>핵심은 <b>데이터 주권과 유출 책임</b>이다. 미국은 데이터 유출이 곧 회사의 존폐로 직결된다 — 50개 주 모두 유출 통지법이 있고, 의료정보는 HIPAA, 캘리포니아는 CCPA/CPRA가 규율하며, 대형 유출은 실제로 거액 배상과 집단소송으로 이어졌다(Equifax 등). 그래서 규제산업(의료·금융·보험·국방) 고객은 "성능"보다 <b>데이터가 어디로 가는지, 누가 학습에 쓰는지, 유출 시 책임은 누가 지는지</b>를 먼저 묻는다. 여기서 시장이 두 갈래로 갈린다: ① 클라우드 API의 편의를 택하되 데이터 처리 계약(DPA)·리전 격리·HIPAA BAA로 방어하는 진영, ② 아예 고객 경계 안(온프레미스·VPC·에어갭)에서 오픈웨이트 모델을 돌려 데이터를 밖으로 안 내보내는 프라이빗 배포 진영. 민감 문서를 파싱·정리하는 제품은 정확히 ②의 수요와 겹친다 — <b>인터넷을 끊어도 되는 로컬 배포</b>는 2026년 미국 규제산업에서 강력한 셀링포인트다. 온프레미스·에어갭 프라이빗 LLM 수요가 2025–26년 실제 엔터프라이즈 트렌드로 커지는 이유가 여기에 있다.</p>
+    <h4 class="big">현지화 · 컬처핏 · 소프트웨어 PC</h4>
+    <p>미국 진출은 <b>번역이 아니라 현지화(localization)</b>다. 같은 기능도 문화에 따라 다르게 설계된다(예: 같은 지도 서비스라도 미국·한국의 UI 밀도·정보 우선순위가 다르다). 현지화는 UI 문구를 넘어 <b>포맷·톤·신뢰 시그널·구매 관행·고객지원 문화</b>까지 맞추는 일이다. 미국 B2B SaaS는 셀프서브 온보딩, 빠른 응답의 CS, 명확한 ROI 메시징, SOC 2 같은 보안·신뢰 시그널을 중시한다. 접근성도 필수 — 정부·대기업 조달에서 <b>WCAG</b> 준수는 사실상 게이트다. 여기에 <b>소프트웨어의 문화적 감수성(PC)</b>도 유의점이다: 예시 데이터·이름·이미지·젠더/인종 표현, 기본값과 카피 문구가 특정 집단을 배제하거나 불쾌하게 하지 않는지를 제품 레벨에서 점검해야 한다. 그래서 진출 초기 조직은 <b>현지 시장을 몸으로 아는 GTM·솔루션·서포트 인력</b>을 먼저 채우는 경향이 있다. 단, "근본 알고리즘 개발자는 안 뽑는다"는 <b>과장</b>이다 — 특히 AI/LLM 회사는 모델·R&amp;D 인력이 핵심 자산이라 현지화 인력과 <b>대체가 아니라 병존</b>한다. 정확히 말하면 "미국 현지 오피스의 <i>첫</i> 채용이 현지화·GTM에 쏠린다"는 것이지, 코어 개발 수요가 사라지는 게 아니다. 오히려 <b>모델을 이해하면서 그것을 현지 제품으로 번역할 수 있는 사람</b>이 가장 희소하다.</p>
+    <h4 class="big">진출의 기본기부터</h4>
+    <p>대형 투자 유치나 특수 인맥 같은 <b>일반적이지 않은 케이스는 빼고</b>, 신생 한국 벤더가 미국 규제산업의 문을 여는 <b>기본 단계</b>부터 밟는 게 현실적이다. ① <b>신뢰 자산</b> — SOC 2 Type II·ISO 27001·HIPAA BAA 같은 컴플라이언스 인증을 세일즈 자산으로 만들고, 감사(audit) 가능성과 명확한 책임 조항을 계약에 담는다. "기술이 좋다"와 "규제산업이 산다"는 전혀 다른 게이트다. ② <b>배포 옵션</b> — 온프레미스/VPC/에어갭을 1급 옵션으로 내세워 "데이터가 고객 밖으로 안 나감"을 증명한다. ③ <b>현지 레퍼런스·파트너</b> — 미국 현지 고객 사례와 채널 파트너를 확보한다. ④ <b>PoC(개념검증)</b> — 작은 유료/무료 파일럿으로 실측 성과를 만들어 신뢰를 누적한다. 진출 신분 측면에서도 개인 유학(F-1) 사다리보다 <b>회사 스폰서(주재원 L-1, 취업 H-1B 등) 경로</b>가 이미 커리어를 가진 엔지니어에겐 더 현실적인 진입로다.</p>
+    <h4>기찬에게</h4>
+    <p>미국향 제품/프론트를 맡는다면 이 카드가 곧 제품 전략서다. "한국 회사라 안 믿는다"는 장벽을 정면돌파하는 세 축 — ① <b>온프레미스/에어갭 배포를 1급 옵션</b>으로, ② <b>SOC 2·HIPAA BAA 컴플라이언스 로드맵을 세일즈 자산</b>으로, ③ <b>'문서를 먼저 업로드하라'는 UX 자체를 재설계</b>(로컬 처리·명시적 데이터 취급 고지·접근성/WCAG)로 잡아라. 동시에 강점(현지화·제품 감각·문화 적응력)을 "미국 진출의 다리 역할"로 구체적 성과화하면 파견·비자 어필의 근거가 된다: 미국 타깃 고객 인터뷰, 경쟁사 UX 벤치마크, 로컬라이즈드 온보딩 개선 제안. "나는 근본 개발은 안 한다"고 못박기보다 <b>모델을 이해하며 현지 제품으로 번역하는 사람</b>으로 포지셔닝하는 게 훨씬 희소성 있다.</p>
+    <div class="src">출처: <a href="https://www.hhs.gov/hipaa/index.html" target="_blank" rel="noopener">HHS — HIPAA (의료정보 보호·위반 제재)</a> · <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">W3C — WCAG 접근성 표준</a> · <a href="https://www.captivatetalent.com/blog/expanding-your-apac-saas-startup-to-the-us" target="_blank" rel="noopener">아태(APAC) SaaS 스타트업의 미국 진출 — Captivate Talent</a></div>
+  </div>
+</section>
 
-  <!-- ============ onprem ============ -->
-  <section class="card" data-topic="onprem" style="--accent:var(--teal)">
-    <div class="head">
-      <div class="icon">🔒</div><div class="num">08</div>
-      <div><h2>Selling on-prem / private LLMs to US partners</h2>
-      <p class="why">My AI Solution Engineer JD = enablement for on-prem "AI pack" partners. Who buys this here?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/onprem.svg" alt="On-prem / private LLMs for US partners">
-    <div class="context">
-      <p><span class="verdict v-ok">Why on-prem at all</span> The core pitch is <b>"data never leaves your enclave"</b> (NVIDIA sells NIM on exactly that). For <b>PHI, ITAR, or controlled data</b> it isn't a preference — routing through shared public endpoints is <b>disallowed</b>, so private / air-gapped is the <i>only</i> compliant path. Most run hybrid: sensitive → private, prototyping → public API. At high volume, on-prem also wins on marginal cost.</p>
-      <p><span class="verdict v-ok">Who actually buys</span> Regulated, security-sensitive verticals lead: <b>financial services, healthcare, government/defense, legal, insurance</b>. The certifications a US buyer will name are <b>HIPAA</b> (PHI), <b>FedRAMP</b> + Impact Levels / air-gap (federal/DoD), and <b>SOC 2</b> (commercial baseline) — <i>not</i> GDPR (that's the EU version of the same pressure).</p>
-      <p><span class="verdict v-ok">The stack they expect</span> Runtime: <b>NVIDIA AI Enterprise + NIM</b>. Hardware: <b>Dell / HPE / Supermicro</b> ("AI Factory" bundles). Control plane: <b>Red Hat OpenShift AI</b> (has air-gapped mode), VMware Private AI, Nutanix. Models: <b>open-weight (Llama, Mistral, Qwen)</b> — and for regulated buyers, <b>license</b> matters more than benchmarks (bias to Apache-2.0 / MIT).</p>
-      <p><span class="verdict v-warn">The selling motion is different</span> Big committees (<b>~6–11 stakeholders</b>), and <b>61% of B2B buyers now prefer a rep-free, self-serve journey</b> (Gartner). A <b>SOC 2 report + security questionnaire</b> is a formal gate that adds weeks and stalls slow vendors. US trust is <b>front-loaded onto artifacts</b> — a validated <b>reference architecture</b>, SOC 2, named references, ROI numbers — not rapport. The reference architecture is the anchor artifact partners resell.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/" target="_blank" rel="noopener">NVIDIA NIM microservices</a> <span class="sum">— self-hosted, "data stays in your boundary"</span></div>
-      <div class="row"><a href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html" target="_blank" rel="noopener">HHS — HIPAA Security Rule</a> · <a href="https://www.fedramp.gov/" target="_blank" rel="noopener">FedRAMP</a> <span class="sum">— the compliance gates that force private infra</span></div>
-      <div class="row"><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-ai" target="_blank" rel="noopener">Red Hat OpenShift AI</a> · <a href="https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/ecosystem-architecture.html" target="_blank" rel="noopener">NVIDIA Enterprise AI Factory</a> <span class="sum">— air-gapped stack + validated ref-arch</span></div>
-      <div class="row"><a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-sales-survey-finds-61-percent-of-b2b-buyers-prefer-a-rep-free-buying-experience" target="_blank" rel="noopener">Gartner — 61% prefer rep-free buying</a> <span class="sum">— self-serve, committee-driven motion</span></div>
-      <div class="row"><a href="https://www.nvidia.com/object/nvidia-partner-network.html" target="_blank" rel="noopener">NVIDIA Partner Network</a> <span class="sum">— how the US SI / VAR channel is structured</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've delivered into US enterprises — tell me about an on-prem or security-sensitive deal. Who <i>actually</i> killed or saved it: the security reviewer, the infra architect, or the budget owner? What did you learn to do differently?</li>
-        <li>Of everything we could build partners — reference architecture, TCO calculator, demo environment, POV playbook, certifications — which one or two have you seen actually move a US partner from "registered but inactive" to closing? What's just shelfware?</li>
-        <li>What does a foreign-origin vendor most often get wrong in a US security review (SOC 2, questionnaires, data-residency)? And how do you frame "on-prem" so a US buyer hears "control &amp; compliance," not "legacy"?</li>
-      </ul>
-    </div>
-  </section>
+<section class="card" style="--accent:var(--teal)" id="r07">
+  <div class="head"><div class="icon">🤖</div><div><h2>로보틱스 · Physical AI — 미국·한국·국방 <span class="chip">로보틱스</span></h2><p class="why">하드웨어 굴기는 중국에 있다 — SW 엔지니어의 승부처는 '만드는 층'이 아니라 자율 소프트웨어·데이터·조달 자격의 '태우는 층'이다.</p></div></div>
+  <div class="context"><p>2026년 'Physical AI'(로봇·자율 시스템에 체화된 AI)는 산업 담론의 중심축이 됐다. LLM 소프트웨어 마진이 압축되는 국면에서 물리 세계로의 확장이 새 해자로 부상했고, NVIDIA를 비롯한 진영이 휴머노이드·자율기계를 다음 성장 파동으로 밀고 있다. 여기서 소프트웨어 개발자가 로보틱스로 피벗할 때 반드시 분리해서 봐야 할 두 층 — (1) 제조·양산(모터·감속기·배터리·액추에이터·조립)과 (2) 자율 소프트웨어·센서퓨전·시뮬레이션·보안·조달 — 을 미국·한국·국방이라는 세 좌표 위에서 정리한다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4>핵심 포인트</h4>
+    <ul>
+      <li><b>왜 하드웨어/실물인가</b> — 소프트웨어 단독 제품은 복제·상품화 압력이 크지만, 물리 세계에 붙은 시스템은 안전·인증·조달·데이터라는 비복제 자산이 쌓인다. 다만 '실물'의 가치는 "하드웨어를 만든다"가 아니라 "실물 위에서 신뢰를 확보한다"에서 나온다.</li>
+      <li><b>SW 개발자의 진입점은 하드웨어 제조가 아니다</b> — 모터·감속기 양산에서 신규 SW 엔지니어가 이길 자리는 거의 없다. 붙을 곳은 ① 자율 소프트웨어(perception·planning·제어 미들웨어), ② 데이터 층(수집·라벨링·시뮬레이션 학습 데이터), ③ 정책/보안 층(안전 인증·조달 자격·온프레미스 배포)이다.</li>
+      <li><b>"하드웨어는 카피 불가"는 뉘앙스 주의</b> — 오히려 2026년 하드웨어 제조 굴기의 주역은 중국이다. 방어선은 '카피 불가'가 아니라 조달 자격·공급망·인증·데이터에 있다.</li>
+    </ul>
+    <h4 class="big">미국 + 한국 로보틱스 지형(2026)</h4>
+    <p><b>미국</b>은 휴머노이드(범용 인간형 로봇)·물류 자동화·방위 자율시스템의 세 축으로 자본이 집중된다. 소프트웨어에서 물리 세계로 마진을 옮기려는 빅테크·스타트업 진영이 '데이터로 학습하는 로봇'을 밀고 있고, 방위 tech에는 벤처 자본이 사상 최고 수준으로 몰려 Anduril·Shield AI·Palantir 같은 기업이 급성장 중이다.</p>
+    <p><b>한국</b>은 결이 다르다 — 제조·조선·방위가 로보틱스의 주력 진입로다. 자동차·전자 대기업이 로보틱스 자회사를 흡수하며 산업용·인간형 로봇에 투자하고, 세계 1위권 조선업은 용접·도장·검사 공정 자동화로 로봇 수요를 키운다. 그리고 K-방산 수출 호황이 지상 무인차량·감시정찰·유무인 복합체계로 이어지며 방위 로보틱스를 견인한다. <b>미국(휴머노이드·물류·방위)과 한국(제조·조선·방위)은 출발점이 달라도 결국 '국방'이라는 지점에서 만난다</b> — 각국이 보안 때문에 자국·동맹 제품을 요구하기 때문이다.</p>
+    <p><b>중국이라는 현실</b>: 휴머노이드 로봇 설치·출하의 대부분을 중국이 차지하고, 대표 기업들이 모터·감속기·센서까지 수직계열화된 공급망으로 자체 생산한다(<a href="https://www.scmp.com/tech/big-tech/article/3340142/china-dominates-global-humanoid-robot-market-over-80-installations" target="_blank" rel="noopener">SCMP</a>). 즉 "하드웨어는 못 베낀다"가 아니라 "중국이 하드웨어 제조를 지배한다"가 팩트에 가깝다. 미국·한국·동맹권의 방어선은 원가 경쟁이 아니라, 국방·규제산업이 '자국산'을 요구하는 조달 구조 그 자체다.</p>
+    <h4 class="big">기회의 층 — SW 엔지니어가 어디에 붙나</h4>
+    <p>로보틱스 스택을 세 겹으로 쪼개면 진입점이 선명해진다.</p>
+    <ul>
+      <li><b>[1] 하드웨어 제조·양산</b> — 중국 원가·공급망 우위가 압도적. 신규 SW 엔지니어의 자리는 거의 없다. (피할 층)</li>
+      <li><b>[2] 자율 소프트웨어·통합</b> — COTS(상용 기성품) 하드웨어 <i>위에</i> 배포되는 perception·planning·제어·센서퓨전·시뮬레이션 층. 미국·동맹권이 강하고, SW 엔지니어의 기존 역량(실시간 시스템·데이터 파이프라인·시뮬레이션)이 그대로 전이된다. <b>승부처.</b></li>
+      <li><b>[3] 데이터 · 정책/보안</b> — 로봇 학습 데이터의 수집·시뮬레이션 생성·라벨링, 그리고 안전 인증·온프레미스 배포·보안 층. 국방·규제산업의 진입 장벽 자체가 여기서 해자가 된다.</li>
+    </ul>
+    <p><b>방위 조달의 벽은 기술이 아니라 신분이다</b> — 미국 국방 직접 조달은 국적·보안 clearance·ITAR 같은 수출통제가 걸려 있어, 유학생·비영주권 신분에게는 기술보다 신분이 먼저 벽이 된다. "국방은 할 수 있는 사람이 적어 경쟁이 덜하다"는 절반만 맞다 — 인력 풀은 좁지만 바로 그 이유로 자본·기업 경쟁은 과열됐다. '경쟁이 없다'가 아니라 '장벽이 높다'로 봐야 정확하다.</p>
+    <h4>기찬에게</h4>
+    <p>Physical AI로의 피벗 방향 자체는 2026년 시장 구조와 부합한다. 다만 실전 진입 경로는 세 가지로 좁혀 잡는 게 현실적이다. <b>①</b> 인터뷰·포지셔닝에서 "하드웨어는 카피 불가"를 논거로 쓰지 말 것 — 중국 로보틱스 굴기라는 반례에 즉시 부딪힌다. 대신 "제조 우위는 중국에 있지만, 자율 소프트웨어·보안·조달 자격은 별개의 게임"이라는 정교한 프레임이 훨씬 강하다. <b>②</b> 미국 국방 직행(국적·clearance 벽)보다, (a) 한국 방산·국책 dual-use(민군 겸용), (b) 미국 진출 준비 중인 회사의 <i>소프트웨어 통합</i> 롤을 현실적 진입점으로. <b>③</b> 만들려는 온라인 스쿨/튜토리얼은 '창업'이 아니라 학습·포트폴리오 자산으로 명확히 포지셔닝. 핵심은 하드웨어를 '만드는' 게임이 아니라, 신뢰·안전·조달 자격이 걸린 [2]·[3] 층에서 SW 엔지니어의 강점을 태우는 것이다.</p>
+    <div class="src">출처: <a href="https://www.scmp.com/tech/big-tech/article/3340142/china-dominates-global-humanoid-robot-market-over-80-installations" target="_blank" rel="noopener">SCMP — 중국이 세계 휴머노이드 로봇 시장을 지배한다</a> · <a href="https://www.washingtontimes.com/news/2026/jun/18/investment-defense-tech-soaring-pentagon-encourages-venture/" target="_blank" rel="noopener">Washington Times — 급증하는 방위 tech 투자</a></div>
+  </div>
+</section>
 
-  <!-- ============ samcho ============ -->
-  <section class="card" data-topic="samcho" style="--accent:var(--red)">
-    <div class="head">
-      <div class="icon">🏛️</div><div class="num">06</div>
-      <div><h2>Sam Cho — a Korean-American playbook</h2>
-      <p class="why">He rose fast on network + timing — a model worth studying?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/samcho.svg" alt="Sam Cho — a playbook">
-    <div class="context">
-      <figure class="portrait">
-        <img src="assets/2026-07-24/sam-cho.jpg" alt="Sam Cho, Port of Seattle Commissioner">
-        <figcaption>Sam Cho, Port of Seattle Commissioner<span class="src">Wikimedia Commons · CC</span><a class="li" href="https://www.linkedin.com/in/samhcho" target="_blank" rel="noopener">in · LinkedIn ↗</a></figcaption>
-      </figure>
-      <p><span class="verdict v-ok">Who</span> <b>Sam Cho</b> (b. 1990, Chicago; raised in Seattle; son of Korean immigrants who "came through the Port of Seattle"). <b>BA American University, MSc LSE.</b> Federal service under Obama (<b>GSA appointee</b>, State Dept, Congress staffer). Founded &amp; exited <b>Seven Seas Export</b> (US egg exports to Asia) before 30.</p>
-      <p><span class="verdict v-mix">Entrepreneurship — no VC</span> His venture, <b>Seven Seas Export</b> (2017), was a <b>bootstrapped trading company</b> (US egg exports to Asia), <b>not a VC-backed startup</b>. The "exit" was selling a profitable export business before 30 — the capital was <b>revenue, not venture money</b>. He then parlayed that + his federal/Olympia experience into a civic career: a very different model from a funded tech startup.</p>
-      <p><span class="verdict v-ok">Port of Seattle</span> Elected to the Commission in <b>2019</b> (won 60.8%), re-elected ~99% in 2023, term through 2027. In <b>2023 became the youngest &amp; first person of color to serve as Commission President</b> (since 1911).</p>
-      <p><span class="verdict v-ok">Korean network</span> Deep ties: member of the <b>Council of Korean Americans</b>, took his oath of office <b>in English and Korean</b>, bridges Korea–Seattle (Asia Society "Seoul Searching"), sits on AAPI bodies (APAICS, CAPAA). The playbook: a compressed timeline (company + exit + office by ~30), a <b>federal-to-local pipeline</b> (DC/Olympia staffer → principal), and <b>immigrant identity as a deliberate asset</b>.</p>
-      <p><span class="verdict v-warn">Caution</span> A couple of common claims don't hold: he was <b>US-born (2nd-gen, not 1.5)</b>, and his Obama-era role was <b>GSA/State, not "the White House."</b></p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://en.wikipedia.org/wiki/Sam_Cho" target="_blank" rel="noopener">Wikipedia</a> <span class="sum">— bio &amp; career</span></div>
-      <div class="row"><a href="https://ballotpedia.org/Sam_Cho" target="_blank" rel="noopener">Ballotpedia</a> <span class="sum">— election results &amp; terms</span></div>
-      <div class="row"><a href="https://www.portseattle.org/contacts/cho-sam" target="_blank" rel="noopener">Port of Seattle bio</a> <span class="sum">— official role &amp; portfolio</span></div>
-      <div class="row"><a href="https://seattlemag.com/sam-cho/" target="_blank" rel="noopener">Seattle magazine (2024-04)</a> <span class="sum">— "did in years what takes decades"</span></div>
-      <div class="row"><a href="https://councilka.org/cka_member/sam-h-cho/" target="_blank" rel="noopener">Council of Korean Americans</a> <span class="sum">— his Korean-American network</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've lived here a long time and seen the political and negotiation game up close. Tell me about a real time you had to win people over — or defend against an attack, a rival, a smear. What actually worked, and what backfired? Any lobbying-or-negotiation war story you're willing to share.</li>
-        <li>My engineer instinct is "the work should speak for itself." Watching how someone like Sam Cho wins elections and deflects attacks — what should people like us actually <i>learn</i> from that game, and what's just not worth playing?</li>
-        <li>Watching someone like Sam Cho, part of me wonders if I'm playing too small. Should someone like me aim for a bigger, more public path — or is that just not for us?</li>
-        <li>I'm bad at this: where do I even start building the kind of relationships that pay off in ten years, without it feeling fake?</li>
-      </ul>
-    </div>
-  </section>
+<section class="card" style="--accent:var(--gold)" id="r08">
+  <div class="head"><div class="icon">🎓</div><div><h2>글로벌 AI 교육 사업 — 미국·싱가포르·한국 <span class="chip">AI 교육</span></h2><p class="why">도구가 평준화된 시대, 값이 붙는 건 '무엇을·왜 만드는가'를 가르치는 커리큘럼이다.</p></div></div>
+  <div class="context"><p>개요: 비개발자(마케터·기획자·중소상공인 등)를 대상으로 한 AI 교육·온라인 코스 사업을 글로벌로 확장할 때의 시장 지형과 수익화 구조를 정리한다. 핵심 질문은 "어느 나라에서, 어떤 플랫폼으로, 어떤 값어치를 팔 것인가"다. 한국·미국·싱가포르는 각각 국가 보조·마켓플레이스·국가주도 리스킬링이라는 서로 다른 엔진으로 움직인다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
 
-  <!-- ============ founders ============ -->
-  <section class="card" data-topic="founders" style="--accent:var(--blue)">
-    <div class="head">
-      <div class="icon">🤝</div><div class="num">07</div>
-      <div><h2>Ryan Lee (JIGO) — "just start," and the résumé behind it</h2>
-      <p class="why">He tells people to just start a company. Look at the career that advice comes from.</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/founders.svg" alt="The cofounder question">
-    <div class="context">
-      <figure class="portrait">
-        <img src="assets/2026-07-24/ryan-lee.jpg" alt="Ryan Lee, founder of JIGO">
-        <figcaption>Ryan Lee, founder/CEO of JIGO<span class="src">Startups with Seoul (YouTube)</span><a class="li" href="https://www.linkedin.com/in/ryanshlee" target="_blank" rel="noopener">in · LinkedIn ↗</a></figcaption>
-      </figure>
-      <p><span class="verdict v-ok">Who</span> <b>Ryan Lee</b> (Ryan Sang-Hoon Lee), founder/CEO of <b>JIGO</b> (Bellevue WA), <b>Aug 2023 – present</b>. JIGO now <b>helps startups find office space faster &amp; cheaper</b> (commercial real estate) — a pivot from its earlier AI contract-analysis product. Raised a <b>~$700K seed</b> (TheVentures lead; NVIDIA Inception, Mashup Ventures, Microsoft for Startups, Rabbit Ventures).</p>
-      <p><span class="verdict v-ok">The arc (from his LinkedIn)</span> Not a first-timer, and <b>not a failed founder</b> — his last startup was <b>acquired</b>:</p>
-      <ul class="tl">
-        <li><b class="yr">2003–2010</b> · <b>Samsung Electronics (Mobile)</b>, Seoul — early member of the smartphone task force (an intrapreneurial team of ~10); planned the <b>world's-first HDD smartphone (SGH-i300)</b>; as Global PM built the <b>Rugged portfolio</b> — the first mass-market <b>waterproof phone (B2100)</b> and youth phone B3310.</li>
-        <li><b class="yr">2011 → 2012–2019</b> · <b>Microsoft</b> (Bing Ads) — PM intern, then Product Marketing Manager scouting ad-tech startups for pilots → <b>Senior Lead PM, Data Science</b>.</li>
-        <li><b class="yr">2019–2022</b> · <b>Kurvv</b> — <b>co-founder &amp; CEO</b>, ML for non-technical users (predictive maintenance on a proprietary AutoML platform). <b>Acquired by AIZEN Global (2022)</b>.</li>
-        <li><b class="yr">2022</b> · <b>AIZEN Global</b> — <b>Chief Product Officer &amp; Head of AIZEN America</b> (post-acquisition).</li>
-        <li><b class="yr">2023–present</b> · <b>Rabbit VC</b> — Venture Partner (first checks into Korean founders going global) <b>+ JIGO</b> — founder &amp; CEO.</li>
-      </ul>
-      <p><span class="verdict v-ok">The money</span> <b>JIGO's ~$700K seed</b> was <b>led by TheVentures</b> (a Korean VC), with <b>NVIDIA Inception, Mashup Ventures</b> (Korean-American), <b>Microsoft for Startups</b>, and <b>Rabbit Ventures</b> — where Lee is now himself a <b>Venture Partner</b>. His prior startup <b>Kurvv</b> raised a <b>$1M seed led by SEMA Translink</b> before its acquisition by <b>AIZEN</b>. The pattern worth noticing: his money kept coming through the <b>Korean / Korean-American VC network</b> he'd built — and he now sits on the other side of that table.</p>
-      <p><span class="verdict v-mix">The honest question</span> He's known for telling people <b>"you've got nothing to lose — just start"</b> (that framing lives in a podcast; exact wording unconfirmed). But look at the résumé behind it: a <b>Samsung smartphone pioneer</b>, 6+ years at <b>Microsoft</b>, a startup that <b>got acquired</b>, then <b>CPO of the acquirer</b> — now a VC and a founder again. So the real question isn't whether he's a hypocrite; it's whether "just start" is advice you can take <i>before</i> you've banked that kind of optionality — or only after.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://jigo.ai/" target="_blank" rel="noopener">jigo.ai</a> <span class="sum">— the company &amp; product</span></div>
-      <div class="row"><a href="https://tracxn.com/d/companies/jigo/__Z5XxnrWt6loJ9Dd0zLGPLsAb4_MAcoqC3i6yyygbKwc" target="_blank" rel="noopener">Tracxn</a> · <a href="https://www.crunchbase.com/organization/jigo-ai" target="_blank" rel="noopener">Crunchbase</a> <span class="sum">— founder, seed, team size</span></div>
-      <div class="row"><a href="https://www.thesaasnews.com/news/jigo-ai-secures-funding-round/" target="_blank" rel="noopener">TheSaaSNews</a> <span class="sum">— the ~$700K raise &amp; investors</span></div>
-      <div class="row"><a href="https://www.linkedin.com/in/ryanshlee" target="_blank" rel="noopener">Ryan Lee — LinkedIn</a> <span class="sum">— the authoritative career timeline (Samsung → MS → Kurvv → AIZEN → JIGO)</span></div>
-      <div class="row"><a href="https://www.geekwire.com/2019/kurvv-closes-1m-seed-funding-round-ai-service-designed-small-businesses/" target="_blank" rel="noopener">GeekWire (2019)</a> <span class="sum">— Kurvv's $1M seed</span></div>
-      <div class="row"><a href="https://rabbitvc.com/2023/08/01/startups-with-seoul-episode-3/" target="_blank" rel="noopener">Startups with Seoul, Ep 3</a> <span class="sum">— his Korean-founder-in-the-US talk (podcast)</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> when you actually started your own thing — where did your first people and your first money really come from? Was it the network you'd already built, or something else? I don't have a Microsoft rolodex, so I need the real story.</li>
-        <li>Guys like Ryan Lee only jumped after Samsung and Microsoft. Honestly — do I need the big-company badge first, or is that just fear talking?</li>
-        <li>Be blunt: is "just go build it" real advice, or the kind of thing people say who already had a safety net? How did you square it?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="big">3국 비교 — 온라인 교육/코스 시장의 구조</h4>
+    <p>세 나라는 "누가 교육비를 내는가"에서부터 갈린다. 한국은 국비지원 + 대형 학원이 수요를 만들고, 미국은 개인이 마켓플레이스에서 소액 결제하거나 코호트에 프리미엄을 지불하며, 싱가포르는 국가가 성인 재교육을 크레딧으로 보조한다.</p>
+    <table>
+      <thead><tr><th>구분</th><th>🇰🇷 한국</th><th>🇺🇸 미국</th><th>🇸🇬 싱가포르</th></tr></thead>
+      <tbody>
+        <tr><td>주 결제 주체</td><td>정부(국비) + 개인</td><td>개인 + 기업 L&amp;D</td><td>국가 보조 + 개인</td></tr>
+        <tr><td>대표 채널</td><td>대형 학원(에듀윌·해커스류), 패스트캠퍼스·인프런·클래스101, KDT 부트캠프</td><td>Udemy·Coursera(대학 MOOC·학위), Maven(코호트형), 부트캠프, 커뮤니티칼리지</td><td>SkillsFuture 등록 코스, 폴리텍/대학 CET, 지역 EdTech 허브</td></tr>
+        <tr><td>보조·지원</td><td>내일배움카드, K-Digital Training(KDT) 국비 부트캠프</td><td>연방 보조는 제한적, 기업 학자금·리스킬링 예산 중심</td><td>SkillsFuture Credit(성인 전 국민), 중장년 Level-Up 크레딧, 기업 보조율 높음</td></tr>
+        <tr><td>가격 감각</td><td>국비 무료~중가, 자비 부트캠프 고가</td><td>Udemy 초저가~무료 세일 vs 코호트/부트캠프 고가(수백~수천 달러)</td><td>크레딧으로 실부담 낮춤, 명목가는 중~고가</td></tr>
+        <tr><td>강점/공략점</td><td>대규모 DB·브랜드 학원 유통력, 그러나 가격 저항·국비 의존</td><td>세계 최대 수요·영어 배포·기업 B2B, 그러나 경쟁·CAC 높음</td><td>영어권 + 국가 보조 + 아세안 관문, 규모는 작음</td></tr>
+      </tbody>
+    </table>
+    <p>시사점: 한국은 '유통(대형 학원 채널)'이, 미국은 '차별화(왜 이 강사인가)'가, 싱가포르는 '인증·등록(보조 대상 코스로 승인)'이 진입 열쇠다. 같은 커리큘럼이라도 나라별로 '팔리게 만드는 지렛대'가 다르다.</p>
 
-  <!-- ============ screens ============ -->
-  <section class="card" data-topic="screens" style="--accent:var(--gold)">
-    <div class="head">
-      <div class="icon">🪞</div><div class="num">08</div>
-      <div><h2>Doors are opening — and it feels strange</h2>
-      <p class="why">Four screens passed on the portfolio alone — is this real signal, or luck I should distrust?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/screens.svg" alt="Doors are opening">
-    <div class="context">
-      <p><span class="verdict v-ok">What's happening</span> A run of résumé/document screens cleared at once: <b>Upstage — AI Solution Engineer</b>, <b>Upstage — AI Product Engineer</b>, <b>LG U+ — SRE</b>, and a <b>foreign-owned company — SRE (via Adecco)</b>. As far as I can tell, the common thread pulling me through is <span class="hl">the portfolio</span>, not the pedigree.</p>
-      <p><span class="verdict v-mix">Why it feels off</span> It's <b>unfamiliar</b> — I'm not used to things breaking my way, so the instinct is to distrust it. Two very different tracks are opening at the same time: <b>AI product/solution</b> (Upstage) vs. <b>reliability / SRE</b> (U+, foreign co.). Passing the paper screen isn't an offer, and I can't yet tell whether this is a durable signal about my work or a lucky cluster.</p>
-      <p><span class="verdict v-warn">The real question underneath</span> If the portfolio is what's working, do I <b>double down on it</b> and pick the track it points hardest at — or is spreading across two tracks a sign I haven't committed? And how do I hold this without either dismissing it as a fluke or over-reading it?</p>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li>Honestly, this is going better than I expected and it scares me a bit — part of me is bracing for it to fall apart at the interview. Did you go through that? How do I stop waiting for the other shoe to drop?</li>
-        <li>Am I fooling myself thinking the portfolio is why I'm getting through — or is it real? I'd rather hear it straight from you than keep guessing.</li>
-        <li>AI product vs. SRE both opened up and I genuinely don't know which "me" to chase. If you were in my shoes right now, which door would you walk through, and why?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="big">자체 코스 사이트 · 수익화 모델</h4>
+    <p><b>플랫폼 입점 vs 자체 사이트.</b> 마켓플레이스(Udemy·Coursera)는 트래픽·신뢰를 빌려주지만 가격 결정권과 고객 데이터를 가져가고 마진을 나눈다. 자체 사이트(Teachable·Kajabi·Podia·Thinkific)나 커뮤니티 툴(Circle)은 브랜드·이메일 리스트·가격을 온전히 소유하는 대신 트래픽을 스스로 만들어야 한다. 초기엔 마켓플레이스로 신뢰와 오디언스를 확보하고, 브랜드가 서면 자체 사이트로 옮겨 마진과 관계를 회수하는 '하이브리드'가 정석이다.</p>
+    <p><b>수익화 스펙트럼.</b> ① 셀프페이스 온디맨드 코스(낮은 가격·높은 확장성) → ② 코호트 기반 코스(CBC, 라이브·기간제·고가·완주율·후기 강점) → ③ 구독/멤버십(커뮤니티·업데이트) → ④ 템플릿·프롬프트·SaaS 라이선스 → ⑤ 기업 B2B 사내 교육·워크숍(객단가 최고, AI 리스킬링 예산과 직결). 개인 대상은 규모, 기업 대상은 단가에서 유리하므로 둘을 층으로 쌓는 게 안정적이다.</p>
+    <p><b>글로벌 배포 시 실무 3종.</b> 결제(다통화·현지 결제수단), 세금(미국 거주자는 전세계소득 과세, 한국 원천 온라인 강의 소득도 신고 대상 / EU VAT·디지털재화 과세 / 각국 원천징수), 신분·체류(비자 유형에 따라 온라인 강의라도 '노동'으로 간주될 수 있음)를 사전에 세무·이민 전문가와 정리해야 한다. 콘텐츠는 쉽게 국경을 넘지만, 돈과 신분은 그렇지 않다.</p>
 
-  <!-- ============ humanoids ============ -->
-  <section class="card" data-topic="humanoids" style="--accent:var(--teal)">
-    <div class="head">
-      <div class="icon">🦾</div><div class="num">09</div>
-      <div><h2>China's humanoids — Galbot &amp; Robotera</h2>
-      <p class="why">The field is sprinting. Is this a wave I can still catch — or already too late for me?</p></div>
-    </div>
-    <img class="banner" src="assets/2026-07-24/humanoids.svg" alt="China's humanoids">
-    <div class="context">
-      <p><span class="verdict v-ok">Galbot (Galaxy General)</span> Founded 2023 by <b>He Wang</b> (Tsinghua undergrad → Stanford PhD → Peking Univ prof); ~<b>$3B</b> valuation, the sector's highest. Flagship <b>G1</b> = humanoid torso + two arms on a <b>360° wheeled base</b> (practical, not full bipedal). Deployed in <b>Beijing pharmacies + a hospital</b>, plus factory pilots with <b>CATL, Bosch, Toyota, Mercedes-Benz</b>. "AstraBrain" = <b>brain (大脑, planning) + cerebellum (小脑, real-time control)</b>.</p>
-      <p><span class="verdict v-ok">Robotera (星動纪元)</span> 2023 <b>Tsinghua spinout</b> (Chen Jianyu); <b>STAR1</b> (ran ~13 km/h) and full-size <b>L7</b> bipedal; Series A+ <b>led by Geely</b> (BAIC / Alibaba / Haier).</p>
-      <p><span class="verdict v-warn">Correcting the video</span> <b>Musk praised Unitree, NOT Galbot/Robotera</b> — "Impressive" on Unitree's backflip clip, a laughing emoji on a G1 drill. The video conflates them. And "learned tennis from 5 hrs of amateur video" was ~5 hrs of <b>motion-capture fragments, run on a Unitree G1</b> (not Galbot). Real results, slightly embellished.</p>
-      <p><span class="verdict v-ok">What matters</span> The pattern: Chinese firms win by <b>fast field deployment + a real-world data flywheel</b> (VLA, sim-to-real), not mechanical perfection — the same "data is the product" thread as the robotics card.</p>
-    </div>
-    <div class="srcs">
-      <span class="block-tag">Sources (checked)</span>
-      <div class="row"><a href="https://technode.com/2025/06/25/galbot/" target="_blank" rel="noopener">TechNode (2025-06-25)</a> <span class="sum">— Galbot funding &amp; wheeled G1</span></div>
-      <div class="row"><a href="https://www.therobotreport.com/galbot-brings-in-300m-to-scale-mobile-manipulator-deployments/" target="_blank" rel="noopener">The Robot Report</a> <span class="sum">— ~$3B, deployments</span></div>
-      <div class="row"><a href="https://www.caixinglobal.com/2025-07-08/humanoid-robotics-startup-robot-era-secures-69-million-series-a-funding-102338987.html" target="_blank" rel="noopener">Caixin (2025-07-08)</a> <span class="sum">— Robotera Series A, Tsinghua</span></div>
-      <div class="row"><a href="https://www.scmp.com/tech/tech-trends/article/3337320/unitree-g1-humanoids-go-viral-synchronised-backflip-and-impressive-musk-endorsement" target="_blank" rel="noopener">SCMP</a> <span class="sum">— the real Musk praise (Unitree)</span></div>
-      <div class="row"><a href="https://restofworld.org/2026/china-humanoid-robots-unitree-agibot-tesla-optimus/" target="_blank" rel="noopener">Rest of World (2026)</a> <span class="sum">— China's deploy-fast data-loop thesis</span></div>
-    </div>
-    <div class="ask">
-      <span class="block-tag">Open questions</span>
-      <ul>
-        <li><b>Your experience first:</b> you've seen enough launches to smell theater — even the "Musk praised it" one turned out to be a different company. Tell me about a time a slick demo fooled you, or you saw through one others fell for. How do you actually tell a genuine capability from a staged demo?</li>
-        <li>Watching China's robot guys move this fast, I feel thrilled and behind at the same time. Be honest — is this a wave I can still catch, or already too late for someone like me?</li>
-        <li>If you were starting into this now, would you actually bet on the robot-software side — or is that me chasing shiny things again?</li>
-      </ul>
-    </div>
-  </section>
+    <h4 class="big">2026 흐름 — 'vibe coding 평준화'가 교육 수요를 바꾼다</h4>
+    <p>2026년의 핵심 변화는 <b>생성 속도의 평준화</b>다. 자연어로 앱을 뽑아내는 능력(vibe coding)은 진입장벽이 사실상 사라졌고, 그래서 값이 붙는 지점이 위로 이동했다 — 문제 정의, 시스템·데이터 아키텍처, 평가·보안·유지보수, 그리고 '무엇을·왜 만들지' 정하는 판단이다. "도구를 쓸 줄 안다"는 더는 차별점이 아니며, 채용·구매 언어도 'AI로 빨리 만든다'에서 'AI를 조직 생산성으로 전환하는 설계자'로 옮겨가고 있다.</p>
+    <p>역설적으로 이것이 <b>비개발자 교육 시장을 키운다.</b> 도구는 쉬워졌지만 '내 업무에 녹이는 방법'은 여전히 가르쳐야 하는 영역이기 때문이다. 그래서 값어치 있는 커리큘럼은 특정 도메인 따라하기(예: "이 앱 그대로 만들기")가 아니라, <b>실전 성과 중심</b> — 창의성·워크플로우 설계·아키텍처·실제 업무 자동화 결과물 — 로 프레임된 것이다. 기업이 소규모 AI 팀을 통째로 인수(acqui-hire)하거나 사내 리스킬링 예산을 늘리는 것도 같은 신호다: 병목은 '도구 사용'이 아니라 '조직 역량화'다.</p>
 
-</main>
+    <h4>기찬에게</h4>
+    <p>글로벌 진출 실전 함의 세 가지. ① <b>포지셔닝</b> — 코스를 '도구 사용법'이 아니라 "AI를 실제 업무 생산성으로 전환하는 설계·워크플로우"로 프레임하면 평준화 흐름과 정확히 맞고, 상단 수익(기업 B2B·SaaS화)으로 확장하기 쉽다. ② <b>진입 순서</b> — 나라마다 지렛대가 다르니 하나로 통일하지 말 것: 한국은 대형 학원 유통력, 미국은 영어 마켓플레이스로 신뢰 축적 후 자체 사이트 이전, 싱가포르는 SkillsFuture 등록으로 보조 수요를 흡수. ③ <b>리스크 선정리</b> — 결제·세금(전세계소득 과세)·체류신분은 콘텐츠보다 먼저 막히는 지점이니 이주/확장 전에 전문가와 확정해 두는 게 이득이다.</p>
+
+    <div class="src">출처: <a href="https://www.skillsfuture.gov.sg/" target="_blank" rel="noopener">SkillsFuture Singapore (공식)</a> · <a href="https://maven.com/" target="_blank" rel="noopener">Maven — 코호트 기반 코스 (공식)</a> · <a href="https://www.builder.io/m/explainers/vibe-coding-limitations" target="_blank" rel="noopener">Builder.io — vibe coding 도구의 한계 (2026)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--purple)" id="r09">
+  <div class="head"><div class="icon">🇸🇬</div><div><h2>싱가포르 — 미국·한국과 비교한 대안 트랙 <span class="chip">싱가포르</span></h2><p class="why">미국이 막혔을 때, 아시아 유일의 영어권 테크·금융 허브가 현실적 플랜B다</p></div></div>
+  <div class="context"><p>개요: 미국 진출(H-1B 추첨·비용 급등)이 어려울 때의 현실적 대안으로 싱가포르를 취업·이주·시민권 세 관점에서 미국·한국과 비교한다. 화교가 인구의 다수(약 74%)인 도시국가·금융허브라는 큰 그림은 유지하되, 엔지니어가 실제로 밟을 트랙 중심으로 정리한다.</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4 class="big">미국 · 한국 · 싱가포르 3국 비교</h4>
+    <p>한국 국적 AI 엔지니어가 각국에서 일하려 할 때의 실질 조건을 표로 정리한다. 수치는 2026년 기준(EP는 2027-01-01 이전 신청 기준).</p>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>항목</th><th>🇺🇸 미국</th><th>🇰🇷 한국</th><th>🇸🇬 싱가포르</th></tr></thead>
+      <tbody>
+        <tr><td><b>취업 비자</b></td><td>H-1B: 연 8.5만 건 추첨(당첨 확률 낮음). 2025년 신규 청원에 <b>US$100,000 수수료</b> 부과 정책까지 겹쳐 진입 장벽 급상승. O-1·L-1 등 우회로 존재</td><td>내국인이라 비자 불필요(가장 마찰 적음). 외국인은 E-7 등</td><td><b>Employment Pass(EP)</b>: 추첨 없이 자격·급여·점수제. 최저 급여 월 S$5,600(23세)→S$10,700(45세+), 금융권 S$6,200→S$11,800 + <b>COMPASS 40점</b>. 고급 인재는 <b>Tech.Pass</b>(월 S$22,500 등 요건)·<b>ONE Pass</b>(월 S$30,000)</td></tr>
+        <tr><td><b>소득세(개인)</b></td><td>연방 최고 37% + 주세(주별 상이). 전 세계 소득 과세·복잡</td><td>최고 45%(+지방소득세). 고소득일수록 부담 큼</td><td><b>거주자 최고 24%</b>로 저율, <b>양도소득세 없음</b>. 해외소득 원칙적 비과세 → 실효세율 매력</td></tr>
+        <tr><td><b>업무 언어</b></td><td>영어</td><td>한국어(글로벌 팀은 영어 병용)</td><td>영어가 공용·업무어 → 한국인에게 미국식 커뮤니케이션 자산 그대로 활용</td></tr>
+        <tr><td><b>AI·테크 허브 위상</b></td><td>세계 1위. 빅테크·프런티어 랩·VC 밀도 압도적</td><td>강한 제조·반도체, 자국 파운데이션 모델(소버린 AI) 시도</td><td>글로벌 본사·핀테크·딥테크·자산운용 아시아 허브. 규모는 작지만 지역 거점(APAC HQ) 밀도 높음</td></tr>
+        <tr><td><b>생활비·안전</b></td><td>도시별 편차 큼, 의료비·치안 리스크</td><td>중간, 치안 양호</td><td>주거비 세계 최고 수준(외국인 취득세 ABSD 최대 60%), 대신 치안·안전 최상위·마약 무관용</td></tr>
+        <tr><td><b>영주권(PR)·시민권</b></td><td>영주권까지 수년~십수 년, 국적 취득 시 이중국적 허용</td><td>-</td><td>취업 후 PR 신청 가능, 시민권까지 경로 존재하나 <b>이중국적 불허(기존 국적 포기 필요)</b> — 병역·상속·정체성까지 걸린 결단</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>참고 사실: 싱가포르 거주민의 <b>화교 비율은 약 74%</b>(과반이 아니라 압도적 다수), 국토 약 730km²로 극히 좁다. 우호적 규제·낮은 세금으로 외국계 은행·자산운용을 유치한 <b>금융 허브</b>이며, 홍콩을 대체하는 가족오피스 거점으로 부상했다. 반면 대규모 제조·중공업 여력은 국토 제약으로 작다(반도체·정밀화학·정유·항만은 예외적으로 강함).</p>
+    <h4 class="big">엔지니어 관점의 장단</h4>
+    <p><b>장점</b>: 추첨 없는 예측 가능한 비자(자격만 갖추면 진입), 저율 과세로 실수령 높음, 영어 업무 환경, 아시아 시간대·한국 근접, 안전·치안. 미국이 막혔을 때 <b>아시아 내 유일한 영어권 테크 허브</b>라는 대체재로서 가치가 크다.<br>
+    <b>한계</b>: 국토·내수가 작아 대규모 제조·하드웨어 R&amp;D 거점으로는 부적합(현지에서 물리적 스케일업 어려움). 채용 시장이 미국보다 얕고 로컬 고용 우대(COMPASS)가 있어 포지션 경쟁이 빡빡하다. 주거비 부담이 크고, 시민권은 이중국적 불허라는 무거운 조건이 붙는다.</p>
+    <h4>기찬에게</h4>
+    <p>대안 트랙 실전 체크포인트: ① <b>취업 단계</b>는 EP 최저급여 + COMPASS 40점을 먼저 시뮬레이션하고, 시니어라면 Tech.Pass/ONE Pass(고급 인재 트랙)로 회사 종속을 줄일 수 있는지 확인. ② <b>이주 단계</b>는 실수령(저율 세금)·주거비(ABSD)·가족 동반(부양 비자) 3축으로 미국·한국 대비 총비용을 계산. ③ <b>시민권까지</b> 본다면 핵심은 <b>이중국적 불허</b> — 한국 국적 포기(병역·상속·재입국)를 감수할지가 실제 분기점이다. Physical AI·하드웨어처럼 제조 스케일이 필요한 방향이면 싱가포르는 본사·펀딩·영업 거점으로 쓰고 R&amp;D·양산은 한국·미국에 두는 <b>하이브리드 배치</b>가 현실적이다. 결론: 싱가포르는 "미국의 완전 대체"가 아니라, 미국이 지연·차단될 때의 <b>영어권 아시아 교두보</b>로 포지셔닝하는 것이 실용적이다.</p>
+    <div class="src">출처: <a href="https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility" target="_blank" rel="noopener">Employment Pass 자격 요건 (Singapore MOM)</a> · <a href="https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-residency-and-tax-rates/individual-income-tax-rates" target="_blank" rel="noopener">개인 소득세율 (IRAS)</a> · <a href="https://en.wikipedia.org/wiki/Economy_of_Singapore" target="_blank" rel="noopener">싱가포르 경제 (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/Demographics_of_Singapore" target="_blank" rel="noopener">싱가포르 인구 통계 (Wikipedia)</a></div>
+  </div>
+</section>
+
+<section class="card" style="--accent:var(--red)" id="r10">
+  <div class="head"><div class="icon">🌉</div><div><h2>재미 한국계 미국인 · 미국 근무 문화 · 정보 격차 <span class="chip">커뮤니티</span></h2><p class="why">정보 격차는 '지역'이 아니라 '접점'의 문제다 — 어디 사느냐보다 누구와 닿아 있느냐가 기회를 가른다.</p></div></div>
+  <div class="context"><p>미국의 한국계 커뮤니티는 어떻게 살고, 미국식 근무 문화는 무엇이 다른가. 그리고 서울–지방, 미국–서울, 싱가포르–서울 같은 접점마다 생기는 정보 비대칭은 어떻게 기회와 불이익을 만드는가. 공개 통계·연구·뉴스만으로 정리한다(특정 개인 사례 아님).</p></div>
+  <div class="ctake"><span class="who">🧠 클로드 정리 (2026)</span>
+    <h4 class="big">재미 한국계 미국인은 어떻게 사나</h4>
+    <p><b>규모·구성.</b> Pew Research 분석(2021–23 American Community Survey 기준)으로 미국 내 한국계(Korean alone-or-in-combination) 인구는 약 <b>180만 명</b>이다. 이 중 <b>이민 1세(외국 태생)가 56%, 미국 태생이 44%</b>로, 이제 미국에서 나고 자란 세대가 절반 가까이 된다. 5세 이상의 <b>68%가 영어를 유창하게</b> 구사한다(집에서 영어만 39% + 다른 언어를 쓰지만 영어 매우 능숙 29%).</p>
+    <p><b>세대 차이(1세/1.5세/2세).</b> 1세는 언어·이민 절차·자영업 중심의 생존 단계, <b>1.5세</b>(어릴 때 이민)는 한국어와 영어·양쪽 문화를 오가는 '가교' 세대, <b>2세</b>는 영어 원어민이자 미국 교육 시스템의 산물로 전문직·기업 트랙에 자연스럽게 올라탄다. 통계적으로도 성취 지표가 높다 — 25세 이상 한국계의 <b>60%가 학사(36%) 또는 대학원(24%) 학위</b>를 보유해 전체 아시아계(56%)를 웃돌고, 한국계 가구 <b>중위소득은 약 $93,600</b>이다(전체 아시아계 $105,600보다는 낮음).</p>
+    <p><b>bamboo ceiling(유리천장).</b> 학력·전문직 진입은 뛰어나지만 <b>관리자·임원 승진에서는 뒤처진다</b>는 것이 오래된 지적이다. HBR(Buck Gee &amp; Denise Peck, 2018)은 아시아계 화이트칼라 전문직이 "미국에서 관리직으로 승진할 확률이 가장 낮은 집단"이라고 정리했다. 즉 개별 실력(individual contributor)으로는 강하지만, 리더십·의사결정 서클로 올라가는 '보이지 않는 천장'이 존재한다. 정체성 측면에서도 1세는 '한국인', 2세는 '미국인/아시안 아메리칸'으로 자기규정이 갈리며, 이 간극이 커뮤니티 내부의 온도차를 만든다.</p>
+    <h4 class="big">미국 근무 문화 — 공개 사례로</h4>
+    <p><b>글로벌 인력 수요는 실제로 커지고 있다.</b> 한국 기업의 미국 대규모 진출이 대표적 공개 사례다. Hyundai Motor Group의 조지아 <b>Metaplant America(HMGMA)</b>는 완성차 $7.6B + LG에너지솔루션 합작 배터리 $4.3B 규모로, 2024년 10월 양산을 시작했고 <b>2031년까지 8,100명 고용</b>을 목표로 한다(2025년 10월 시점 약 3,200명 근무). 이런 현지 생산기지는 한국어·한국 본사 이해 + 미국 현지 실무를 겸비한 인력 수요를 구조적으로 만든다.</p>
+    <p><b>at-will·직무기술 문화.</b> 미국 고용의 기본값은 <b>at-will employment</b>다 — Montana를 제외한 거의 모든 주에서, 위법한 사유가 아니라면 고용주는 사전 통보 없이 해고할 수 있고 근로자도 자유롭게 떠난다. 그래서 '평생직장'이 아니라 <b>직무기술서(job description)로 정의된 역할</b> 단위로 사람을 뽑고 평가한다. 채용도 학벌·연차보다 "이 JD를 채울 수 있는가"를 본다 — 포트폴리오·검증 가능한 산출물이 곧 신뢰다. 한국식 '조직 충성 → 연공'과 미국식 'JD 성과 → 이동성'은 근본 전제가 다르다.</p>
+    <h4 class="big">정보 격차의 여러 접점</h4>
+    <p><b>접점마다 격차가 겹친다.</b> 한국 안에서도 서울–지방 정보 차이가 있고(통계청 기준 2023년 말 수도권 인구가 전체의 <b>약 50.7%</b>로 절반을 넘어, 사람·자본·정보가 물리적으로 집중), 그 위에 <b>미국–서울</b> 격차가, 다시 <b>싱가포르–서울</b> 같은 금융·지정학 허브와의 격차가 층층이 쌓인다. 서울에서 정보가 빠르다고 여기던 사람도 현지 미국·싱가포르 정보 앞에선 '새로운 게 너무 많다'고 느끼는 이유다.</p>
+    <p><b>진짜 변수는 지역이 아니라 접점이다.</b> 온라인·원격 시대에 '어디 사느냐'로 정보가 갈린다는 건 과한 일반화다. 실제 격차는 <b>누구와 닿아 있느냐(네트워크·현지 접점)</b>에서 온다. 현지에서 실무를 하는 사람 한 명과의 연결이 검색 100번보다 빠른 '암묵지(tacit knowledge)'를 준다. 격차를 좁히는 방법도 같은 논리다 — 현지 밋업·커뮤니티·전(前) 동료 등 <b>살아 있는 접점을 몇 개 확보하고 유지</b>하느냐가, 물리적으로 어디 있느냐보다 결정적이다.</p>
+    <h4>기찬에게</h4>
+    <p>세 조각은 하나의 문장으로 수렴한다 — <b>"접점이 곧 정보다."</b> ① 재미 한국계 데이터가 보여주듯 '전문직 진입'과 '리더십 진입'은 다른 게임이다. 개별 실력(IC)을 넘어 의사결정 서클로 들어가려면 초기부터 관계·가시성에 의도적으로 투자해야 한다. ② 미국 진출 한국 기업(HMGMA 등)은 '한국 맥락 + 미국 실무'를 겸비한 엔지니어에게 구조적 수요가 있다 — JD로 자기를 정의하고, 포트폴리오로 증명하라. ③ 서울–미국 사이에 낀 시간의 진짜 자산은 정보 자체가 아니라, 귀국 후에도 살아 있을 <b>접점(사람·채널)</b>이다. 능동적으로 유지하지 않으면 네트워크는 리셋된다.</p>
+    <div class="src">출처: <a href="https://www.pewresearch.org/race-and-ethnicity/fact-sheet/asian-americans-koreans-in-the-u-s/" target="_blank" rel="noopener">Pew Research Center — 재미 한국계 팩트시트 (2023 ACS)</a> · <a href="https://hbr.org/2018/05/asian-americans-are-the-least-likely-group-in-the-u-s-to-be-promoted-to-management" target="_blank" rel="noopener">HBR — 아시아계와 대나무 천장 (Gee &amp; Peck, 2018)</a> · <a href="https://en.wikipedia.org/wiki/Hyundai_Motor_Group_Metaplant_America" target="_blank" rel="noopener">현대차그룹 메타플랜트 아메리카</a> · <a href="https://en.wikipedia.org/wiki/At-will_employment" target="_blank" rel="noopener">임의고용 (미국)</a></div>
+  </div>
+</section></main>
 
 <footer>
   <p>Private thinking notes · the public system lives at <span class="mono">mentoring.bit-habit.com</span> · personal notes stay off the public repo.</p>
@@ -592,116 +525,10 @@
 </div><!-- /.app -->
 
 <script src="sessions.js"></script>
-<script>
-  /* Reorder the cards by priority (drag / ↑ ↓ · click a title to jump).
-     Order persists in localStorage per session. Works on any .card[data-topic]. */
-  (function(){
-    var KEY = "mentoring.order.2026-07-24";
-    var main = document.querySelector("main");
-    var listHost = document.getElementById("topicOrder");
-    if(!main || !listHost) return;
 
-    function cards(){ return Array.prototype.slice.call(main.querySelectorAll(".card[data-topic]")); }
-    function ids(){ return cards().map(function(c){ return c.getAttribute("data-topic"); }); }
-    function titleOf(c){ var h=c.querySelector("h2"); return h ? h.textContent : c.getAttribute("data-topic"); }
-    function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ids())); }catch(e){} }
-    function pad(n){ n=String(n); return n.length<2 ? "0"+n : n; }
-    function renumber(){ cards().forEach(function(c,i){ var n=c.querySelector(".num"); if(n) n.textContent=pad(i+1); }); }
 
-    // apply a saved order (ids still present keep their saved order; new ones go last)
-    try{
-      var saved = JSON.parse(localStorage.getItem(KEY)||"[]");
-      if(saved && saved.length){
-        var present = ids();
-        var ordered = saved.filter(function(id){ return present.indexOf(id)!==-1; });
-        present.forEach(function(id){ if(ordered.indexOf(id)===-1) ordered.push(id); });
-        ordered.forEach(function(id){ var c=main.querySelector('.card[data-topic="'+id+'"]'); if(c) main.appendChild(c); });
-      }
-    }catch(e){}
 
-    function move(from, to){
-      var cs = cards();
-      if(to<0 || to>=cs.length || from===to) return;
-      if(from<to) cs[to].after(cs[from]); else cs[to].before(cs[from]);
-      build(); renumber(); save();
-    }
-    function mk(label, title, fn){ var b=document.createElement("button"); b.type="button"; b.textContent=label; b.title=title; b.addEventListener("click",fn); return b; }
 
-    function build(){
-      var cs = cards();
-      listHost.innerHTML = "";
-      cs.forEach(function(c,i){
-        var li = document.createElement("li");
-        li.draggable = true;
-        var title = document.createElement("span");
-        title.className = "q-text ord-title"; title.textContent = titleOf(c); title.title = "Jump to this topic";
-        title.addEventListener("click", function(){ c.scrollIntoView({behavior:"smooth", block:"start"}); });
-        var actions = document.createElement("span"); actions.className = "q-actions";
-        actions.appendChild(mk("↑","Move up", function(){ move(i, i-1); }));
-        actions.appendChild(mk("↓","Move down", function(){ move(i, i+1); }));
-        li.appendChild(title); li.appendChild(actions);
-        li.addEventListener("dragstart", function(ev){ li.classList.add("dragging"); ev.dataTransfer.setData("text/plain", String(i)); });
-        li.addEventListener("dragend", function(){ li.classList.remove("dragging"); });
-        li.addEventListener("dragover", function(ev){ ev.preventDefault(); li.classList.add("over"); });
-        li.addEventListener("dragleave", function(){ li.classList.remove("over"); });
-        li.addEventListener("drop", function(ev){ ev.preventDefault(); li.classList.remove("over"); var f=parseInt(ev.dataTransfer.getData("text/plain"),10); if(!isNaN(f)) move(f,i); });
-        listHost.appendChild(li);
-      });
-    }
 
-    build(); renumber();
-  })();
-</script>
 
-<script>
-  /* Claude's take (injected per card) + editable questions (toggle, saved locally). */
-  (function(){
-    var TAKES = {
-      power: "Power hasn't left DC — it's fusing with Big Tech. The state still owns law, force, and the contracts; it just runs on infrastructure a few private firms now control. That's leverage, not a coup. The move for someone like you isn't 'get in the room' — it's to own a slice of the infrastructure everyone else has to depend on.",
-      robotics: "The 2026 consensus is landing: hardware commoditizes, the moat is the data + the policy model. Good news for a software person — but the 'wall of physics' is real, so the durable seat is the deployment / data layer on commodity arms (SO-101, LeRobot), not building actuators.",
-      agi: "'AGI cures disease by 2029' is marketing; AlphaFold-style tools accelerating research is real and already shipping. The binding limits now are data and energy, not imagination — so bet on the boring, compounding layer (deployment, cost, verification) that survives any winter.",
-      pragmatism: "Your instinct is right, but the sharper 2026 version: in the US, utility executed with taste is the premium (Apple, Stripe, Notion). 'Ugly but works' loses now — aim for engineering elegance, not just durability.",
-      upstage: "Timing is good — Upstage just hit unicorn and is IPO-tracking, with a US wedge in insurance / document-AI on AWS. As an AI Product Engineer, attaching early to that US push is where a Korea-based engineer becomes genuinely hard to replace.",
-      usux: "The trap for a strong engineer is treating localization as a translation pass bolted on at the end. In the US it's the reverse — format, tone and trust cues are the first impression, decided before anyone reads your copy. Nail the boring stuff (dates, the state dropdown, human error messages, contrast) and match the Stripe/Linear restraint; that's what earns you the right to be judged on the AI underneath.",
-      onprem: "This is a genuinely strong wedge for you: on-prem/private AI is where regulation makes buyers pay, and where good documentation is the product. American enterprises front-load trust onto artifacts — a validated reference architecture, a SOC 2 report, named references — not relationships, which suits a remote Korean engineer who writes well. One honest flag: ignore the viral '71% of AI runs outside public cloud'-type stats; they have no traceable source. Sell control and compliance, not 'legacy'.",
-      samcho: "The real lesson isn't 'do politics' — it's the federal-to-local pipeline and using your own story as an asset. The network is a multiplier on real work, never a substitute for it. Build the work first; the ties compound on top.",
-      wallet: "The honest read: Americans open their wallet when the downside of buying is removed, not when the pitch is loudest. Risk reversal (guarantee, free trial), obvious social proof, and 'it just works' beat features and cleverness. For a technical founder the trap is selling the spec sheet before you've sold the outcome — say the point plainly, then let the buyer verify it cheaply.",
-      founders: "Look at the résumé behind the advice: Samsung smartphone pioneer → Microsoft → a startup (Kurvv) that got acquired → CPO of the acquirer → now a VC and a founder again. He's no failed founder, and 'just start' from him isn't reckless — it's someone who'd already earned real optionality and then actually succeeded. So the useful question isn't 'is he a hypocrite,' it's how much of your own hesitation is genuine risk versus just not having his reps yet.",
-      screens: "Four screens clearing on the portfolio isn't luck — it's proof-over-pedigree working exactly as designed. The AI-product vs SRE fork is the real decision; they compound very differently. Don't distrust the signal — interrogate which 'you' you want to be in five years.",
-      humanoids: "Trust the signal that's deployment + a data flywheel, not demo virality (which is why 'Musk praised it' turned out hollow). China's edge is manufacturing and speed; your opening is the software / policy layer — the robots are commoditizing faster than the brains that run them."
-    };
-    document.querySelectorAll(".card[data-topic]").forEach(function(c){
-      var t = TAKES[c.getAttribute("data-topic")]; if(!t) return;
-      var div = document.createElement("div"); div.className = "take";
-      div.innerHTML = '<span class="who">🧠 Claude’s take</span>';
-      div.appendChild(document.createTextNode(t));
-      var ask = c.querySelector(".ask");
-      if(ask) c.insertBefore(div, ask); else c.appendChild(div);
-    });
-
-    /* editable questions — toggle, contentEditable, persisted per question */
-    var EKEY = "mentoring.edits.2026-07-24", edits = {};
-    try{ edits = JSON.parse(localStorage.getItem(EKEY) || "{}"); }catch(e){}
-    var qs = [];
-    document.querySelectorAll(".card[data-topic]").forEach(function(c){
-      var id = c.getAttribute("data-topic");
-      c.querySelectorAll(".ask li").forEach(function(li, i){
-        var key = id + "." + i; li.setAttribute("data-qkey", key);
-        if(edits[key] != null) li.innerHTML = edits[key];
-        li.addEventListener("input", function(){ edits[key] = li.innerHTML; try{ localStorage.setItem(EKEY, JSON.stringify(edits)); }catch(e){} });
-        qs.push(li);
-      });
-    });
-    var editing = false, btn = document.getElementById("editQ");
-    function apply(){
-      document.body.classList.toggle("qediting", editing);
-      qs.forEach(function(li){ li.setAttribute("contenteditable", editing ? "true" : "false"); });
-      if(btn){ btn.textContent = editing ? "✓ Done editing" : "✎ Edit questions"; btn.classList.toggle("on", editing); }
-    }
-    if(btn) btn.addEventListener("click", function(){ editing = !editing; apply(); });
-    apply();
-  })();
-</script>
-
-</body>
-</html>
+</body></html>
