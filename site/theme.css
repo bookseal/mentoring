@@ -38,6 +38,13 @@ a{color:var(--accent); text-underline-offset:3px; text-decoration-thickness:1px}
 a:hover{color:var(--muted)}
 .mono{font-family:var(--mono)}
 
+/* typographic scale — clear descending hierarchy: h1 > h2 > h3 > h4 > body */
+h1,h2,h3,h4{ font-family:var(--serif); color:var(--fg); line-height:1.25 }
+h1{ font-size:2.7rem; font-weight:600; letter-spacing:-.015em }
+h2{ font-size:1.7rem; font-weight:600; letter-spacing:-.01em }
+h3{ font-size:1.3rem; font-weight:600 }
+h4{ font-size:1.12rem; font-weight:700 }
+
 /* ---------- layout + sidebar ---------- */
 .app{ display:flex; align-items:flex-start; }
 .sidebar{
@@ -123,8 +130,8 @@ header.top{ max-width:720px; margin:0 auto; padding:3.2rem 1.3rem 0.6rem; }
   letter-spacing:.24em; font-size:.7rem; color:var(--muted); font-weight:600;
 }
 header.top h1{
-  font-family:var(--serif); font-size:2.9rem; font-weight:500; letter-spacing:-.01em;
-  margin:.5rem 0 .4rem; line-height:1.1;
+  font-family:var(--serif); font-size:2.7rem; font-weight:600; letter-spacing:-.015em;
+  margin:.5rem 0 .4rem; line-height:1.08;
 }
 header.top .sub{ color:var(--muted); font-size:1.12rem; max-width:62ch; font-style:italic }
 
@@ -142,7 +149,7 @@ main{ max-width:720px; margin:0 auto; padding:1.6rem 1.3rem 4rem }
   color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:.35rem;
   padding:.1rem .45rem; flex:0 0 auto; margin-top:.2rem;
 }
-.card h2{ font-family:var(--serif); font-size:1.55rem; font-weight:500; letter-spacing:-.005em; margin:.05rem 0 .2rem; line-height:1.2 }
+.card h2{ font-family:var(--serif); font-size:1.5rem; font-weight:600; letter-spacing:-.005em; margin:.05rem 0 .25rem; line-height:1.22 }
 .card .why{ color:var(--muted); font-size:1rem; font-style:italic; margin:0 }
 .card .banner{ display:block; width:100%; height:auto; border-radius:.4rem; margin:1rem 0 .2rem; border:1px solid var(--line) }
 .card .portrait{ float:right; width:220px; margin:.2rem 0 .7rem 1.1rem }
@@ -185,13 +192,13 @@ footer{ max-width:720px; margin:0 auto; padding:2rem 1.3rem 3rem; color:var(--mu
 /* callout — kept as a quiet left-ruled note, no fill */
 .take,.ctake{ margin-top:1.1rem; padding:.3rem 0 .3rem 1rem; background:transparent; border:0; border-left:2px solid var(--line); border-radius:0; font-size:.98rem; line-height:1.6 }
 .take .who,.ctake .who{ display:block; font-family:var(--mono); font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:.45rem }
-.ctake h4{ margin:.8rem 0 .25rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); font-family:var(--mono) }
+.ctake h4{ margin:1.15rem 0 .3rem; font-size:1.12rem; font-weight:700; color:var(--fg); font-family:var(--serif); line-height:1.3; letter-spacing:0 }
 .ctake ul{ margin:.2rem 0 .4rem; padding-left:1.15rem }
 .ctake li{ margin:.25rem 0 }
 .ctake p{ margin:.4rem 0 }
 .ctake .src{ font-size:.82rem; color:var(--muted); margin-top:.45rem }
 .ctake .src a{ color:var(--accent); word-break:break-all }
-.ctake h4.wis,.ctake h4.big,.ctake h4.bias{ color:var(--muted) }
+.ctake h4.wis,.ctake h4.big,.ctake h4.bias{ color:var(--fg) }
 .ctake blockquote{ margin:.4rem 0 .4rem .2rem; padding:.15rem 0 .15rem .8rem; border-left:2px solid var(--line); color:var(--fg); font-style:italic }
 .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.15rem }
 .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.4rem 0 }
@@ -201,7 +208,7 @@ footer{ max-width:720px; margin:0 auto; padding:2rem 1.3rem 3rem; color:var(--mu
 /* theme sections + chips + TOC */
 .themehead{ margin:3rem 0 .5rem; padding:.2rem 0 .6rem; border-bottom:1px solid var(--line) }
 .themehead .tnum{ font-family:var(--mono); font-size:.7rem; font-weight:700; letter-spacing:.16em; color:var(--muted) }
-.themehead h2{ font-family:var(--serif); margin:.2rem 0 0; font-size:1.9rem; font-weight:500; letter-spacing:-.01em }
+.themehead h2{ font-family:var(--serif); margin:.2rem 0 0; font-size:1.95rem; font-weight:600; letter-spacing:-.01em }
 .themehead .tsub{ color:var(--muted); font-size:.95rem; margin:.25rem 0 0; font-style:italic }
 .chip{ display:inline-block; font-family:var(--mono); font-size:.58rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:1rem; padding:.08rem .55rem; margin-left:.5rem; vertical-align:middle }
 .keyq{ margin:.8rem 0 .35rem; padding:.3rem 0 .3rem 1rem; background:transparent; border-left:2px solid var(--line); border-radius:0 }
