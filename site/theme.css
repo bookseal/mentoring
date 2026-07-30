@@ -20,6 +20,8 @@
 
   /* legacy accent names all fold to ink/grey — no color anywhere. */
   --red:#1a1a1a; --teal:#1a1a1a; --blue:#1a1a1a; --purple:#555555;
+  --surface:#fafafa; --hl:#efefef;   /* light-mode surfaces — dark mode overrides below */
+  color-scheme:light dark;
 
   --serif:"Newsreader","Noto Serif KR",Georgia,"Apple SD Gothic Neo","AppleMyungjo",serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
@@ -51,7 +53,7 @@ a:hover{color:var(--muted)}
   display:block; text-decoration:none; color:var(--fg);
   background:transparent; border:1px solid transparent; border-radius:.4rem; padding:.5rem .6rem;
 }
-.s-item:hover{ background:#fafafa }
+.s-item:hover{ background:var(--surface) }
 .s-item.active{ box-shadow:inset 2px 0 0 var(--fg) }
 .s-item .s-date{ display:block; font-family:var(--mono); font-size:.7rem; color:var(--muted) }
 .s-item .s-title{ display:block; font-weight:600; font-size:.98rem; margin-top:.12rem; line-height:1.3 }
@@ -114,11 +116,11 @@ main{ max-width:720px; margin:0 auto; padding:1.6rem 1.3rem 4rem }
 .card ul.tl li b.yr{ color:var(--fg); font-variant-numeric:tabular-nums; margin-right:.15rem }
 .card .context{ margin:.9rem 0 .2rem; font-size:1.05rem }
 .card .context p{ margin:.6rem 0 }
-.hl{ background:#efefef; padding:0 .1em }
+.hl{ background:var(--hl); padding:0 .1em }
 
 /* verdict badges — greyscale */
-.verdict{ display:inline-block; font-size:.8rem; font-weight:600; border-radius:2rem; padding:.1rem .6rem; margin:.15rem .2rem .15rem 0; border:1px solid var(--line); color:var(--fg); background:#fafafa }
-.v-ok,.v-mix,.v-warn,.v-op{ color:var(--fg); background:#fafafa; border-color:var(--line) }
+.verdict{ display:inline-block; font-size:.8rem; font-weight:600; border-radius:2rem; padding:.1rem .6rem; margin:.15rem .2rem .15rem 0; border:1px solid var(--line); color:var(--fg); background:var(--surface) }
+.v-ok,.v-mix,.v-warn,.v-op{ color:var(--fg); background:var(--surface); border-color:var(--line) }
 
 .block-tag{
   display:block; font-family:var(--mono); font-size:.7rem;
@@ -149,11 +151,11 @@ footer{ max-width:720px; margin:0 auto; padding:2rem 1.3rem 3rem; color:var(--mu
 .ctake .src{ font-size:.82rem; color:var(--muted); margin-top:.45rem }
 .ctake .src a{ color:var(--accent); word-break:break-all }
 .ctake h4.wis,.ctake h4.big,.ctake h4.bias{ color:var(--muted) }
-.ctake blockquote{ margin:.4rem 0 .4rem .2rem; padding:.15rem 0 .15rem .8rem; border-left:2px solid var(--line); color:#333; font-style:italic }
+.ctake blockquote{ margin:.4rem 0 .4rem .2rem; padding:.15rem 0 .15rem .8rem; border-left:2px solid var(--line); color:var(--fg); font-style:italic }
 .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.15rem }
 .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.4rem 0 }
 .ctake th, .ctake td{ border:1px solid var(--line); padding:.3rem .5rem; text-align:left; vertical-align:top }
-.ctake th{ background:#fafafa; color:var(--fg); font-size:.78rem; font-weight:600 }
+.ctake th{ background:var(--surface); color:var(--fg); font-size:.78rem; font-weight:600 }
 
 /* theme sections + chips + TOC */
 .themehead{ margin:3rem 0 .5rem; padding:.2rem 0 .6rem; border-bottom:1px solid var(--line) }
@@ -186,7 +188,7 @@ details.fulldlg .dialog{ margin-top:0; border-top:1px dashed var(--line); paddin
 .q-list{ list-style:none; margin:.7rem 0 0; padding:0; counter-reset:q }
 .q-list li{ counter-increment:q; display:flex; align-items:flex-start; gap:.6rem; background:transparent; border:1px solid var(--line); border-radius:.4rem; padding:.7rem .85rem; margin:.55rem 0; cursor:grab }
 .q-list li.dragging{ opacity:.45 }
-.q-list li.over{ border-color:var(--fg); box-shadow:0 0 0 2px #dcdcdc }
+.q-list li.over{ border-color:var(--fg); box-shadow:0 0 0 2px var(--line) }
 .q-list li::before{ content:counter(q); flex:0 0 auto; font-family:var(--mono); font-weight:700; color:var(--bg); background:var(--fg); border-radius:.35rem; padding:.05rem .5rem; font-size:.8rem; margin-top:.22rem }
 .q-text{ flex:1; font-size:1.06rem; font-weight:500; line-height:1.45 }
 .ord-title{ cursor:pointer }
@@ -198,7 +200,24 @@ details.fulldlg .dialog{ margin-top:0; border-top:1px dashed var(--line); paddin
 /* edit-questions toggle */
 #editQ{ margin-left:.7rem; font-family:var(--mono); font-size:.7rem; font-weight:700; padding:.25rem .7rem; border:1px solid var(--line); border-radius:.4rem; background:transparent; color:var(--fg); cursor:pointer; vertical-align:middle }
 #editQ.on{ background:var(--fg); color:var(--bg); border-color:var(--fg) }
-body.qediting .ask li[contenteditable="true"]{ background:#f5f5f5; border-radius:.3rem; outline:none; cursor:text }
-body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px #dcdcdc }
+body.qediting .ask li[contenteditable="true"]{ background:var(--surface); border-radius:.3rem; outline:none; cursor:text }
+body.qediting .ask li[contenteditable="true"]:focus{ box-shadow:0 0 0 3px var(--line) }
 
 @media print{ .reorder{ display:none } .q-actions{ display:none } #editQ{ display:none } }
+
+/* ---------- dark mode — auto, follows the OS (prefers-color-scheme) ---------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#16171a;        /* soft near-black paper            */
+    --bg2:#16171a;       /* sidebar — same, split by a rule  */
+    --card:#1d1e22;      /* raised surface                   */
+    --fg:#e6e4dd;        /* warm off-white ink               */
+    --muted:#9a948a;     /* grey meta ink                    */
+    --line:#2c2d32;      /* hairline on dark                 */
+    --accent:#e6e4dd;    /* headings, links, emphasis — ink  */
+    --gold:#8f897e;      /* small labels / rules — grey      */
+    --red:#e6e4dd; --teal:#e6e4dd; --blue:#e6e4dd; --purple:#b8b2a6;
+    --surface:#212227;   /* hover / verdict / table-head bg  */
+    --hl:#3a3420;        /* text highlight — muted amber     */
+  }
+}
