@@ -1,12 +1,12 @@
 /*
- * sessions.js — the left sidebar (public, committed).
+ * sessions.js — the left sidebar + whole-site search (public, committed).
  *
  * Renders the portal link + session list, nests the active session's in-page
- * TOC under it, and provides: a resizable / collapsible sidebar (persisted to
- * localStorage) and a WHOLE-SITE keyword search. The search fetches every page
- * client-side, builds an index, and shows matches across all sessions with the
- * term highlighted; landing on a result page highlights the term in place.
- * All of this is shared here so per-page markup stays untouched.
+ * TOC under it, and provides a resizable / collapsible sidebar (persisted).
+ * Search is a ⌘K command palette: a centered overlay that fetches every page,
+ * indexes the cards, and shows cross-session matches with the term highlighted;
+ * landing on a result highlights the term in place. Shared here so per-page
+ * markup stays untouched.
  */
 (function () {
   window.MENTORING_SESSIONS = [
@@ -40,7 +40,7 @@
     return '<div class="s-toc">' + items + "</div>";
   }
 
-  /* ---------------- whole-site search ---------------- */
+  /* ---------------- whole-site index ---------------- */
   var INDEX = null, indexing = null;
 
   function pagesToIndex() {
@@ -77,45 +77,93 @@
   function snippet(text, term) {
     var i = text.toLowerCase().indexOf(term.toLowerCase());
     if (i < 0) return "";
-    var start = Math.max(0, i - 38), end = Math.min(text.length, i + term.length + 52);
+    var start = Math.max(0, i - 40), end = Math.min(text.length, i + term.length + 60);
     return (start > 0 ? "…" : "") + esc(text.slice(start, i)) +
            "<mark>" + esc(text.slice(i, i + term.length)) + "</mark>" +
            esc(text.slice(i + term.length, end)) + (end < text.length ? "…" : "");
   }
 
+  /* ---------------- ⌘K command palette ---------------- */
+  function ensurePalette() {
+    if (document.getElementById("kwPalette")) return;
+    var back = document.createElement("div");
+    back.id = "kwPalette"; back.className = "kw-overlay"; back.hidden = true;
+    back.setAttribute("role", "dialog"); back.setAttribute("aria-modal", "true"); back.setAttribute("aria-label", "전체 검색");
+    back.innerHTML =
+      '<div class="kw-panel">' +
+        '<input id="kwInput" class="kw-input" type="search" placeholder="전체 검색…" autocomplete="off" spellcheck="false">' +
+        '<div id="kwResults" class="kw-results"></div>' +
+        '<div class="kw-foot">↑↓ 이동 · ↵ 열기 · Esc 닫기</div>' +
+      "</div>";
+    document.body.appendChild(back);
+    var input = back.querySelector("#kwInput");
+    input.addEventListener("input", function () { runSearch(input.value); });
+    input.addEventListener("keydown", onPaletteKey);
+    back.addEventListener("mousedown", function (e) { if (e.target === back) closePalette(); });
+  }
+  function openPalette(prefill) {
+    ensurePalette();
+    document.getElementById("kwPalette").hidden = false;
+    document.body.classList.add("kw-open");
+    var input = document.getElementById("kwInput");
+    if (prefill != null) input.value = prefill;
+    input.focus(); input.select();
+    runSearch(input.value);
+  }
+  function closePalette() {
+    var back = document.getElementById("kwPalette");
+    if (back) back.hidden = true;
+    document.body.classList.remove("kw-open");
+  }
+  function resultEls() { return Array.prototype.slice.call(document.querySelectorAll("#kwResults .kw-result")); }
+  function moveActive(dir) {
+    var items = resultEls(); if (!items.length) return;
+    var cur = 0;
+    items.forEach(function (el, i) { if (el.classList.contains("is-active")) cur = i; });
+    items[cur].classList.remove("is-active");
+    var next = (cur + dir + items.length) % items.length;
+    items[next].classList.add("is-active");
+    if (items[next].scrollIntoView) items[next].scrollIntoView({ block: "nearest" });
+  }
+  function onPaletteKey(e) {
+    if (e.key === "Escape") { e.preventDefault(); closePalette(); }
+    else if (e.key === "ArrowDown") { e.preventDefault(); moveActive(1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); moveActive(-1); }
+    else if (e.key === "Enter") {
+      var a = document.querySelector("#kwResults .kw-result.is-active");
+      if (a) { e.preventDefault(); window.location.href = a.getAttribute("href"); }
+    }
+  }
+
   function runSearch(term) {
     term = (term || "").trim();
-    var box = document.querySelector(".s-search-wrap .s-results");
+    var box = document.getElementById("kwResults");
     if (!box) return;
-    if (term.length < 1) { box.innerHTML = ""; box.style.display = "none"; return; }
+    if (term.length < 1) { box.innerHTML = ""; return; }
     buildIndex().then(function (idx) {
+      if (document.getElementById("kwInput").value.trim() !== term) return;   // stale
       var t = term.toLowerCase();
       var hits = idx.filter(function (r) { return r.text.toLowerCase().indexOf(t) >= 0 || r.title.toLowerCase().indexOf(t) >= 0; });
-      if (!hits.length) { box.innerHTML = '<div class="r-count">결과 없음</div>'; box.style.display = ""; return; }
-      box.innerHTML = '<div class="r-count">' + hits.length + "개 결과</div>" + hits.map(function (r) {
+      if (!hits.length) { box.innerHTML = '<div class="kw-empty">“' + esc(term) + '” 결과 없음</div>'; return; }
+      box.innerHTML = hits.map(function (r, i) {
         var url = r.href + "?q=" + encodeURIComponent(term) + (r.id ? "#" + r.id : "");
-        return '<a class="s-result" href="' + url + '">' +
-          '<span class="r-sess">' + esc(r.sess) + "</span>" +
-          '<span class="r-title">' + markStr(r.title, term) + "</span>" +
-          '<span class="r-snip">' + (snippet(r.text, term) || "") + "</span>" +
+        return '<a class="kw-result' + (i === 0 ? " is-active" : "") + '" href="' + url + '">' +
+          '<span class="kw-r-sess">' + esc(r.sess) + "</span>" +
+          '<span class="kw-r-title">' + markStr(r.title, term) + "</span>" +
+          '<span class="kw-r-snip">' + (snippet(r.text, term) || "") + "</span>" +
         "</a>";
       }).join("");
-      box.style.display = "";
     });
   }
 
-  function mountSearch() {
+  function mountSearchButton() {
     var side = document.querySelector(".sidebar");
-    if (!side || document.getElementById("kwSearch")) return;
+    if (!side || document.getElementById("kwOpen")) return;
     var wrap = document.createElement("div");
     wrap.className = "s-search-wrap";
-    wrap.innerHTML =
-      '<div class="s-results" style="display:none"></div>' +
-      '<input id="kwSearch" class="s-search" type="search" placeholder="전체 검색…" autocomplete="off" spellcheck="false">';
+    wrap.innerHTML = '<button id="kwOpen" class="s-searchbtn" type="button">전체 검색<span class="kbd">⌘K</span></button>';
     side.appendChild(wrap);
-    var input = document.getElementById("kwSearch");
-    input.addEventListener("input", function () { runSearch(input.value); });
-    input.addEventListener("keydown", function (e) { if (e.key === "Escape") { input.value = ""; runSearch(""); } });
+    document.getElementById("kwOpen").addEventListener("click", function () { openPalette(""); });
   }
 
   /* --------- highlight the term on the page you land on (?q=) --------- */
@@ -148,8 +196,6 @@
     if (!term) return;
     var main = document.querySelector("main");
     if (main) markAll(main, term);
-    var input = document.getElementById("kwSearch");
-    if (input) input.value = term;
     if (location.hash) {
       var el = document.querySelector(location.hash);
       if (el && el.scrollIntoView) setTimeout(function () { el.scrollIntoView({ block: "start" }); }, 0);
@@ -194,10 +240,7 @@
       grip.addEventListener("mousedown", function (e) {
         e.preventDefault();
         document.body.style.userSelect = "none"; document.body.style.cursor = "col-resize";
-        function move(ev) {
-          var w = Math.min(440, Math.max(150, ev.clientX));
-          document.documentElement.style.setProperty("--sidebar-w", w + "px");
-        }
+        function move(ev) { document.documentElement.style.setProperty("--sidebar-w", Math.min(440, Math.max(150, ev.clientX)) + "px"); }
         function up() {
           document.removeEventListener("mousemove", move);
           document.removeEventListener("mouseup", up);
@@ -207,11 +250,17 @@
         document.addEventListener("mousemove", move);
         document.addEventListener("mouseup", up);
       });
-      grip.addEventListener("dblclick", function () {   // double-click to reset width
+      grip.addEventListener("dblclick", function () {
         document.documentElement.style.removeProperty("--sidebar-w");
         try { localStorage.removeItem("almanac.sidebarW"); } catch (e) {}
       });
     }
+  }
+
+  function bindGlobalKeys() {
+    document.addEventListener("keydown", function (e) {
+      if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K")) { e.preventDefault(); openPalette(""); }
+    });
   }
 
   /* ---------------- render ---------------- */
@@ -233,13 +282,15 @@
       activeEl.insertAdjacentHTML("afterend", sub);
       document.body.classList.add("has-sidetoc");
     }
-    mountSearch();
+    mountSearchButton();
     mountControls();
     highlightPageFromQuery();
   }
 
-  applyPrefs();   // set width / collapsed before paint
+  applyPrefs();
+  bindGlobalKeys();
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render);
   else render();
   window.renderSessionSidebar = render;
+  window.openAlmanacSearch = openPalette;
 })();

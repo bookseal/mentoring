@@ -83,19 +83,26 @@ body.has-sidetoc main > .toc{ display:none }        /* desktop: TOC lives in the
 
 /* keyword search — pinned bottom-left */
 .s-search-wrap{ margin-top:auto; padding-top:1.1rem }
-.s-search{ width:100%; font-family:var(--serif); font-size:.82rem; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:.4rem; padding:.42rem .6rem }
-.s-search::placeholder{ color:var(--muted) }
-.s-search:focus{ outline:none; border-color:var(--fg) }
+.s-searchbtn{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:.5rem; font-family:var(--serif); font-size:.86rem; color:var(--muted); background:var(--bg); border:1px solid var(--line); border-radius:.4rem; padding:.45rem .6rem; cursor:pointer; text-align:left }
+.s-searchbtn:hover{ color:var(--fg); border-color:var(--fg) }
+.s-searchbtn .kbd{ font-family:var(--mono); font-size:.62rem; color:var(--muted); border:1px solid var(--line); border-radius:.3rem; padding:.05rem .32rem }
 .s-noresult{ color:var(--muted); font-style:italic; margin:1.2rem 0 }
 
-/* whole-site search results (in the sidebar) */
-.s-results{ margin:.5rem 0 .2rem; display:flex; flex-direction:column; gap:.15rem }
-.s-results .r-count{ font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:.2rem 0 .3rem }
-.s-result{ display:block; text-decoration:none; color:var(--fg); border:1px solid transparent; border-left:2px solid var(--line); border-radius:.3rem; padding:.32rem .45rem }
-.s-result:hover{ background:var(--surface); border-left-color:var(--fg) }
-.s-result .r-sess{ display:block; font-family:var(--mono); font-size:.6rem; color:var(--muted) }
-.s-result .r-title{ display:block; font-size:.82rem; font-weight:600; line-height:1.25; margin-top:.1rem }
-.s-result .r-snip{ display:block; font-size:.72rem; color:var(--muted); line-height:1.35; margin-top:.15rem }
+/* ⌘K command palette (centered search overlay) */
+.kw-overlay{ position:fixed; inset:0; z-index:100; background:rgba(20,20,18,.36); display:flex; align-items:flex-start; justify-content:center; padding:11vh 1rem 1rem }
+.kw-overlay[hidden]{ display:none }
+body.kw-open{ overflow:hidden }
+.kw-panel{ width:100%; max-width:640px; max-height:78vh; display:flex; flex-direction:column; background:var(--bg); border:1px solid var(--line); border-radius:.7rem; box-shadow:0 24px 64px rgba(0,0,0,.28); overflow:hidden }
+.kw-input{ font-family:var(--serif); font-size:1.15rem; color:var(--fg); background:var(--bg); border:0; border-bottom:1px solid var(--line); padding:1rem 1.1rem; outline:none }
+.kw-input::placeholder{ color:var(--muted) }
+.kw-results{ overflow-y:auto; padding:.4rem }
+.kw-result{ display:block; text-decoration:none; color:var(--fg); border-radius:.45rem; padding:.55rem .7rem }
+.kw-result:hover, .kw-result.is-active{ background:var(--surface) }
+.kw-r-sess{ display:block; font-family:var(--mono); font-size:.62rem; color:var(--muted) }
+.kw-r-title{ display:block; font-size:.98rem; font-weight:600; line-height:1.25; margin-top:.1rem }
+.kw-r-snip{ display:block; font-size:.8rem; color:var(--muted); line-height:1.4; margin-top:.12rem }
+.kw-empty{ padding:1.3rem; color:var(--muted); font-style:italic; text-align:center }
+.kw-foot{ border-top:1px solid var(--line); padding:.5rem .85rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; color:var(--muted) }
 mark, mark.kw{ background:var(--hl); color:inherit; border-radius:.15rem; padding:0 .06em }
 
 /* sidebar collapse + resize controls */
