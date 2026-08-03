@@ -201,6 +201,7 @@ footer{ max-width:720px; margin:0 auto; padding:2rem 1.3rem 3rem; color:var(--mu
 .ctake h4.wis,.ctake h4.big,.ctake h4.bias{ color:var(--fg) }
 .ctake blockquote{ margin:.4rem 0 .4rem .2rem; padding:.15rem 0 .15rem .8rem; border-left:2px solid var(--line); color:var(--fg); font-style:italic }
 .ctake blockquote cite{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.15rem }
+.ctake blockquote .qko{ display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:.3rem; line-height:1.45 }
 .ctake table{ border-collapse:collapse; width:100%; font-size:.86rem; margin:.4rem 0 }
 .ctake th, .ctake td{ border:1px solid var(--line); padding:.3rem .5rem; text-align:left; vertical-align:top }
 .ctake th{ background:var(--surface); color:var(--fg); font-size:.78rem; font-weight:600 }
